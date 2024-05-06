@@ -7,7 +7,7 @@ import {
 } from "@material-tailwind/react";
 import Image from "next/image";
 import Setting from "@/assets/imgs/setting.svg";
-import Eth from "@/assets/imgs/ETh.svg";
+import Eth from "@/assets/imgs/ETH.svg";
 import Eos from "@/assets/imgs/EOS.svg";
 import ArrowDown from "@/assets/imgs/arrowdown.svg";
 import Arrow2 from "@/assets/imgs/arrow-2.svg";

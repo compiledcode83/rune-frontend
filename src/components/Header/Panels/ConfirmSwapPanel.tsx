@@ -2,7 +2,7 @@ import { useStatusContext } from "@/context/StatusContext";
 import { XMarkIcon, ArrowsUpDownIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import Image from "next/image";
-import Eth from "@/assets/imgs/ETh.svg";
+import Eth from "@/assets/imgs/ETH.svg";
 import Eos from "@/assets/imgs/EOS.svg";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import {
