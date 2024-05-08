@@ -4,14 +4,14 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { Tooltip, Switch } from "@material-tailwind/react";
 const SettingPanel = () => {
   return (
-    <div className="w-[316px] rounded-xl border border-primary bg-[#21262F] p-4 text-white">
+    <div className="w-[316px] rounded-xl border border-primary bg-white p-4 text-black dark:bg-[#21262F] dark:text-white">
       <div className="text-center text-[22px]">Transaction Settings</div>
       <div className="mt-4 flex items-center gap-1">
         Instead Fee adjustor in Sats/vb{" "}
         <Tooltip
           className="bg-transparent"
           content={
-            <div className="w-[230px] rounded-xl bg-[#394356] p-2 px-4">
+            <div className="dark:bg-dark-tooltip-bg bg-light-tooltip-bg w-[230px] rounded-xl p-2 px-4">
               Your transaction will revert if the price changes unfavorably by
               more than this percentage.
             </div>
@@ -22,13 +22,13 @@ const SettingPanel = () => {
         </Tooltip>
       </div>
       <div className="mt-2 flex items-center justify-between">
-        <div className="cursor-pointer rounded-lg bg-[#2B3342] p-3 text-[16px]">
+        <div className="cursor-pointer rounded-lg bg-light-panel p-3 text-[16px] dark:bg-dark-item">
           0.1%
         </div>
-        <div className="cursor-pointer rounded-lg bg-[#2B3342] p-3 text-[16px]">
+        <div className="cursor-pointer rounded-lg bg-light-panel p-3 text-[16px] dark:bg-dark-item">
           0.5%
         </div>
-        <div className="cursor-pointer rounded-lg bg-[#2B3342] p-3 text-[16px]">
+        <div className="cursor-pointer rounded-lg bg-light-panel p-3 text-[16px] dark:bg-dark-item">
           1%
         </div>
         <input
@@ -41,7 +41,7 @@ const SettingPanel = () => {
         <Tooltip
           className="bg-transparent"
           content={
-            <div className="w-[230px] rounded-xl bg-[#394356] p-2 px-4">
+            <div className="dark:bg-dark-tooltip-bg bg-light-tooltip-bg w-[230px] rounded-xl p-2 px-4">
               Your transaction will revert if it is pending for more than this
               long
             </div>
@@ -53,7 +53,7 @@ const SettingPanel = () => {
       </div>
       <div className="mt-2 flex items-center gap-1">
         <input
-          className="w-[95px] rounded-lg bg-[#2B3342] p-3 outline-none"
+          className="w-[95px] rounded-lg bg-light-panel p-3 outline-none dark:bg-dark-item"
           value={20}
         />
         <div>minutes</div>
@@ -65,7 +65,7 @@ const SettingPanel = () => {
           <Tooltip
             className="bg-transparent"
             content={
-              <div className="w-[230px] rounded-xl bg-[#394356] p-2 px-4">
+              <div className="dark:bg-dark-tooltip-bg bg-light-tooltip-bg w-[230px] rounded-xl p-2 px-4">
                 Bypasses confirmation modals and allows high slippage trades.
                 <br />
                 Use at your own risk
