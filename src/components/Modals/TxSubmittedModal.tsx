@@ -9,7 +9,7 @@ const TxSubmittedModal = () => {
     <Dialog
       placeholder={undefined}
       open={txSubmittedModalOpen}
-      className="bg-transparent outline-none"
+      className="bg-transparent shadow-none outline-none"
       animate={{
         mount: { scale: 1, y: 0 },
         unmount: { scale: 0.9, y: -100 },
