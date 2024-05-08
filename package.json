@@ -31,7 +31,7 @@
         "react-iframe": "^1.8.5",
         "react-redux": "^9.1.0",
         "sats-connect": "^1.1.2",
-        "sharp": "^0.33.2",
+        "sharp": "^0.33.3",
         "sonner": "^1.4.0",
         "swiper": "^11.0.5"
     },

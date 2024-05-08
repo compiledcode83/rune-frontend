@@ -7,24 +7,25 @@ import { Toaster } from "sonner";
 import Header from "@/components/Header";
 import Modals from "@/components/Modals";
 import { StatusProvider } from "@/context/StatusContext";
+import { DarkThemeProvider, useThemeContext } from "@/context/ThemeContext";
+import { UserProvider } from "@/context/UserContext";
+import MainLayout from "@/components/Layout";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
-      <StatusProvider>
-        <Provider store={store}>
-          <div className="min-h-screen overflow-auto bg-dark text-white">
-            <Header />
-            <div className="relative z-10">
-              <main className="text-white">
+      <DarkThemeProvider>
+        <StatusProvider>
+          <UserProvider>
+            <Provider store={store}>
+              <MainLayout>
                 <Component {...pageProps} />
-              </main>
-            </div>
-            <Modals />
-          </div>
-          <Toaster position="top-right" expand={false} />
-        </Provider>
-      </StatusProvider>
+              </MainLayout>
+              <Toaster position="top-right" expand={false} />
+            </Provider>
+          </UserProvider>
+        </StatusProvider>
+      </DarkThemeProvider>
     </ThemeProvider>
   );
 }

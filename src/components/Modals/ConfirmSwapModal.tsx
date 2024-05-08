@@ -1,7 +1,7 @@
 import { useStatusContext } from "@/context/StatusContext";
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import React from "react";
-import ConfirmSwapPanel from "../Header/Panels/ConfirmSwapPanel";
+import ConfirmSwapPanel from "../Panels/ConfirmSwapPanel";
 
 const ConfirmSwapModal = () => {
   const { confirmSwapModalOpen } = useStatusContext();
@@ -18,7 +18,7 @@ const ConfirmSwapModal = () => {
     >
       <DialogBody
         placeholder={undefined}
-        className="mx-auto w-[520px] overflow-auto rounded-[20px] bg-[#252B36] p-[20px] text-white"
+        className="z-50 mx-auto w-[350px] overflow-auto rounded-[20px] bg-light-item p-[20px] text-black backdrop-blur-sm lg:w-[520px] dark:bg-dark-panel dark:text-white"
       >
         <ConfirmSwapPanel />
       </DialogBody>

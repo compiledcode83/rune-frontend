@@ -3,7 +3,7 @@ import { Button } from "@material-tailwind/react";
 import WingImg from "@/assets/imgs/wing.svg";
 import BtcImg from "@/assets/imgs/btc.svg";
 import Image from "next/image";
-import SwapPanel from "@/components/Header/Panels/SwapPanel";
+import SwapPanel from "@/components/Panels/SwapPanel";
 
 export default function Home() {
   return (
@@ -46,11 +46,11 @@ export default function Home() {
                 filter: "blur(260.5px)",
               }}
             ></div>
-            <div className="relative z-50 mx-8 mt-16 text-start lg:text-center">
-              <div className="text-[34px] font-bold lg:text-[48px]">
+            <div className="relative z-50 mx-8 mt-4 text-start lg:mt-16 lg:text-center">
+              <div className="text-[20px] font-bold lg:text-[48px]">
                 Start Swapping Runes with Ordvision{" "}
               </div>
-              <div className="gradient-color-title text-[34px] font-bold lg:text-[48px]">
+              <div className="gradient-color-title text-[20px] font-bold lg:text-[48px]">
                 Secure, Fast, and User - Friendly
               </div>
               <div className="text-[#8B9497]">

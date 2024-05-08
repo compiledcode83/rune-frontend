@@ -29,9 +29,9 @@ const SwapPanel = () => {
 
   return (
     <div>
-      <div className="mx-auto mt-8 w-[526px] rounded-xl bg-[#252B36] p-4">
+      <div className="mx-auto mt-8 w-[350px] rounded-xl bg-light-panel p-4 lg:w-[526px] dark:bg-dark-panel">
         <div className="flex items-center justify-between">
-          <div className="pl-8 text-[28px] font-bold">Swap</div>
+          <div className="pl-8 text-[20px] font-bold lg:text-[28px]">Swap</div>
           <div>
             <Popover
               animate={{
@@ -53,44 +53,44 @@ const SwapPanel = () => {
           </div>
         </div>
         <div className="relative mt-2">
-          <div className="rounded-xl bg-[#2B3342] p-4 px-6">
+          <div className="rounded-xl bg-light-item p-4 px-6 dark:bg-dark-item">
             <div className="flex items-center justify-between">
               <div
-                className="flex cursor-pointer items-center justify-center gap-4 rounded-xl bg-[#252B36] px-4 py-2"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-light-panel px-4 py-2 lg:gap-4 dark:bg-dark-panel"
                 onClick={() => handleSelectTokenModalOpen()}
               >
                 <Image src={Eth} alt="eth" />
-                <div>ETH</div>
+                <div className="text-[12px] lg:text-[14px]">ETH</div>
                 <Image src={ArrowDown} alt="eth" />
               </div>
               <div>0.00</div>
             </div>
-            <div className="mt-4 flex items-center justify-between text-[#9DA6B9]">
+            <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
               <div>Balance: 2.8989 ETH (MAX)</div>
               <div>≈$ 6726.2307</div>
             </div>
           </div>
-          <div className="mt-2 rounded-xl bg-[#2B3342] p-4 px-6">
+          <div className="mt-2 rounded-xl bg-light-item p-4 px-6 dark:bg-dark-item">
             <div className="flex items-center justify-between">
-              <div className="flex cursor-pointer items-center justify-center gap-4 rounded-xl bg-[#252B36] px-4 py-2">
+              <div className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-light-panel px-4 py-2 lg:gap-4 dark:bg-dark-panel">
                 <Image src={Eos} alt="eth" />
-                <div>EOS</div>
+                <div className="text-[12px] lg:text-[14px]">EOS</div>
                 <Image src={ArrowDown} alt="eth" />
               </div>
               <div>0.00</div>
             </div>
-            <div className="mt-4 flex items-center justify-between text-[#9DA6B9]">
+            <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
               <div>Balance: 400.8989 EOS</div>
               <div>≈$ 284.6382</div>
             </div>
           </div>
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full  border-[5px] border-[#252B36] bg-[#2B3342] p-2">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full  border-[5px] border-light-panel bg-light-item p-2 dark:border-dark-panel dark:bg-dark-item">
             <Image src={Arrow2} alt="exchangearrow" />
           </div>
         </div>
         <div className="mt-8">
           <Button
-            className="w-full bg-gradient text-[24px] normal-case"
+            className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
             placeholder={undefined}
             onClick={() => handleConfirmSwapModalOpen()}
           >
@@ -98,7 +98,7 @@ const SwapPanel = () => {
           </Button>
         </div>
       </div>
-      <div className="mx-auto my-8 flex w-[500px] flex-col gap-6">
+      <div className="mx-auto my-8 flex w-[350px] flex-col gap-2 text-[12px] lg:w-[500px] lg:gap-4 lg:text-[16px]">
         <div className="flex items-center justify-between">
           <div className="flex gap-1">
             Minimum received
@@ -120,7 +120,9 @@ const SwapPanel = () => {
           </div>
           <div>0.0000066 ETH</div>
         </div>
-        <div className="text-center text-[#EAAC33]">View Pair Analytics</div>
+        <div className="cursor-pointer text-center text-primary dark:text-[#EAAC33]">
+          View Pair Analytics
+        </div>
       </div>
     </div>
   );

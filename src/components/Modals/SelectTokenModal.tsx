@@ -1,6 +1,6 @@
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import React from "react";
-import SelectTokenPanel from "../Header/Panels/SelectTokenPanel";
+import SelectTokenPanel from "../Panels/SelectTokenPanel";
 import { useStatusContext } from "@/context/StatusContext";
 
 const SelectTokenModal = () => {
@@ -18,7 +18,7 @@ const SelectTokenModal = () => {
     >
       <DialogBody
         placeholder={undefined}
-        className="z-50 mx-auto w-[520px] overflow-auto rounded-[20px] bg-[#252B36] p-[20px] text-white backdrop-blur-sm"
+        className="z-50 mx-auto w-[350px] overflow-auto rounded-[20px] bg-light-item p-[20px] text-black backdrop-blur-sm lg:w-[520px] dark:bg-dark-panel dark:text-white"
       >
         <SelectTokenPanel />
       </DialogBody>
