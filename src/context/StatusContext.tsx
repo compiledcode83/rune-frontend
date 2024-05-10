@@ -28,6 +28,8 @@ export const StatusContext = createContext<StatusContextProps>({
   setSwapSelectReceiveTokenModalOpen: () => {},
   swapConfirmModalOpen: false,
   setSwapConfirmModalOpen: () => {},
+  swapTxSubmittedModalOpen: false,
+  setSwapTxSubmittedModalOpen: () => {},
 });
 
 export const useStatusContext = () => useContext(StatusContext);
@@ -57,6 +59,8 @@ export const StatusProvider = ({ ...props }) => {
   const [swapSelectReceiveTokenModalOpen, setSwapSelectReceiveTokenModalOpen] =
     useState(false);
   const [swapConfirmModalOpen, setSwapConfirmModalOpen] = useState(false);
+  const [swapTxSubmittedModalOpen, setSwapTxSubmittedModalOpen] =
+    useState(false);
   return (
     <StatusContext.Provider
       value={{
@@ -87,6 +91,8 @@ export const StatusProvider = ({ ...props }) => {
         setSwapSelectReceiveTokenModalOpen,
         swapConfirmModalOpen,
         setSwapConfirmModalOpen,
+        swapTxSubmittedModalOpen,
+        setSwapTxSubmittedModalOpen,
       }}
     >
       {children}

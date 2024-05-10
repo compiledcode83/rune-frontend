@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { TokenType } from "@/types/type";
 import {
+  UseTokenBalances,
   useReceiveToken,
   useSendToken,
 } from "@/state/application/hooks/useSwapHooks";
@@ -28,7 +29,9 @@ const SwapSelectTokenItem: React.FC<SwapSelectTokenItemProps> = ({
 }) => {
   const { imgUrl, name, runeId, symbol, spaced, divisibility } = token;
   const { sendToken, setSendToken } = useSendToken();
+  const { tokenBalances } = UseTokenBalances();
   const { setReceiveToken } = useReceiveToken();
+  const [balance, setBalance] = useState(0);
   const {
     setSwapSelectSendTokenModalOpen,
     setSwapSelectReceiveTokenModalOpen,
@@ -45,6 +48,17 @@ const SwapSelectTokenItem: React.FC<SwapSelectTokenItemProps> = ({
     }
   };
 
+  useEffect(() => {
+    const newBalance = tokenBalances.find(
+      (tokenBalance) => tokenBalance.runeId === runeId
+    );
+    if (newBalance) {
+      setBalance(newBalance.amount);
+    } else {
+      setBalance(0);
+    }
+  }, [runeId]);
+
   return (
     <div
       className="flex cursor-pointer items-start rounded-lg border border-transparent bg-light-panel p-3 text-[14px] hover:border-primary hover:bg-light-item hover:transition-all lg:text-[18px] dark:bg-dark-panel dark:hover:bg-dark-item"
@@ -57,7 +71,7 @@ const SwapSelectTokenItem: React.FC<SwapSelectTokenItemProps> = ({
           {name}
         </div>
       </div>
-      <div className="ml-auto">{0}</div>
+      <div className="ml-auto">{balance}</div>
     </div>
   );
 };

@@ -32,11 +32,12 @@ export const DarkThemeProvider = ({ ...props }) => {
         window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
       setDarkMode(true);
+      document.body.dataset.mode = "dark";
     } else {
       setDarkMode(false);
+      document.body.dataset.mode = "light";
     }
   }, []);
-
   return (
     <ThemeContext.Provider
       value={{

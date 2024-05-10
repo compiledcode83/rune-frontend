@@ -36,6 +36,9 @@ export type StatusContextProps = {
 
   swapConfirmModalOpen: boolean;
   setSwapConfirmModalOpen: (open: boolean) => void;
+
+  swapTxSubmittedModalOpen: boolean;
+  setSwapTxSubmittedModalOpen: (open: boolean) => void;
 };
 
 export type UserSessionProps = {

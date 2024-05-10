@@ -25,6 +25,15 @@ export type TokenType = {
   divisibility: number;
 };
 
+export type BalanceType = {
+  amount: number;
+  divisibility: number;
+  runeId: string;
+  spacedRune: string;
+  rune: string;
+  symbol: string;
+};
+
 declare global {
   interface Window {
     unisat: {

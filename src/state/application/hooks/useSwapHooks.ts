@@ -7,6 +7,7 @@ import {
   setSwapableTokens,
   setSendTokenAmount,
   setReceiveTokenAmount,
+  setTokenBalances,
   SwapState,
 } from "../slices/swapSlice";
 import { RootState } from "../types";
@@ -111,5 +112,25 @@ export const useReceiveTokenAmount = () => {
   return {
     receiveTokenAmount,
     setReceiveTokenAmount: setReceiveTokenAmountCallback,
+  };
+};
+
+// UseTokenBalances Hook
+export const UseTokenBalances = () => {
+  const dispatch = useAppDispatch();
+  const tokenBalances = useAppSelector(
+    (state: RootState) => state.swap.tokenBalances
+  );
+
+  const setTokenBalancesCallback = useCallback(
+    (items: SwapState["tokenBalances"]) => {
+      dispatch(setTokenBalances(items));
+    },
+    [dispatch]
+  );
+
+  return {
+    tokenBalances,
+    setTokenBalances: setTokenBalancesCallback,
   };
 };

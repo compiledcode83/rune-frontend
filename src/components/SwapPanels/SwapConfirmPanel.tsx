@@ -21,9 +21,11 @@ import {
 } from "@/state/application/hooks/useSwapHooks";
 import { useUserContext } from "@/context/UserContext";
 import poolApiService from "@/api.services/pool/pool.api.service";
+import SwapTxSubmittedModal from "../SwapModals/SwapTxSubmittedModal";
+import { useState } from "react";
 
 const SwapConfirmPanel = () => {
-  const { setSwapConfirmModalOpen, setTxSubmittedModalOpen } =
+  const { setSwapConfirmModalOpen, setSwapTxSubmittedModalOpen } =
     useStatusContext();
 
   const {
@@ -40,7 +42,11 @@ const SwapConfirmPanel = () => {
   const { sendTokenAmount } = useSendTokenAmount();
   const { receiveTokenAmount } = useReceiveTokenAmount();
 
+  const [swapTxId, setSwapTxId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleConfirmSwap = async () => {
+    setIsLoading(true);
     try {
       const res = await poolApiService.generateSwapPsbt(
         ordinalAddress,
@@ -54,16 +60,19 @@ const SwapConfirmPanel = () => {
         receiveTokenAmount
       );
       console.log(res);
-      const { psbt } = res;
+      const { psbt, txId } = res;
       console.log(psbt);
 
       const signedPsbt = await window.unisat.signPsbt(psbt);
       console.log(signedPsbt);
-      const txRes = await poolApiService.pushTx(signedPsbt, signedPsbt);
+      const txRes = await poolApiService.pushTx(signedPsbt, txId);
       console.log(txRes);
+      setSwapTxId(txRes.txId);
+      setSwapTxSubmittedModalOpen(true);
     } catch (error) {}
     // setSwapConfirmModalOpen(false);
     // setTxSubmittedModalOpen(true);
+    setIsLoading(false);
   };
 
   return (
@@ -84,21 +93,37 @@ const SwapConfirmPanel = () => {
       <div className="flex items-center justify-between">
         <div>
           <div className="text-[12px] lg:text-[16px]">Swap from</div>
-          <div className="text-[16px] font-semibold lg:text-[24px]">0.022</div>
+          <div className="text-[16px] font-semibold lg:text-[24px]">
+            {sendTokenAmount}
+          </div>
         </div>
         <div className="flex items-center gap-2">
-          <Image src={Eth} alt="eth" />
-          <div className="text-[12px] lg:text-[16px]">ETH</div>
+          <Image
+            src={sendToken.imgUrl}
+            alt={sendToken.name}
+            width={24}
+            height={24}
+          />
+          <div className="text-[12px] lg:text-[16px]">{sendToken.spaced}</div>
         </div>
       </div>
       <div className="flex items-center justify-between">
         <div>
           <div className="text-[12px] lg:text-[16px]">Swap to</div>
-          <div className="text-[16px] font-semibold lg:text-[24px]">82.89</div>
+          <div className="text-[16px] font-semibold lg:text-[24px]">
+            {receiveTokenAmount}
+          </div>
         </div>
         <div className="flex items-center gap-2">
-          <Image src={Eos} alt="eth" />
-          <div className="lg:text-[16px text-[12px]">EOS</div>
+          <Image
+            src={receiveToken.imgUrl}
+            alt={receiveToken.name}
+            width={24}
+            height={24}
+          />
+          <div className="text-[12px] lg:text-[16px]">
+            {receiveToken.spaced}
+          </div>
         </div>
       </div>
       <div className="text-[12px] text-light-gray-font lg:text-[14px] lg:text-[16px] dark:text-dark-gray-font">
@@ -159,11 +184,13 @@ const SwapConfirmPanel = () => {
       </div>
       <Button
         placeholder={undefined}
-        className="mt-4 bg-gradient text-[16px] font-bold normal-case lg:text-[18px]"
+        className="mt-4 flex justify-center bg-gradient text-[16px] font-bold normal-case lg:text-[18px]"
         onClick={() => handleConfirmSwap()}
+        loading={isLoading}
       >
         Confirm
       </Button>
+      <SwapTxSubmittedModal txId={swapTxId} />
     </div>
   );
 };

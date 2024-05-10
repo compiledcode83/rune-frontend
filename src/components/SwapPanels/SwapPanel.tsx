@@ -21,9 +21,12 @@ import {
   useSendTokenAmount,
   useReceiveTokenAmount,
   usePoolTokens,
+  UseTokenBalances,
 } from "@/state/application/hooks/useSwapHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
+import { setTokenBalances } from "@/state/application/slices/swapSlice";
+import { BalanceType, TokenType } from "@/types/type";
 
 const SwapPanel = () => {
   const {
@@ -38,11 +41,16 @@ const SwapPanel = () => {
   const handleConfirmSwapModalOpen = () => {
     setSwapConfirmModalOpen(true);
   };
+
+  const [sendTokenBalance, setSendTokenBalance] = useState(0);
+  const [receiveTokenBalance, setReceiveTokenBalance] = useState(0);
+
   const { sendToken, setSendToken } = useSendToken();
-  const { setPoolTokens } = usePoolTokens();
+  const { poolTokens, setPoolTokens } = usePoolTokens();
   const { receiveToken, setReceiveToken } = useReceiveToken();
   const { sendTokenAmount, setSendTokenAmount } = useSendTokenAmount();
   const { receiveTokenAmount, setReceiveTokenAmount } = useReceiveTokenAmount();
+  const { tokenBalances, setTokenBalances } = UseTokenBalances();
 
   const handleTokenAmount = async (sendAmount: number) => {
     setSendTokenAmount(sendAmount);
@@ -63,6 +71,10 @@ const SwapPanel = () => {
       if (receiveToken.uuid !== "") {
         getReceiveAmount(sendTokenAmount);
       }
+      if (receiveToken.uuid === "" && sendToken.uuid !== "") {
+        setReceiveTokenAmount(0);
+        setReceiveTokenBalance(0);
+      }
     }, 1000);
     return () => {
       clearTimeout(timerId);
@@ -72,18 +84,58 @@ const SwapPanel = () => {
   useEffect(() => {
     (async () => {
       try {
-        const resPoolTokens = await poolApiService.getPoolTokens();
-        if (resPoolTokens.length < 2)
-          throw new Error("there must be more than 1 token");
-        setSendToken(resPoolTokens[0]);
-        setPoolTokens(resPoolTokens);
-        console.log({ resPoolTokens });
+        if (sendToken.uuid === "") {
+          const resPoolTokens = await poolApiService.getPoolTokens();
+          if (resPoolTokens.length < 2)
+            throw new Error("there must be more than 1 token");
+          setSendToken(resPoolTokens[0]);
+          setPoolTokens(resPoolTokens);
+          console.log({ resPoolTokens });
+        }
       } catch (error) {
         console.error((error as Error).message);
       }
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (ordinalAddress !== "") {
+        console.log({ ordinalAddress }, { poolTokens });
+        try {
+          const resTokenBalances: BalanceType[] =
+            await poolApiService.getBalance(ordinalAddress);
+          setTokenBalances(resTokenBalances);
+        } catch (error) {
+          console.error((error as Error).message);
+        }
+      } else {
+        setTokenBalances([]);
+      }
+    })();
+  }, [ordinalAddress, poolTokens]);
+
+  useEffect(() => {
+    const newBalance = tokenBalances.find(
+      (tokenBalance) => tokenBalance.runeId === sendToken.runeId
+    );
+    if (newBalance) {
+      setSendTokenBalance(newBalance.amount);
+    } else {
+      setSendTokenBalance(0);
+    }
+  }, [sendToken, ordinalAddress, poolTokens, tokenBalances]);
+
+  useEffect(() => {
+    const newBalance = tokenBalances.find(
+      (tokenBalance) => tokenBalance.runeId === receiveToken.runeId
+    );
+    if (newBalance) {
+      setReceiveTokenBalance(newBalance.amount);
+    } else {
+      setReceiveTokenBalance(0);
+    }
+  }, [receiveToken, ordinalAddress, poolTokens, tokenBalances]);
   return (
     <div>
       <div className="mx-auto mt-8 w-[350px] rounded-xl bg-light-panel p-4 lg:w-[526px] dark:bg-dark-panel">
@@ -137,7 +189,9 @@ const SwapPanel = () => {
               </div>
             </div>
             <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
-              <div>Balance: 2.8989 ETH (MAX)</div>
+              <div>
+                Balance: {`${sendTokenBalance} ${sendToken.symbol} `}(MAX)
+              </div>
               <div>≈$ 6726.2307</div>
             </div>
           </div>
@@ -171,7 +225,10 @@ const SwapPanel = () => {
               <div>{receiveTokenAmount}</div>
             </div>
             <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
-              <div>Balance: 400.8989 EOS</div>
+              <div>
+                Balance: {`${receiveTokenBalance} ${receiveToken.symbol} `}
+                (MAX)
+              </div>
               <div>≈$ 284.6382</div>
             </div>
           </div>
@@ -188,10 +245,22 @@ const SwapPanel = () => {
             >
               Connect Wallet
             </Button>
+          ) : sendToken.uuid !== "" &&
+            receiveToken.uuid !== "" &&
+            sendTokenAmount !== 0 &&
+            receiveTokenAmount !== 0 ? (
+            <Button
+              className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
+              placeholder={undefined}
+              onClick={() => handleConfirmSwapModalOpen()}
+            >
+              Swap
+            </Button>
           ) : (
             <Button
               className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
               placeholder={undefined}
+              disabled={true}
               onClick={() => handleConfirmSwapModalOpen()}
             >
               Swap

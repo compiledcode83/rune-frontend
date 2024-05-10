@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TokenType } from "@/types/type";
+import { TokenType, BalanceType } from "@/types/type";
 
 export type SwapState = {
   sendToken: TokenType;
   receiveToken: TokenType;
   poolTokens: TokenType[];
   swapableTokens: TokenType[];
+  tokenBalances: BalanceType[];
   sendTokenAmount: number;
   receiveTokenAmount: number;
 };
+
 const initialToken: TokenType = {
   uuid: "",
   name: "",
@@ -24,6 +26,7 @@ const initialState: SwapState = {
   receiveToken: initialToken,
   poolTokens: [],
   swapableTokens: [],
+  tokenBalances: [],
   sendTokenAmount: 0,
   receiveTokenAmount: 0,
 };
@@ -50,6 +53,9 @@ export const swapSlice = createSlice({
     setReceiveTokenAmount: (state, action: PayloadAction<number>) => {
       state.receiveTokenAmount = action.payload;
     },
+    setTokenBalances: (state, action: PayloadAction<BalanceType[]>) => {
+      state.tokenBalances = action.payload;
+    },
   },
 });
 
@@ -60,6 +66,7 @@ export const {
   setSwapableTokens,
   setSendTokenAmount,
   setReceiveTokenAmount,
+  setTokenBalances,
 } = swapSlice.actions;
 
 export default swapSlice.reducer;

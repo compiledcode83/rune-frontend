@@ -348,10 +348,10 @@ const ConnectWalletModal = () => {
             )}
           </div>
           <div
-            className={`flex cursor-pointer items-center p-2 ${
+            className={`flex items-center p-2 ${
               walletType !== "" && walletType !== "Xverse" && "opacity-60"
-            } my-2 rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
-            onClick={() => handleConnect("Xverse")}
+            } my-2 cursor-not-allowed rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
+            // onClick={() => handleConnect("Xverse")}
           >
             <Image
               alt="Xverse"
@@ -372,7 +372,7 @@ const ConnectWalletModal = () => {
           <div
             className={`flex items-center p-2 ${
               walletType !== "" && walletType !== "Hiro" && "opacity-60"
-            } my-2 cursor-pointer rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
+            } my-2 cursor-not-allowed rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
             //onClick={() => handleConnect("Hiro")}
           >
             <Image
@@ -392,10 +392,10 @@ const ConnectWalletModal = () => {
             )}
           </div>
           <div
-            className={`flex cursor-pointer items-center p-2 ${
+            className={`flex items-center p-2 ${
               walletType !== "" && walletType !== "Magic" && "opacity-60"
-            } my-2 rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
-            onClick={() => handleConnect("Magic")}
+            } my-2 cursor-not-allowed rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
+            // onClick={() => handleConnect("Magic")}
           >
             <Image
               alt="Magic"
