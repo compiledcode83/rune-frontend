@@ -4,8 +4,8 @@ import { WalletTypes } from "@/types/type";
 import { useRouter } from "next/router";
 
 export const UserContext = createContext<UserSessionProps>({
-  isLogged: false,
-  setIsLogged: () => {},
+  isConnected: false,
+  setIsConnected: () => {},
   walletType: "",
   setWalletType: () => {},
   paymentAddress: "",
@@ -16,7 +16,7 @@ export const UserContext = createContext<UserSessionProps>({
   setOrdinalAddress: () => {},
   ordinalPublicKey: "",
   setOrdinalPublicKey: () => {},
-  handleLogout: () => {},
+  handleDisconnect: () => {},
 });
 
 export const useUserContext = () => useContext(UserContext);
@@ -25,22 +25,20 @@ export const UserProvider = ({ ...props }) => {
   const { children } = props;
   const router = useRouter();
 
-  const [isLogged, setIsLogged] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   const [walletType, setWalletType] = useState<WalletTypes>("");
   const [paymentAddress, setPaymentAddress] = useState("");
   const [paymentPublicKey, setPaymentPublicKey] = useState("");
   const [ordinalAddress, setOrdinalAddress] = useState("");
   const [ordinalPublicKey, setOrdinalPublicKey] = useState("");
 
-  const handleLogout = () => {
-    setIsLogged(false);
+  const handleDisconnect = () => {
+    setIsConnected(false);
     setWalletType("");
     setPaymentAddress("");
     setPaymentPublicKey("");
     setOrdinalAddress("");
     setOrdinalPublicKey("");
-    localStorage.removeItem("jwtToken");
-    window.location.href = "/";
   };
 
   useEffect(() => {
@@ -55,7 +53,7 @@ export const UserProvider = ({ ...props }) => {
       // setPaymentPublicKey(data.paymentPubkey);
       // setOrdinalAddress(data.address);
       // setOrdinalPublicKey(data.pubkey);
-      // setIsLogged(true);
+      // setIsConnected(true);
     } catch (error) {
       console.log(error);
     }
@@ -64,8 +62,8 @@ export const UserProvider = ({ ...props }) => {
   return (
     <UserContext.Provider
       value={{
-        isLogged,
-        setIsLogged,
+        isConnected,
+        setIsConnected,
         walletType,
         setWalletType,
         paymentAddress,
@@ -76,7 +74,7 @@ export const UserProvider = ({ ...props }) => {
         setOrdinalAddress,
         ordinalPublicKey,
         setOrdinalPublicKey,
-        handleLogout,
+        handleDisconnect,
       }}
     >
       {children}

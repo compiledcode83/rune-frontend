@@ -90,7 +90,7 @@ export default function Pool() {
                 in real time and can be claimed by withdrawing your liquidity.
               </div>
               <div className="mt-2 lg:mt-4">
-                <span className="text-blue border-blue border-b text-[16px] lg:text-[18px]">
+                <span className="border-b border-blue text-[16px] text-blue lg:text-[18px]">
                   Read more about providing liquidity
                 </span>
               </div>
@@ -101,7 +101,7 @@ export default function Pool() {
                 <div className="hidden items-center gap-2 lg:flex">
                   <Button
                     placeholder={undefined}
-                    className="dark:text-dark-primary bg-light-panel text-[20px] font-semibold normal-case text-primary lg:text-[24px] dark:bg-dark-panel"
+                    className="bg-light-panel text-[20px] font-semibold normal-case text-primary lg:text-[24px] dark:bg-dark-panel dark:text-dark-primary"
                   >
                     Create a Pair
                   </Button>
@@ -115,7 +115,7 @@ export default function Pool() {
                 </div>
               </div>
               <div className="mt-2 flex items-center gap-1 lg:mt-6">
-                <div className="text-dark-primary cursor-pointer font-bold">
+                <div className="cursor-pointer font-bold text-dark-primary">
                   Account analytics and accrued fees
                 </div>
                 <Image src={ArrowTopRightYellowImg} alt="arrow-yellow" />
@@ -123,7 +123,7 @@ export default function Pool() {
               <div className="mt-2 flex items-center justify-between gap-2 lg:hidden">
                 <Button
                   placeholder={undefined}
-                  className="dark:text-dark-primary bg-light-panel text-[16px] font-semibold normal-case text-primary lg:text-[24px] dark:bg-dark-panel"
+                  className="bg-light-panel text-[16px] font-semibold normal-case text-primary lg:text-[24px] dark:bg-dark-panel dark:text-dark-primary"
                 >
                   Create a Pair
                 </Button>

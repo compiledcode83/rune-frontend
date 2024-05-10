@@ -27,6 +27,15 @@ export type StatusContextProps = {
   setRemoveLiquidityModalOpen: (open: boolean) => void;
   removeLiquidityConfirmModalOpen: boolean;
   setRemoveLiquidityConfirmModalOpen: (open: boolean) => void;
+
+  swapSelectSendTokenModalOpen: boolean;
+  setSwapSelectSendTokenModalOpen: (open: boolean) => void;
+
+  swapSelectReceiveTokenModalOpen: boolean;
+  setSwapSelectReceiveTokenModalOpen: (open: boolean) => void;
+
+  swapConfirmModalOpen: boolean;
+  setSwapConfirmModalOpen: (open: boolean) => void;
 };
 
 export type UserSessionProps = {
@@ -40,7 +49,7 @@ export type UserSessionProps = {
   setOrdinalAddress: (c: string) => void;
   ordinalPublicKey: string;
   setOrdinalPublicKey: (c: string) => void;
-  isLogged: boolean;
-  setIsLogged: (isLogged: boolean) => void;
-  handleLogout: () => void;
+  isConnected: boolean;
+  setIsConnected: (isConnected: boolean) => void;
+  handleDisconnect: () => void;
 };

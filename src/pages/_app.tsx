@@ -3,7 +3,6 @@ import type { AppProps } from "next/app";
 import { ThemeProvider, MaterialTailwindTheme } from "@material-tailwind/react";
 import store from "../state/store";
 import { Provider } from "react-redux";
-import { Toaster } from "sonner";
 import Header from "@/components/Header";
 import Modals from "@/components/Modals";
 import { StatusProvider } from "@/context/StatusContext";
@@ -21,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <MainLayout>
                 <Component {...pageProps} />
               </MainLayout>
-              <Toaster position="top-right" expand={false} />
+              <Modals />
             </Provider>
           </UserProvider>
         </StatusProvider>

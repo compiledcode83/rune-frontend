@@ -61,6 +61,18 @@ const nextConfig = {
         port: "",
         pathname: "/mainnet/**",
       },
+      {
+        protocol: "https",
+        hostname: "ordvision.s3.eu-north-1.amazonaws.com",
+        port: "",
+        pathname: "/dex-testnet/**",
+      },
+      {
+        protocol: "https",
+        hostname: "ordvision.s3.eu-north-1.amazonaws.com",
+        port: "",
+        pathname: "/dex-mainnet/**",
+      },
     ],
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",

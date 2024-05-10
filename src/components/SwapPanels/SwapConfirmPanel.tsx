@@ -13,15 +13,59 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import CustomTooltip from "@/components/Tooltip";
+import {
+  useReceiveToken,
+  useReceiveTokenAmount,
+  useSendToken,
+  useSendTokenAmount,
+} from "@/state/application/hooks/useSwapHooks";
+import { useUserContext } from "@/context/UserContext";
+import poolApiService from "@/api.services/pool/pool.api.service";
 
-const ConfirmSwapPanel = () => {
-  const { setConfirmSwapModalOpen, setTxSubmittedModalOpen } =
+const SwapConfirmPanel = () => {
+  const { setSwapConfirmModalOpen, setTxSubmittedModalOpen } =
     useStatusContext();
 
-  const handleConfirmSwap = () => {
-    setConfirmSwapModalOpen(false);
-    setTxSubmittedModalOpen(true);
+  const {
+    ordinalAddress,
+    ordinalPublicKey,
+    paymentPublicKey,
+    paymentAddress,
+    walletType,
+  } = useUserContext();
+  console.log({ walletType });
+
+  const { sendToken } = useSendToken();
+  const { receiveToken } = useReceiveToken();
+  const { sendTokenAmount } = useSendTokenAmount();
+  const { receiveTokenAmount } = useReceiveTokenAmount();
+
+  const handleConfirmSwap = async () => {
+    try {
+      const res = await poolApiService.generateSwapPsbt(
+        ordinalAddress,
+        ordinalPublicKey,
+        paymentAddress,
+        paymentPublicKey,
+        walletType,
+        sendToken.uuid,
+        receiveToken.uuid,
+        sendTokenAmount,
+        receiveTokenAmount
+      );
+      console.log(res);
+      const { psbt } = res;
+      console.log(psbt);
+
+      const signedPsbt = await window.unisat.signPsbt(psbt);
+      console.log(signedPsbt);
+      const txRes = await poolApiService.pushTx(signedPsbt, signedPsbt);
+      console.log(txRes);
+    } catch (error) {}
+    // setSwapConfirmModalOpen(false);
+    // setTxSubmittedModalOpen(true);
   };
+
   return (
     <div className="flex flex-col gap-2 px-4 lg:gap-4">
       <div className="flex items-center justify-between">
@@ -33,7 +77,7 @@ const ConfirmSwapPanel = () => {
           <XMarkIcon
             width={20}
             className="cursor-pointer"
-            onClick={() => setConfirmSwapModalOpen(false)}
+            onClick={() => setSwapConfirmModalOpen(false)}
           />
         </div>
       </div>
@@ -124,4 +168,4 @@ const ConfirmSwapPanel = () => {
   );
 };
 
-export default ConfirmSwapPanel;
+export default SwapConfirmPanel;

@@ -3,7 +3,7 @@ import { Button } from "@material-tailwind/react";
 import WingImg from "@/assets/imgs/wing.svg";
 import BtcImg from "@/assets/imgs/btc.svg";
 import Image from "next/image";
-import SwapPanel from "@/components/Panels/SwapPanel";
+import SwapPanel from "@/components/SwapPanels/SwapPanel";
 
 export default function Home() {
   return (

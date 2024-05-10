@@ -8,6 +8,7 @@ import AddLiquidityConfirmModal from "./AddLiquidityConfirmModal";
 import AddLiquiditySelectTokenModal from "./AddLiquiditySelectTokenModal";
 import RemoveLiquidityConfirmModal from "./RemoveLiquidityConfirmModal";
 import RemoveLiquidityModal from "./RemoveLiquidityModal";
+import ConnectWalletModal from "./ConnectWalletModal";
 
 const Modals = () => {
   return (
@@ -21,6 +22,7 @@ const Modals = () => {
       <AddLiquiditySelectTokenModal />
       <RemoveLiquidityModal />
       <RemoveLiquidityConfirmModal />
+      <ConnectWalletModal />
     </div>
   );
 };

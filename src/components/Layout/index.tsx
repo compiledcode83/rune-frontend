@@ -2,7 +2,9 @@ import type { AppProps } from "next/app";
 import React from "react";
 import Header from "../Header";
 import Modals from "../Modals";
+import SwapModals from "../SwapModals";
 import { useThemeContext } from "@/context/ThemeContext";
+import { Toaster } from "sonner";
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -21,6 +23,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <main className="">{children}</main>
       </div>
       <Modals />
+      <SwapModals />
+      <Toaster position="top-right" expand={false} />
     </div>
   );
 };

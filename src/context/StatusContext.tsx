@@ -22,6 +22,12 @@ export const StatusContext = createContext<StatusContextProps>({
   setRemoveLiquidityModalOpen: () => {},
   removeLiquidityConfirmModalOpen: false,
   setRemoveLiquidityConfirmModalOpen: () => {},
+  swapSelectSendTokenModalOpen: false,
+  setSwapSelectSendTokenModalOpen: () => {},
+  swapSelectReceiveTokenModalOpen: false,
+  setSwapSelectReceiveTokenModalOpen: () => {},
+  swapConfirmModalOpen: false,
+  setSwapConfirmModalOpen: () => {},
 });
 
 export const useStatusContext = () => useContext(StatusContext);
@@ -45,6 +51,12 @@ export const StatusProvider = ({ ...props }) => {
   const [removeLiquidityConfirmModalOpen, setRemoveLiquidityConfirmModalOpen] =
     useState(false);
 
+  const [swapSelectSendTokenModalOpen, setSwapSelectSendTokenModalOpen] =
+    useState(false);
+
+  const [swapSelectReceiveTokenModalOpen, setSwapSelectReceiveTokenModalOpen] =
+    useState(false);
+  const [swapConfirmModalOpen, setSwapConfirmModalOpen] = useState(false);
   return (
     <StatusContext.Provider
       value={{
@@ -68,6 +80,13 @@ export const StatusProvider = ({ ...props }) => {
         setRemoveLiquidityModalOpen,
         removeLiquidityConfirmModalOpen,
         setRemoveLiquidityConfirmModalOpen,
+
+        swapSelectSendTokenModalOpen,
+        setSwapSelectSendTokenModalOpen,
+        swapSelectReceiveTokenModalOpen,
+        setSwapSelectReceiveTokenModalOpen,
+        swapConfirmModalOpen,
+        setSwapConfirmModalOpen,
       }}
     >
       {children}

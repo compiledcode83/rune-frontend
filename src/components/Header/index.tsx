@@ -7,10 +7,14 @@ import { useThemeContext } from "@/context/ThemeContext";
 import DarkLogo from "@/assets/imgs/dark-logo.png";
 import LightLogo from "@/assets/imgs/light-logo.png";
 import Link from "next/link";
+import { useStatusContext } from "@/context/StatusContext";
+import { useUserContext } from "@/context/UserContext";
+import { addressShortening } from "@/utils/adress";
 
 const Header = () => {
   const { darkMode, handleTheme } = useThemeContext();
-
+  const { setConnectWalletModalOpen } = useStatusContext();
+  const { isConnected, paymentAddress, handleDisconnect } = useUserContext();
   return (
     <div>
       <div className="flex items-center justify-between border-b border-[#818C90] px-[16px] py-4 lg:px-[150px]">
@@ -42,9 +46,20 @@ const Header = () => {
           <Button
             placeholder={undefined}
             className="bg-[#EAAC33] bg-opacity-20 px-1 py-2 text-[16px] normal-case text-primary lg:px-4"
+            onClick={() => {
+              !isConnected
+                ? setConnectWalletModalOpen(true)
+                : handleDisconnect();
+            }}
           >
-            <div className="hidden lg:block">Connect to a wallet</div>
-            <div className="lg:hidden">Connect</div>
+            {!isConnected ? (
+              <>
+                <div className="hidden lg:block">Connect to a wallet</div>
+                <div className="lg:hidden">Connect</div>
+              </>
+            ) : (
+              <div>disconnect {addressShortening(paymentAddress)}</div>
+            )}
           </Button>
           <Image
             src={darkMode ? LightThemeImg : DarkThemeImg}
