@@ -77,7 +77,7 @@ const SwapPanel = () => {
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      if (receiveToken.uuid !== "") {
+      if (receiveToken.uuid !== "" && sendToken.uuid !== "") {
         getReceiveAmount(sendTokenAmount);
       }
       if (receiveToken.uuid === "" && sendToken.uuid !== "") {
@@ -259,21 +259,31 @@ const SwapPanel = () => {
           <div className="relative mt-2">
             <div className="rounded-xl bg-light-item p-4 px-6 dark:bg-dark-item">
               <div className="flex items-center justify-between">
-                <div
-                  className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-light-panel px-4 py-2 lg:gap-4 dark:bg-dark-panel"
-                  onClick={() => setSwapSelectSendTokenModalOpen(true)}
-                >
-                  <Image
-                    src={sendToken.imgUrl}
-                    alt={sendToken.name}
-                    width={24}
-                    height={24}
-                  />
-                  <div className="text-[12px] lg:text-[14px]">
-                    {sendToken.name}
+                {sendToken.uuid === "" ? (
+                  <Button
+                    placeholder={undefined}
+                    className="bg-gradient font-bold"
+                    onClick={() => setSwapSelectSendTokenModalOpen(true)}
+                  >
+                    Select Token
+                  </Button>
+                ) : (
+                  <div
+                    className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-light-panel px-4 py-2 lg:gap-4 dark:bg-dark-panel"
+                    onClick={() => setSwapSelectSendTokenModalOpen(true)}
+                  >
+                    <Image
+                      src={sendToken.imgUrl}
+                      alt={sendToken.name}
+                      width={24}
+                      height={24}
+                    />
+                    <div className="text-[12px] lg:text-[14px]">
+                      {sendToken.name}
+                    </div>
+                    <Image src={ArrowDown} alt="eth" />
                   </div>
-                  <Image src={ArrowDown} alt="eth" />
-                </div>
+                )}
                 <div>
                   <input
                     className="w-[60px] bg-transparent text-right outline-none focus:overflow-hidden"

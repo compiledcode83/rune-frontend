@@ -1,6 +1,5 @@
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import React from "react";
-import SelectTokenPanel from "../../Panels/SelectTokenImportPanel";
 import { useStatusContext } from "@/context/StatusContext";
 import SwapSelectSendTokenPanel from "../SwapPanels/SwapSelectSendTokenPanel";
 

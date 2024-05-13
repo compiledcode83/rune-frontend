@@ -43,7 +43,7 @@ const SwapSelectReceiveTokenPanel = () => {
   };
 
   useEffect(() => {
-    getSwapableTokens();
+    if (sendToken.runeId !== "") getSwapableTokens();
   }, []);
 
   useEffect(() => {
