@@ -152,6 +152,9 @@ const SwapPanel = () => {
     setSendTokenAmount(receiveTokenAmount);
     setReceiveToken(tempSendToken);
   };
+  const onMax = () => {
+    setSendTokenAmount(sendTokenBalance);
+  };
 
   const SwapButton = () => {
     if (ordinalAddress === "") {
@@ -294,8 +297,16 @@ const SwapPanel = () => {
                 </div>
               </div>
               <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
-                <div>
-                  Balance: {`${sendTokenBalance} ${sendToken.symbol} `}(MAX)
+                <div className="flex gap-2">
+                  <div>
+                    Balance: {`${sendTokenBalance} ${sendToken.symbol}`}
+                  </div>
+                  <div
+                    className={sendTokenBalance > 0 ? "cursor-pointer" : ""}
+                    onClick={onMax}
+                  >
+                    MAX
+                  </div>
                 </div>
                 <div>≈$ 6726.2307</div>
               </div>
@@ -332,7 +343,6 @@ const SwapPanel = () => {
               <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
                 <div>
                   Balance: {`${receiveTokenBalance} ${receiveToken.symbol} `}
-                  (MAX)
                 </div>
                 <div>≈$ 284.6382</div>
               </div>
