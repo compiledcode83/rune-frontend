@@ -9,11 +9,20 @@ import { useThemeContext } from "@/context/ThemeContext";
 import DarkLogo from "@/assets/imgs/dark-logo.png";
 import LightLogo from "@/assets/imgs/light-logo.png";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
 import { useStatusContext } from "@/context/StatusContext";
 import { useUserContext } from "@/context/UserContext";
 import { addressShortening } from "@/utils/adress";
 
+const MenuItems = [
+  { name: "Swap", link: "/" },
+  { name: "Pool", link: "/pool" },
+  { name: "Claim", link: "/claim" },
+];
 const Header = () => {
+  const router = useRouter();
+  console.log(router.pathname, "pathname");
   const { darkMode, handleTheme } = useThemeContext();
   const { setConnectWalletModalOpen } = useStatusContext();
   const { isConnected, paymentAddress, handleDisconnect } = useUserContext();
@@ -27,21 +36,17 @@ const Header = () => {
             className="w-[220px] cursor-pointer lg:w-[350px]"
           />
           <div className="hidden items-center text-[24px] 2xl:flex 2xl:gap-12">
-            <Link href={"/"}>
-              <div className="cursor-pointer transition-all hover:border-b hover:border-primary hover:text-primary">
-                Swap
-              </div>
-            </Link>
-            <Link href={"/pool"}>
-              <div className="cursor-pointer transition-all hover:border-b hover:border-primary hover:text-primary">
-                Pool
-              </div>
-            </Link>
-            <Link href={"/claim"}>
-              <div className="cursor-pointer transition-all hover:border-b hover:border-primary hover:text-primary">
-                Claim
-              </div>
-            </Link>
+            {MenuItems.map((menu) => {
+              return (
+                <Link href={menu.link}>
+                  <div
+                    className={`cursor-pointer transition-all hover:border-b hover:border-primary hover:text-primary ${menu.link === router.pathname ? "border-b-[1px] border-primary text-primary " : ""}`}
+                  >
+                    {menu.name}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
         <div className="flex items-center gap-1 lg:gap-4">
@@ -87,30 +92,18 @@ const Header = () => {
         </div>
       </div>
       <div className="relative z-50 flex items-center gap-2 px-4 py-2 2xl:hidden">
-        <Link href={"/"}>
-          <Button
-            placeholder={undefined}
-            className="bg-transparent px-2 py-1 text-[16px] normal-case text-black transition-all hover:bg-dark-item hover:text-primary dark:text-white"
-          >
-            Swap
-          </Button>
-        </Link>
-        <Link href={"/pool"}>
-          <Button
-            placeholder={undefined}
-            className="bg-transparent px-2 py-1 text-[16px] normal-case text-black transition-all hover:bg-dark-item hover:text-primary dark:text-white"
-          >
-            Pool
-          </Button>
-        </Link>
-        <Link href={"/claim"}>
-          <Button
-            placeholder={undefined}
-            className="bg-transparent px-2 py-1 text-[16px] normal-case text-black transition-all hover:bg-dark-item hover:text-primary dark:text-white"
-          >
-            Claim
-          </Button>
-        </Link>
+        {MenuItems.map((menu) => {
+          return (
+            <Link href={menu.link}>
+              <Button
+                placeholder={undefined}
+                className={`bg-transparent px-2 py-1 text-[16px] normal-case text-black transition-all hover:bg-light-item hover:text-primary dark:hover:bg-dark-item  ${menu.link === router.pathname ? " !important text-primary" : "dark:text-white"}`}
+              >
+                {menu.name}
+              </Button>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
