@@ -40,7 +40,12 @@ export default function Home() {
               alt="wing"
               className="absolute -top-11 right-0 lg:bottom-0"
             />
-
+            <div
+              className="fixed bottom-0 right-[0px] h-[380px] w-[350px] overflow-hidden rounded-tl-full bg-[#EA862B] "
+              style={{
+                filter: "blur(260.5px)",
+              }}
+            />
             <div className="relative z-50 mx-8 mt-4 text-start lg:mt-16 lg:text-center">
               <div className="text-[20px] font-bold lg:text-[48px]">
                 Start Swapping Runes with Ordvision{" "}
@@ -58,12 +63,6 @@ export default function Home() {
             <SwapPanel />
           </div>
         </div>
-        <div
-          className="absolute -bottom-[150px] right-[0px] h-[380px] w-[350px] overflow-hidden rounded-tl-full bg-[#EA862B] "
-          style={{
-            filter: "blur(260.5px)",
-          }}
-        />
       </div>
     </>
   );

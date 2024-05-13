@@ -79,6 +79,12 @@ export default function Pool() {
             alt="wing"
             className="fixed bottom-0 opacity-50"
           />
+          <div
+            className="fixed bottom-0 right-[0px] h-[380px] w-[350px] overflow-hidden rounded-tl-full bg-[#EA862B] "
+            style={{
+              filter: "blur(260.5px)",
+            }}
+          />
           <div className="container relative z-50 mx-auto my-8 px-4 text-start lg:mt-24 lg:px-8">
             <div className="">
               <div className="text-[20px] lg:text-[24px]">
@@ -157,12 +163,6 @@ export default function Pool() {
             </div>
           </div>
         </div>
-        <div
-          className="absolute bottom-[0px] right-[0px] h-[230px] w-[250px] overflow-hidden rounded-tl-full bg-[#EA862B]"
-          style={{
-            filter: "blur(260.5px)",
-          }}
-        ></div>
       </div>
     </>
   );

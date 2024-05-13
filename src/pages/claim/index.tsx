@@ -41,6 +41,12 @@ export default function Claim() {
             alt="wing"
             className="fixed bottom-0 opacity-50"
           />
+          <div
+            className="fixed bottom-0 right-[0px] h-[380px] w-[350px] overflow-hidden rounded-tl-full bg-[#EA862B] "
+            style={{
+              filter: "blur(260.5px)",
+            }}
+          />
         </div>
         <ClaimPanel />
       </div>
