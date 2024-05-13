@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import LightThemeImg from "@/assets/imgs/lighttheme.svg";
 import DarkThemeImg from "@/assets/imgs/darktheme.svg";
+import BtcButton from "@/assets/imgs/btc-button.svg";
+import LogOff from "@/assets/imgs/log-off.svg";
 import { Button, Navbar } from "@material-tailwind/react";
 import { useThemeContext } from "@/context/ThemeContext";
 import DarkLogo from "@/assets/imgs/dark-logo.png";
@@ -43,6 +45,12 @@ const Header = () => {
           </div>
         </div>
         <div className="flex items-center gap-1 lg:gap-4">
+          <Image
+            src={BtcButton}
+            alt="btc button"
+            className="cursor-pointer"
+            height={38}
+          />
           <Button
             placeholder={undefined}
             className="bg-[#EAAC33] bg-opacity-20 px-1 py-2 text-[16px] normal-case text-primary lg:px-4"
@@ -58,7 +66,15 @@ const Header = () => {
                 <div className="lg:hidden">Connect</div>
               </>
             ) : (
-              <div>disconnect {addressShortening(paymentAddress)}</div>
+              <div className="flex items-center gap-3">
+                {addressShortening(paymentAddress)}
+                <Image
+                  src={LogOff}
+                  alt="log off"
+                  className="cursor-pointer"
+                  height={18}
+                />
+              </div>
             )}
           </Button>
           <Image

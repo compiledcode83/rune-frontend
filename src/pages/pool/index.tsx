@@ -157,6 +157,12 @@ export default function Pool() {
             </div>
           </div>
         </div>
+        <div
+          className="absolute bottom-[0px] right-[0px] h-[230px] w-[250px] overflow-hidden rounded-tl-full bg-[#EA862B]"
+          style={{
+            filter: "blur(260.5px)",
+          }}
+        ></div>
       </div>
     </>
   );

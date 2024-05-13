@@ -138,137 +138,153 @@ const SwapPanel = () => {
   }, [receiveToken, ordinalAddress, poolTokens, tokenBalances]);
   return (
     <div>
-      <div className="mx-auto mt-8 w-[350px] rounded-xl bg-light-panel p-4 lg:w-[526px] dark:bg-dark-panel">
-        <div className="flex items-center justify-between">
-          <div className="pl-8 text-[20px] font-bold lg:text-[28px]">Swap</div>
-          <div>
-            <Popover
-              animate={{
-                mount: { scale: 1, y: 0 },
-                unmount: { scale: 0, y: 25 },
-              }}
-              placement="bottom-end"
-            >
-              <PopoverHandler>
-                <Image src={Setting} alt="setting" className="cursor-pointer" />
-              </PopoverHandler>
-              <PopoverContent
-                placeholder={undefined}
-                className="z-[100] rounded-none border-none bg-transparent p-0"
-              >
-                <SettingPanel />
-              </PopoverContent>
-            </Popover>
-          </div>
-        </div>
-        <div className="relative mt-2">
-          <div className="rounded-xl bg-light-item p-4 px-6 dark:bg-dark-item">
-            <div className="flex items-center justify-between">
-              <div
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-light-panel px-4 py-2 lg:gap-4 dark:bg-dark-panel"
-                onClick={() => setSwapSelectSendTokenModalOpen(true)}
-              >
-                <Image
-                  src={sendToken.imgUrl}
-                  alt={sendToken.name}
-                  width={24}
-                  height={24}
-                />
-                <div className="text-[12px] lg:text-[14px]">
-                  {sendToken.name}
-                </div>
-                <Image src={ArrowDown} alt="eth" />
-              </div>
-              <div>
-                <input
-                  className="w-[60px] bg-transparent text-right outline-none focus:overflow-hidden"
-                  value={sendTokenAmount}
-                  onChange={(e) => handleTokenAmount(Number(e.target.value))}
-                  type="number"
-                />
-              </div>
+      <div className="relative mx-auto mt-14 w-[350px] overflow-hidden rounded-xl bg-light-panel p-4 lg:w-[526px] dark:bg-dark-panel">
+        <div className="relative z-10">
+          <div className="flex items-center justify-between">
+            <div className="pl-8 text-[20px] font-bold lg:text-[28px]">
+              Swap
             </div>
-            <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
-              <div>
-                Balance: {`${sendTokenBalance} ${sendToken.symbol} `}(MAX)
-              </div>
-              <div>≈$ 6726.2307</div>
-            </div>
-          </div>
-          <div className="mt-2 rounded-xl bg-light-item p-4 px-6 dark:bg-dark-item">
-            <div className="flex items-center justify-between">
-              {receiveToken.uuid === "" ? (
-                <Button
+            <div>
+              <Popover
+                animate={{
+                  mount: { scale: 1, y: 0 },
+                  unmount: { scale: 0, y: 25 },
+                }}
+                placement="bottom-end"
+              >
+                <PopoverHandler>
+                  <Image
+                    src={Setting}
+                    alt="setting"
+                    className="cursor-pointer"
+                  />
+                </PopoverHandler>
+                <PopoverContent
                   placeholder={undefined}
-                  className="bg-gradient font-bold"
-                  onClick={() => setSwapSelectReceiveTokenModalOpen(true)}
+                  className="z-[100] rounded-none border-none bg-transparent p-0"
                 >
-                  Select Token
-                </Button>
-              ) : (
+                  <SettingPanel />
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+          <div className="relative mt-2">
+            <div className="rounded-xl bg-light-item p-4 px-6 dark:bg-dark-item">
+              <div className="flex items-center justify-between">
                 <div
                   className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-light-panel px-4 py-2 lg:gap-4 dark:bg-dark-panel"
-                  onClick={() => setSwapSelectReceiveTokenModalOpen(true)}
+                  onClick={() => setSwapSelectSendTokenModalOpen(true)}
                 >
                   <Image
-                    src={receiveToken.imgUrl}
-                    alt={receiveToken.name}
+                    src={sendToken.imgUrl}
+                    alt={sendToken.name}
                     width={24}
                     height={24}
                   />
                   <div className="text-[12px] lg:text-[14px]">
-                    {receiveToken.name}
+                    {sendToken.name}
                   </div>
                   <Image src={ArrowDown} alt="eth" />
                 </div>
-              )}
-              <div>{receiveTokenAmount}</div>
-            </div>
-            <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
-              <div>
-                Balance: {`${receiveTokenBalance} ${receiveToken.symbol} `}
-                (MAX)
+                <div>
+                  <input
+                    className="w-[60px] bg-transparent text-right outline-none focus:overflow-hidden"
+                    value={sendTokenAmount}
+                    onChange={(e) => handleTokenAmount(Number(e.target.value))}
+                    type="number"
+                  />
+                </div>
               </div>
-              <div>≈$ 284.6382</div>
+              <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
+                <div>
+                  Balance: {`${sendTokenBalance} ${sendToken.symbol} `}(MAX)
+                </div>
+                <div>≈$ 6726.2307</div>
+              </div>
+            </div>
+            <div className="mt-2 rounded-xl bg-light-item p-4 px-6 dark:bg-dark-item">
+              <div className="flex items-center justify-between">
+                {receiveToken.uuid === "" ? (
+                  <Button
+                    placeholder={undefined}
+                    className="bg-gradient font-bold"
+                    onClick={() => setSwapSelectReceiveTokenModalOpen(true)}
+                  >
+                    Select Token
+                  </Button>
+                ) : (
+                  <div
+                    className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-light-panel px-4 py-2 lg:gap-4 dark:bg-dark-panel"
+                    onClick={() => setSwapSelectReceiveTokenModalOpen(true)}
+                  >
+                    <Image
+                      src={receiveToken.imgUrl}
+                      alt={receiveToken.name}
+                      width={24}
+                      height={24}
+                    />
+                    <div className="text-[12px] lg:text-[14px]">
+                      {receiveToken.name}
+                    </div>
+                    <Image src={ArrowDown} alt="eth" />
+                  </div>
+                )}
+                <div>{receiveTokenAmount}</div>
+              </div>
+              <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
+                <div>
+                  Balance: {`${receiveTokenBalance} ${receiveToken.symbol} `}
+                  (MAX)
+                </div>
+                <div>≈$ 284.6382</div>
+              </div>
+            </div>
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full  border-[5px] border-light-panel bg-light-item p-2 dark:border-dark-panel dark:bg-dark-item">
+              <Image src={Arrow2} alt="exchangearrow" />
             </div>
           </div>
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full  border-[5px] border-light-panel bg-light-item p-2 dark:border-dark-panel dark:bg-dark-item">
-            <Image src={Arrow2} alt="exchangearrow" />
+          <div className="mt-8">
+            {ordinalAddress === "" ? (
+              <Button
+                className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
+                placeholder={undefined}
+                onClick={() => setConnectWalletModalOpen(true)}
+              >
+                Connect Wallet
+              </Button>
+            ) : sendToken.uuid !== "" &&
+              receiveToken.uuid !== "" &&
+              sendTokenAmount !== 0 &&
+              receiveTokenAmount !== 0 ? (
+              <Button
+                className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
+                placeholder={undefined}
+                onClick={() => handleConfirmSwapModalOpen()}
+              >
+                Swap
+              </Button>
+            ) : (
+              <Button
+                className="dark: disabled:opacity-1 w-full bg-white text-[16px] normal-case text-light-gray-font lg:text-[24px] dark:bg-[#2B3342] dark:text-dark-gray-font"
+                placeholder={undefined}
+                disabled
+                // onClick={() => handleConfirmSwapModalOpen()}
+              >
+                Enter an amount
+              </Button>
+            )}
           </div>
         </div>
-        <div className="mt-8">
-          {ordinalAddress === "" ? (
-            <Button
-              className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
-              placeholder={undefined}
-              onClick={() => setConnectWalletModalOpen(true)}
-            >
-              Connect Wallet
-            </Button>
-          ) : sendToken.uuid !== "" &&
-            receiveToken.uuid !== "" &&
-            sendTokenAmount !== 0 &&
-            receiveTokenAmount !== 0 ? (
-            <Button
-              className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
-              placeholder={undefined}
-              onClick={() => handleConfirmSwapModalOpen()}
-            >
-              Swap
-            </Button>
-          ) : (
-            <Button
-              className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
-              placeholder={undefined}
-              disabled={true}
-              onClick={() => handleConfirmSwapModalOpen()}
-            >
-              Swap
-            </Button>
-          )}
-        </div>
+        <div
+          className="-z-5 absolute -right-8 top-14 h-72 w-72 rounded-full "
+          style={{
+            filter: "blur(50.5px)",
+            background:
+              "linear-gradient(125deg, rgba(61, 80, 253, 0.60) 4.38%, rgba(230, 51, 234, 0.55) 139.76%)",
+          }}
+        />
       </div>
-      <div className="mx-auto my-8 flex w-[350px] flex-col gap-2 text-[12px] lg:w-[500px] lg:gap-4 lg:text-[16px]">
+      {/* <div className="mx-auto my-8 flex w-[350px] flex-col gap-2 text-[12px] lg:w-[500px] lg:gap-4 lg:text-[16px]">
         <div className="flex items-center justify-between">
           <div className="flex gap-1">
             Minimum received
@@ -293,7 +309,7 @@ const SwapPanel = () => {
         <div className="cursor-pointer text-center text-primary dark:text-[#EAAC33]">
           View Pair Analytics
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

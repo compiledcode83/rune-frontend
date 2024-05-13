@@ -48,24 +48,16 @@ const ToastNotification: FC<Props> = (props) => {
   else if (props.toastType === "warn") bg = "bg-[#FF9179]";
 
   return (
-    <div className="flex w-[350px] items-center justify-between rounded-lg border-[1px] border-[#202025] bg-dark-bg p-4 text-lg text-white shadow-[0px_4px_0px_0px_#ddd] dark:bg-light-bg dark:text-dark-bg">
-      <div className="flex items-center gap-2">
+    <div className="dark: dark:shadow- bg-light-toast dark:bg-dark-toast [ relative flex w-[350px] items-center justify-between rounded-lg border-[1px] border-none bg-opacity-80 p-4 pl-8 pt-6 text-lg text-dark-bg shadow-[0px_2px_0px_0px_#ddd] dark:bg-opacity-80 dark:text-light-bg dark:shadow-[0px_1px_0px_0px_#222]">
+      <div className="flex items-center gap-4">
         {props.toastType === "success" ? (
-          <div className={`rounded-[100%] p-[8px] ${bg}`}>
-            <Image src={Success} alt="success" />
-          </div>
+          <Image src={Success} alt="success" />
         ) : props.toastType === "info" ? (
-          <div className={`rounded-[100%] p-[8px] ${bg}`}>
-            <Image src={Info} alt="info" />
-          </div>
+          <Image src={Info} alt="info" />
         ) : props.toastType === "error" ? (
-          <div className={`rounded-[100%] p-[8px] ${bg}`}>
-            <Image src={Error} alt="error" />
-          </div>
+          <Image src={Error} alt="error" />
         ) : (
-          <div className={`rounded-[100%] p-[8px] ${bg}`}>
-            <Image src={Success} alt="deny" />
-          </div>
+          <Image src={Success} alt="deny" />
         )}
         <div className="">
           <p className="text-lg">{props.title}</p>
@@ -82,7 +74,7 @@ const ToastNotification: FC<Props> = (props) => {
           </Link>
         )}
         <button
-          className="text-3xl"
+          className="absolute right-4 top-4 text-3xl"
           onClick={() => toast.dismiss(props.toastId)}
         >
           &times;

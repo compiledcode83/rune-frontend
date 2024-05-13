@@ -15,6 +15,7 @@ const config = withMT({
       "dark-panel": "#252b36",
       "dark-item": "#2b3342",
       "dark-gray-font": "#9da6b9",
+      "dark-toast": "#394356",
       "light-bg": "#fff",
       "light-panel": "#C8D4EA",
       "light-item": "#fff",
@@ -23,6 +24,7 @@ const config = withMT({
       "dark-tooltip-bg": "#394356",
       "light-tooltip-bg": "#C8D4EA",
       blue: "#00A3FF",
+      "light-toast": "#C8D4EA",
       "dark-primary": "#EAAC33",
     },
     extend: {
