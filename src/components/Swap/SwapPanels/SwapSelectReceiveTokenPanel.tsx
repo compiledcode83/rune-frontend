@@ -20,6 +20,7 @@ import poolApiService from "@/api.services/pool/pool.api.service";
 
 import { TokenType } from "@/types/type";
 import { containsSubstring } from "@/utils/utils";
+import SelectModalSearchBox from "../SelectModalSearchBox";
 
 const SwapSelectReceiveTokenPanel = () => {
   const { setSwapSelectReceiveTokenModalOpen } = useStatusContext();
@@ -83,7 +84,7 @@ const SwapSelectReceiveTokenPanel = () => {
         </div>
       </div>
       <div>
-        <Input
+        {/* <Input
           crossOrigin={undefined}
           label="Search name or pasto address"
           icon={<MagnifyingGlassIcon width={20} />}
@@ -91,6 +92,10 @@ const SwapSelectReceiveTokenPanel = () => {
           className="text-[12px] text-black lg:!text-[24px] dark:text-white"
           value={searchText}
           onChange={onChangeSearchInput}
+        /> */}
+        <SelectModalSearchBox
+          searchText={searchText}
+          onChangeSearchText={onChangeSearchInput}
         />
       </div>
       <div className="flex h-[50vh] flex-col gap-2 overflow-auto">
