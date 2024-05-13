@@ -8,6 +8,8 @@ import {
   setSendTokenAmount,
   setReceiveTokenAmount,
   setTokenBalances,
+  setMinSendTokenAmount,
+  setMaxSendTokenAmount,
   SwapState,
 } from "../slices/swapSlice";
 import { RootState } from "../types";
@@ -116,7 +118,7 @@ export const useReceiveTokenAmount = () => {
 };
 
 // UseTokenBalances Hook
-export const UseTokenBalances = () => {
+export const useTokenBalances = () => {
   const dispatch = useAppDispatch();
   const tokenBalances = useAppSelector(
     (state: RootState) => state.swap.tokenBalances
@@ -132,5 +134,45 @@ export const UseTokenBalances = () => {
   return {
     tokenBalances,
     setTokenBalances: setTokenBalancesCallback,
+  };
+};
+
+// UseMinSendTokenAmount Hook
+export const useMinSendTokenAmount = () => {
+  const dispatch = useAppDispatch();
+  const minSendTokenAmount = useAppSelector(
+    (state: RootState) => state.swap.minSendTokenAmount
+  );
+
+  const setMinSendTokenAmountCallback = useCallback(
+    (item: number) => {
+      dispatch(setMinSendTokenAmount(item));
+    },
+    [dispatch]
+  );
+
+  return {
+    minSendTokenAmount,
+    setMinSendTokenAmount: setMinSendTokenAmountCallback,
+  };
+};
+
+// UseMaxSendTokenAmount Hook
+export const useMaxSendTokenAmount = () => {
+  const dispatch = useAppDispatch();
+  const maxSendTokenAmount = useAppSelector(
+    (state: RootState) => state.swap.maxSendTokenAmount
+  );
+
+  const setMaxSendTokenAmountCallback = useCallback(
+    (item: number) => {
+      dispatch(setMaxSendTokenAmount(item));
+    },
+    [dispatch]
+  );
+
+  return {
+    maxSendTokenAmount,
+    setMaxSendTokenAmount: setMaxSendTokenAmountCallback,
   };
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Popover,
   PopoverHandler,
@@ -21,11 +21,16 @@ import {
   useSendTokenAmount,
   useReceiveTokenAmount,
   usePoolTokens,
-  UseTokenBalances,
+  useTokenBalances,
+  useMinSendTokenAmount,
+  useMaxSendTokenAmount,
 } from "@/state/application/hooks/useSwapHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
-import { setTokenBalances } from "@/state/application/slices/swapSlice";
+import {
+  setMinSendTokenAmount,
+  setTokenBalances,
+} from "@/state/application/slices/swapSlice";
 import { BalanceType, TokenType } from "@/types/type";
 
 const SwapPanel = () => {
@@ -50,9 +55,10 @@ const SwapPanel = () => {
   const { receiveToken, setReceiveToken } = useReceiveToken();
   const { sendTokenAmount, setSendTokenAmount } = useSendTokenAmount();
   const { receiveTokenAmount, setReceiveTokenAmount } = useReceiveTokenAmount();
-  const { tokenBalances, setTokenBalances } = UseTokenBalances();
+  const { tokenBalances, setTokenBalances } = useTokenBalances();
+  const { minSendTokenAmount, setMinSendTokenAmount } = useMinSendTokenAmount();
+  const { maxSendTokenAmount, setMaxSendTokenAmount } = useMaxSendTokenAmount();
 
-  
   const handleTokenAmount = async (sendAmount: number) => {
     setSendTokenAmount(sendAmount);
   };
@@ -65,6 +71,8 @@ const SwapPanel = () => {
     );
     console.log(res);
     setReceiveTokenAmount(Number(res.receivingTokenAmount));
+    setMinSendTokenAmount(Number(res.minTradingAmount));
+    setMaxSendTokenAmount(Number(res.maxTradingAmount));
   };
 
   useEffect(() => {
@@ -144,6 +152,78 @@ const SwapPanel = () => {
     setSendTokenAmount(receiveTokenAmount);
     setReceiveToken(tempSendToken);
   };
+
+  const SwapButton = () => {
+    if (ordinalAddress === "") {
+      return (
+        <Button
+          className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
+          placeholder={undefined}
+          onClick={() => setConnectWalletModalOpen(true)}
+        >
+          Connect Wallet
+        </Button>
+      );
+    } else if (sendToken.runeId === "" || receiveToken.runeId === "") {
+      return (
+        <Button
+          className=" w-full bg-white text-[16px] normal-case text-light-gray-font disabled:opacity-100 lg:text-[24px] dark:bg-[#2B3342] dark:text-dark-gray-font"
+          placeholder={undefined}
+          disabled
+          // onClick={() => handleConfirmSwapModalOpen()}
+        >
+          Select a Token
+        </Button>
+      );
+    } else if (sendTokenAmount === 0) {
+      return (
+        <Button
+          className=" w-full bg-white text-[16px] normal-case text-light-gray-font disabled:opacity-100 lg:text-[24px] dark:bg-[#2B3342] dark:text-dark-gray-font"
+          placeholder={undefined}
+          disabled
+          // onClick={() => handleConfirmSwapModalOpen()}
+        >
+          Input an amount
+        </Button>
+      );
+    } else if (sendTokenAmount > sendTokenBalance) {
+      return (
+        <Button
+          className=" w-full bg-white text-[16px] normal-case text-light-gray-font disabled:opacity-100 lg:text-[24px] dark:bg-[#2B3342] dark:text-dark-gray-font"
+          placeholder={undefined}
+          disabled
+          // onClick={() => handleConfirmSwapModalOpen()}
+        >
+          Insufficient Ballance
+        </Button>
+      );
+    } else if (
+      sendTokenAmount < minSendTokenAmount ||
+      sendTokenAmount > maxSendTokenAmount
+    ) {
+      return (
+        <Button
+          className=" w-full bg-white text-[16px] normal-case text-light-gray-font disabled:opacity-100 lg:text-[24px] dark:bg-[#2B3342] dark:text-dark-gray-font"
+          placeholder={undefined}
+          disabled
+          // onClick={() => handleConfirmSwapModalOpen()}
+        >
+          Swap
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
+          placeholder={undefined}
+          onClick={() => handleConfirmSwapModalOpen()}
+        >
+          Swap
+        </Button>
+      );
+    }
+  };
+
   return (
     <div>
       <div className="relative mx-auto mt-14 w-[350px] overflow-hidden rounded-xl bg-light-panel p-4 lg:w-[526px] dark:bg-dark-panel">
@@ -254,37 +334,24 @@ const SwapPanel = () => {
               <Image src={Arrow2} alt="exchangearrow" />
             </div>
           </div>
-          <div className="mt-8">
-            {ordinalAddress === "" ? (
-              <Button
-                className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
-                placeholder={undefined}
-                onClick={() => setConnectWalletModalOpen(true)}
-              >
-                Connect Wallet
-              </Button>
-            ) : sendToken.uuid !== "" &&
-              receiveToken.uuid !== "" &&
-              sendTokenAmount !== 0 &&
-              receiveTokenAmount !== 0 ? (
-              <Button
-                className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
-                placeholder={undefined}
-                onClick={() => handleConfirmSwapModalOpen()}
-              >
-                Swap
-              </Button>
-            ) : (
-              <Button
-                className="dark: disabled:opacity-1 w-full bg-white text-[16px] normal-case text-light-gray-font lg:text-[24px] dark:bg-[#2B3342] dark:text-dark-gray-font"
-                placeholder={undefined}
-                disabled
-                // onClick={() => handleConfirmSwapModalOpen()}
-              >
-                Enter an amount
-              </Button>
-            )}
-          </div>
+          {sendTokenAmount !== 0 &&
+          receiveToken.runeId != "" &&
+          (minSendTokenAmount > sendTokenAmount ||
+            maxSendTokenAmount < sendTokenAmount) ? (
+            <div className="mt-2 rounded-xl border border-red-300 bg-light-item p-1 px-6 text-justify text-[14px] lg:mt-5 dark:bg-dark-item dark:text-dark-gray-font">
+              <div className="flex w-full flex-col">
+                <div className="flex justify-between">
+                  <div>Min sending amount for sale</div>
+                  <div>{minSendTokenAmount}</div>
+                </div>
+                <div className="flex justify-between">
+                  <div>Max sending amount for sale</div>
+                  <div>{maxSendTokenAmount}</div>
+                </div>
+              </div>
+            </div>
+          ) : null}
+          <div className="mt-8">{SwapButton()}</div>
         </div>
         <div
           className="-z-5 absolute -right-8 top-14 h-72 w-72 rounded-full "

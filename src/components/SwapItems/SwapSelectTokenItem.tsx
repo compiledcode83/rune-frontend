@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { TokenType } from "@/types/type";
 import {
-  UseTokenBalances,
+  useTokenBalances,
   useReceiveToken,
   useSendToken,
 } from "@/state/application/hooks/useSwapHooks";
@@ -29,7 +29,7 @@ const SwapSelectTokenItem: React.FC<SwapSelectTokenItemProps> = ({
 }) => {
   const { imgUrl, name, runeId, symbol, spaced, divisibility } = token;
   const { sendToken, setSendToken } = useSendToken();
-  const { tokenBalances } = UseTokenBalances();
+  const { tokenBalances } = useTokenBalances();
   const { setReceiveToken } = useReceiveToken();
   const [balance, setBalance] = useState(0);
   const {
