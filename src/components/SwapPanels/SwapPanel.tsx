@@ -52,6 +52,7 @@ const SwapPanel = () => {
   const { receiveTokenAmount, setReceiveTokenAmount } = useReceiveTokenAmount();
   const { tokenBalances, setTokenBalances } = UseTokenBalances();
 
+  
   const handleTokenAmount = async (sendAmount: number) => {
     setSendTokenAmount(sendAmount);
   };
@@ -136,6 +137,13 @@ const SwapPanel = () => {
       setReceiveTokenBalance(0);
     }
   }, [receiveToken, ordinalAddress, poolTokens, tokenBalances]);
+
+  const reverse = () => {
+    const tempSendToken = sendToken;
+    setSendToken(receiveToken);
+    setSendTokenAmount(receiveTokenAmount);
+    setReceiveToken(tempSendToken);
+  };
   return (
     <div>
       <div className="relative mx-auto mt-14 w-[350px] overflow-hidden rounded-xl bg-light-panel p-4 lg:w-[526px] dark:bg-dark-panel">
@@ -239,7 +247,10 @@ const SwapPanel = () => {
                 <div>≈$ 284.6382</div>
               </div>
             </div>
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full  border-[5px] border-light-panel bg-light-item p-2 dark:border-dark-panel dark:bg-dark-item">
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full  border-[5px] border-light-panel bg-light-item p-2 dark:border-dark-panel dark:bg-dark-item"
+              onClick={reverse}
+            >
               <Image src={Arrow2} alt="exchangearrow" />
             </div>
           </div>
