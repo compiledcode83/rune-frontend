@@ -98,10 +98,10 @@ const SwapSelectReceiveTokenPanel = () => {
           <SwapSelectTokenItem key={index} token={token} type="receive" />
         ))}
       </div>
-      <div className="flex cursor-pointer items-center justify-center gap-2 text-primary dark:text-[#EAAC33]">
+      {/* <div className="flex cursor-pointer items-center justify-center gap-2 text-primary dark:text-[#EAAC33]">
         <Image src={Menu} alt="menu" />
         <div>Manage</div>
-      </div>
+      </div> */}
     </div>
   );
 };
