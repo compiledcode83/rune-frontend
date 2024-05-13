@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import React from "react";
 import Header from "../Header";
 import Modals from "../Modals";
-import SwapModals from "../SwapModals";
+import SwapModals from "../Swap/SwapModals";
 import { useThemeContext } from "@/context/ThemeContext";
 import { Toaster } from "sonner";
 

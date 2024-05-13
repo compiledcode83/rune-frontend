@@ -1,15 +1,19 @@
-import { Dialog, DialogBody } from "@material-tailwind/react";
 import React from "react";
-import SelectTokenPanel from "../Panels/SelectTokenImportPanel";
+import TxSubmittedPanel from "../../Panels/TxSubmittedPanel";
+import { Dialog, DialogBody } from "@material-tailwind/react";
 import { useStatusContext } from "@/context/StatusContext";
-import SwapSelectSendTokenPanel from "../SwapPanels/SwapSelectSendTokenPanel";
+import SwapTxSubmittedPanel from "../SwapPanels/SwapTxSubmittedPanel";
 
-const SwapSelectSendTokenModal = () => {
-  const { swapSelectSendTokenModalOpen } = useStatusContext();
+type Props = {
+  txId: string;
+};
+
+const SwapTxSubmittedModal: React.FC<Props> = ({ txId }) => {
+  const { swapTxSubmittedModalOpen } = useStatusContext();
   return (
     <Dialog
       placeholder={undefined}
-      open={swapSelectSendTokenModalOpen}
+      open={swapTxSubmittedModalOpen}
       className="bg-transparent shadow-none outline-none"
       animate={{
         mount: { scale: 1, y: 0 },
@@ -21,10 +25,10 @@ const SwapSelectSendTokenModal = () => {
         placeholder={undefined}
         className="z-50 mx-auto w-[350px] overflow-auto rounded-[20px] bg-light-item p-[20px] text-black backdrop-blur-sm lg:w-[520px] dark:bg-dark-panel dark:text-white"
       >
-        <SwapSelectSendTokenPanel />
+        <SwapTxSubmittedPanel txId={txId} />
       </DialogBody>
     </Dialog>
   );
 };
 
-export default SwapSelectSendTokenModal;
+export default SwapTxSubmittedModal;

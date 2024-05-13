@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   XMarkIcon,
   ChevronLeftIcon,
@@ -12,15 +12,43 @@ import Image from "next/image";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import SwapSelectTokenItem from "../SwapItems/SwapSelectTokenItem";
 import { usePoolTokens } from "@/state/application/hooks/useSwapHooks";
+import { TokenType } from "@/types/type";
+import { containsSubstring } from "@/utils/utils";
 
 const SwapSelectSendTokenPanel = () => {
   const { setSwapSelectSendTokenModalOpen } = useStatusContext();
   const { poolTokens } = usePoolTokens();
-  console.log({ poolTokens });
+
+  const [searchText, setSearchText] = useState("");
+  const [filterText, setFilterText] = useState("");
+  const [poolTokenSearchResults, setPoolTokenSearchResults] = useState<
+    TokenType[]
+  >([]);
 
   const handleSelectTokenModalClose = () => {
     setSwapSelectSendTokenModalOpen(false);
   };
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setFilterText(searchText);
+    }, 300);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchText, setFilterText]);
+
+  const onChangeSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
+
+  useEffect(() => {
+    const resultList = poolTokens.filter((token) => {
+      return containsSubstring(token.name, filterText);
+    });
+    setPoolTokenSearchResults(resultList);
+  }, [filterText, poolTokens]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -44,10 +72,12 @@ const SwapSelectSendTokenPanel = () => {
           icon={<MagnifyingGlassIcon width={20} />}
           color="amber"
           className="text-[12px] text-black lg:!text-[24px] dark:text-white"
+          value={searchText}
+          onChange={onChangeSearchInput}
         />
       </div>
       <div className="flex h-[50vh] flex-col gap-2 overflow-auto">
-        {poolTokens.map((token, index) => (
+        {poolTokenSearchResults.map((token, index) => (
           <SwapSelectTokenItem key={index} token={token} type="send" />
         ))}
       </div>

@@ -18,10 +18,18 @@ import {
 } from "@/state/application/hooks/useSwapHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 
+import { TokenType } from "@/types/type";
+import { containsSubstring } from "@/utils/utils";
+
 const SwapSelectReceiveTokenPanel = () => {
   const { setSwapSelectReceiveTokenModalOpen } = useStatusContext();
   const { sendToken } = useSendToken();
   const { swapableTokens, setSwapableTokens } = useSwapableTokens();
+
+  const [searchText, setSearchText] = useState("");
+  const [filterText, setFilterText] = useState("");
+  const [swappableTokenSearchResults, setSwappableTokenSearchResults] =
+    useState<TokenType[]>([]);
 
   const handleSelectTokenModalClose = () => {
     setSwapSelectReceiveTokenModalOpen(false);
@@ -37,6 +45,27 @@ const SwapSelectReceiveTokenPanel = () => {
   useEffect(() => {
     getSwapableTokens();
   }, []);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setFilterText(searchText);
+    }, 300);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchText, setFilterText]);
+
+  const onChangeSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
+
+  useEffect(() => {
+    const resultList = swapableTokens.filter((token) => {
+      return containsSubstring(token.name, filterText);
+    });
+    setSwappableTokenSearchResults(resultList);
+  }, [filterText, swapableTokens]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -60,10 +89,12 @@ const SwapSelectReceiveTokenPanel = () => {
           icon={<MagnifyingGlassIcon width={20} />}
           color="amber"
           className="text-[12px] text-black lg:!text-[24px] dark:text-white"
+          value={searchText}
+          onChange={onChangeSearchInput}
         />
       </div>
       <div className="flex h-[50vh] flex-col gap-2 overflow-auto">
-        {swapableTokens.map((token, index) => (
+        {swappableTokenSearchResults.map((token, index) => (
           <SwapSelectTokenItem key={index} token={token} type="receive" />
         ))}
       </div>

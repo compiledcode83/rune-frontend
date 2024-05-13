@@ -20,12 +20,12 @@ function ClaimPanel() {
             Your reward: 0.0000 ETH
           </div>
           <div className="text-[12px] text-[#A7A7A7] lg:text-[14px]">
-            dev fee
+            About fee
           </div>
         </div>
         <input
           placeholder="Address"
-          className="mb-4 h-[47px] w-full cursor-text rounded-[6px] bg-[#394356] p-4 font-bold outline-none"
+          className="mb-4 h-[47px] w-full cursor-text rounded-[6px] bg-white p-4 font-bold outline-none dark:bg-[#394356]"
         />
         <div className="mb-1 text-[12px] text-[#FF5353] lg:text-[14px]">
           Claim Min-Max (after tax): 300.00 - 1,000.00 ETH
