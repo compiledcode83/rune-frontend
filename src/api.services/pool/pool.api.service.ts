@@ -119,6 +119,32 @@ const getLiquidities = async (address: string) => {
   }
 };
 
+const getLiquidityTokenAmount = async (address: string, poolUuid: string) => {
+  try {
+    const response = await axiosInstance.post(
+      `/pool-transaction/remove-liquidity/token-amount`,
+      {
+        address,
+        poolUuid,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // AxiosError type allows access to error response data
+      if (error.response) {
+        console.log(error.response.data.message); // Access error response data
+        customToast({ toastType: "error", title: error.response.data.message });
+      } else {
+        console.log("Error occurred, but no response was received");
+      }
+    } else {
+      console.log("Non-Axios error occurred:", error);
+    }
+    throw error;
+  }
+};
+
 const generateSwapPsbt = async (
   address: string,
   pubkey: string,
@@ -184,7 +210,6 @@ const pushTx = async (psbt: string, uuid: string) => {
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
   }
 };
 
@@ -196,4 +221,5 @@ export default {
   getBalance,
   pushTx,
   getLiquidities,
+  getLiquidityTokenAmount,
 };

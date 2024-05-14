@@ -28,6 +28,7 @@ export type TokenType = {
 export type LiquidityType = {
   tokenA: TokenType;
   tokenB: TokenType;
+  poolUuid: string;
 };
 
 export type BalanceType = {

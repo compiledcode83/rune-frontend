@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { Button, Collapse } from "@material-tailwind/react";
 import { useStatusContext } from "@/context/StatusContext";
+import poolApiService from "@/api.services/pool/pool.api.service";
+import { useUserContext } from "@/context/UserContext";
 
 type LiquidityPairPanelProps = {
   img1: string;
   img2: string;
   tokena: string;
   tokenb: string;
-  amount1: number;
-  amount2: number;
-  totalamount: number;
-  sharedpercent: number;
+  uuid: string;
+  // amount1: number;
+  // amount2: number;
+  // totalamount: number;
+  // sharedpercent: number;
 };
 
 const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
@@ -20,13 +23,32 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   img2,
   tokena,
   tokenb,
-  amount1,
-  amount2,
-  totalamount,
-  sharedpercent,
+  uuid,
+  // amount1,
+  // amount2,
+  // totalamount,
+  // sharedpercent,
 }) => {
   const { setRemoveLiquidityModalOpen } = useStatusContext();
+  const { ordinalAddress } = useUserContext();
   const [open, setOpen] = useState(false);
+  const [amount1, setAmount1] = useState(0);
+  const [amount2, setAmount2] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [sharedpercent, setSharedpercent] = useState(0);
+
+  useEffect(() => {
+    if (ordinalAddress !== "" && uuid !== "") {
+      (async () => {
+        const resLiquidityAmountInfo =
+          await poolApiService.getLiquidityTokenAmount(ordinalAddress, uuid);
+        const { tokenAAmount, tokenBAmount, share } = resLiquidityAmountInfo;
+        setAmount1(tokenAAmount);
+        setAmount2(tokenBAmount);
+        setSharedpercent(share);
+      })();
+    }
+  }, [uuid]);
   return (
     <div className="mb-4 rounded-lg bg-light-panel p-4 text-[14px] lg:p-8 lg:text-[24px] dark:bg-dark-panel">
       <div
@@ -56,7 +78,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
           <div className="flex flex-col gap-2 lg:gap-4">
             <div className="flex justify-between">
               <div>Your total pool tokens</div>
-              <div>{totalamount}</div>
+              <div>{totalAmount}</div>
             </div>
             <div className="flex justify-between">
               <div>Pooled {tokena}</div>

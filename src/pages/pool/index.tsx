@@ -127,18 +127,15 @@ export default function Pool() {
                 </Button>
               </div>
               <div className="mt-4 lg:mt-8">
-                {liquidities.length > 0 ? (
+                {liquidities.length > 0 && ordinalAddress !== "" ? (
                   liquidities.map((item, index) => (
                     <LiquidityPairPanel
-                      key={index}
+                      key={item.poolUuid}
                       img1={item.tokenA.imgUrl}
                       img2={item.tokenB.imgUrl}
-                      amount1={0}
-                      amount2={0}
-                      sharedpercent={0}
                       tokena={item.tokenA.spaced}
                       tokenb={item.tokenB.spaced}
-                      totalamount={0}
+                      uuid={item.poolUuid}
                     />
                   ))
                 ) : (
