@@ -5,7 +5,7 @@ import NullImg from "@/assets/imgs/null.svg";
 import ArrowTopRightYellowImg from "@/assets/imgs/arrow-top-right-yellow.svg";
 import Image from "next/image";
 import { Button } from "@material-tailwind/react";
-import LiquidityPairPanel from "@/components/Panels/LiquidityPairPanel";
+import LiquidityPairPanel from "@/components/Pool/PoolPanels/LiquidityPairPanel";
 import { useStatusContext } from "@/context/StatusContext";
 import { useLiquidites } from "@/state/application/hooks/usePoolHooks";
 import { useEffect } from "react";
@@ -131,10 +131,8 @@ export default function Pool() {
                   liquidities.map((item, index) => (
                     <LiquidityPairPanel
                       key={item.poolUuid}
-                      img1={item.tokenA.imgUrl}
-                      img2={item.tokenB.imgUrl}
-                      tokena={item.tokenA.spaced}
-                      tokenb={item.tokenB.spaced}
+                      tokenA={item.tokenA}
+                      tokenB={item.tokenB}
                       uuid={item.poolUuid}
                     />
                   ))

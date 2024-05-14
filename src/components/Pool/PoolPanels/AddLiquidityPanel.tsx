@@ -146,11 +146,6 @@ const AddLiquidityPanel = () => {
   }, [addLiquidityTokenA, addLiquidityTokenB]);
 
   useEffect(() => {
-    console.log(
-      { addLiquidityTokenAAmount },
-      { addLiquidityPoolUuid },
-      "changed"
-    );
     if (addLiquidityPoolUuid !== "") {
       (async () => {
         const resTokensAmount = await poolApiService.getAddLiquidityTokenAmount(
@@ -210,7 +205,7 @@ const AddLiquidityPanel = () => {
         </Button>
       );
     } else if (
-      addLiquidityTokenAAmount === 0 &&
+      addLiquidityTokenAAmount === 0 ||
       addLiquidityTokenBAmount === 0
     ) {
       return (

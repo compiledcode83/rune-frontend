@@ -288,7 +288,7 @@ const generateAddLiquidityPsbt = async (
 ) => {
   try {
     const response = await axiosInstance.post(
-      `/pool-transaction/swap/generate-psbt`,
+      `/pool-transaction/add-liquidity/generate-psbt`,
       {
         address,
         pubkey,

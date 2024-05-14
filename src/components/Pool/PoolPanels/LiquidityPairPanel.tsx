@@ -5,12 +5,17 @@ import { Button, Collapse } from "@material-tailwind/react";
 import { useStatusContext } from "@/context/StatusContext";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
+import {
+  useAddLiquidityTokenA,
+  useAddLiquidityTokenAAmount,
+  useAddLiquidityTokenB,
+  useAddLiquidityTokenBAmount,
+} from "@/state/application/hooks/usePoolHooks";
+import { TokenType } from "@/types/type";
 
 type LiquidityPairPanelProps = {
-  img1: string;
-  img2: string;
-  tokena: string;
-  tokenb: string;
+  tokenA: TokenType;
+  tokenB: TokenType;
   uuid: string;
   // amount1: number;
   // amount2: number;
@@ -19,24 +24,34 @@ type LiquidityPairPanelProps = {
 };
 
 const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
-  img1,
-  img2,
-  tokena,
-  tokenb,
+  tokenA,
+  tokenB,
   uuid,
   // amount1,
   // amount2,
   // totalamount,
   // sharedpercent,
 }) => {
-  const { setRemoveLiquidityModalOpen } = useStatusContext();
+  const { setRemoveLiquidityModalOpen, setAddLiquidityModalOpen } =
+    useStatusContext();
   const { ordinalAddress } = useUserContext();
+  const { setAddLiquidityTokenA } = useAddLiquidityTokenA();
+  const { setAddLiquidityTokenAAmount } = useAddLiquidityTokenAAmount();
+  const { setAddLiquidityTokenB } = useAddLiquidityTokenB();
+  const { setAddLiquidityTokenBAmount } = useAddLiquidityTokenBAmount();
   const [open, setOpen] = useState(false);
   const [amount1, setAmount1] = useState(0);
   const [amount2, setAmount2] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [sharedpercent, setSharedpercent] = useState(0);
 
+  const handleAddLiquidity = () => {
+    setAddLiquidityModalOpen(true);
+    setAddLiquidityTokenA(tokenA);
+    setAddLiquidityTokenAAmount(0);
+    setAddLiquidityTokenB(tokenB);
+    setAddLiquidityTokenBAmount(0);
+  };
   useEffect(() => {
     if (ordinalAddress !== "" && uuid !== "") {
       (async () => {
@@ -58,16 +73,16 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
         onClick={() => setOpen(!open)}
       >
         <div className="flex items-center gap-2">
-          <Image src={img1} alt="tokenimg1" width={50} height={50} />
+          <Image src={tokenA.imgUrl} alt="tokenimg1" width={50} height={50} />
           <Image
-            src={img2}
+            src={tokenB.imgUrl}
             alt="tokenimg2"
             width={50}
             height={50}
             className="mr-8"
           />
           <div>
-            {tokena} / {tokenb}
+            {tokenA.spaced}/{tokenB.spaced}
           </div>
         </div>
         <ChevronDownIcon
@@ -83,15 +98,15 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
               <div>{totalAmount}</div>
             </div>
             <div className="flex justify-between">
-              <div>Pooled {tokena}</div>
+              <div>Pooled {tokenA.spaced}</div>
               <div>
-                {amount1} {tokena}
+                {amount1} {tokenA.spaced}
               </div>
             </div>
             <div className="flex justify-between">
-              <div>Pooled {tokenb}</div>
+              <div>Pooled {tokenB.spaced}</div>
               <div>
-                {amount2} {tokenb}
+                {amount2} {tokenB.spaced}
               </div>
             </div>
             <div className="flex justify-between">
@@ -113,6 +128,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
             <Button
               className="bg-white text-[16px] normal-case text-dark-primary lg:text-[24px] dark:bg-dark-item"
               placeholder={undefined}
+              onClick={handleAddLiquidity}
             >
               Add
             </Button>

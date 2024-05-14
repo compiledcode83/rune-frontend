@@ -29,6 +29,7 @@ import {
 } from "@/state/application/hooks/usePoolHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
+import { customToast } from "@/components/toast";
 
 const AddLiquidityConfirmPanel = () => {
   const { setAddLiquidityConfirmModalOpen, setAddLiquidityModalOpen } =
@@ -86,7 +87,15 @@ const AddLiquidityConfirmPanel = () => {
         const { psbt, txId } = res;
         const signedPsbt = await window.unisat.signPsbt(psbt);
         const txRes = await poolApiService.pushTx(signedPsbt, txId);
-      } catch (error) {}
+        customToast({
+          toastType: "success",
+          title: "Success",
+          description: "Add Liquidity Success",
+          link: `https://mempool.space/testnet/tx/${txRes.txId}`,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     })();
 
     setAddLiquidityConfirmModalOpen(false);
