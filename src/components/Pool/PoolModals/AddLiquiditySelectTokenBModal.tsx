@@ -1,15 +1,14 @@
 import React from "react";
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import { useStatusContext } from "@/context/StatusContext";
-import AddLiquiditySelectToken2Panel from "../PoolPanels/AddLiquiditySelectToken2Panel";
+import AddLiquiditySelectTokenBPanel from "../PoolPanels/AddLiquiditySelectTokenBPanel";
 
-const AddLiquiditySelectToken2Modal = () => {
-  const { addLiquiditySelectToken2ModalOpen } = useStatusContext();
-  console.log({ addLiquiditySelectToken2ModalOpen });
+const AddLiquiditySelectTokenBModal = () => {
+  const { addLiquiditySelectTokenBModalOpen } = useStatusContext();
   return (
     <Dialog
       placeholder={undefined}
-      open={addLiquiditySelectToken2ModalOpen}
+      open={addLiquiditySelectTokenBModalOpen}
       className="bg-transparent shadow-none outline-none"
       animate={{
         mount: { scale: 1, y: 0 },
@@ -22,11 +21,11 @@ const AddLiquiditySelectToken2Modal = () => {
         className="z-50 mx-auto w-[350px] overflow-auto rounded-[20px] bg-light-panel p-[20px] text-black backdrop-blur-sm lg:w-[520px] dark:bg-dark-panel dark:text-white"
       >
         <div>
-          <AddLiquiditySelectToken2Panel />
+          <AddLiquiditySelectTokenBPanel />
         </div>
       </DialogBody>
     </Dialog>
   );
 };
 
-export default AddLiquiditySelectToken2Modal;
+export default AddLiquiditySelectTokenBModal;

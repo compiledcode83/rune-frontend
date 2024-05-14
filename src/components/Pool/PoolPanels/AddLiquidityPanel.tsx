@@ -22,10 +22,10 @@ import {
   useTokenBalances,
 } from "@/state/application/hooks/useSwapHooks";
 import {
-  useAddLiquidityToken1,
-  useAddLiquidityToken1Amount,
-  useAddLiquidityToken2,
-  useAddLiquidityToken2Amount,
+  useAddLiquidityTokenA,
+  useAddLiquidityTokenAAmount,
+  useAddLiquidityTokenB,
+  useAddLiquidityTokenBAmount,
 } from "@/state/application/hooks/usePoolHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
@@ -34,8 +34,8 @@ const AddLiquidityPanel = () => {
   const {
     setAddLiquidityModalOpen,
     setAddLiquidityConfirmModalOpen,
-    setAddLiquiditySelectToken1ModalOpen,
-    setAddLiquiditySelectToken2ModalOpen,
+    setAddLiquiditySelectTokenAModalOpen,
+    setAddLiquiditySelectTokenBModalOpen,
     setConnectWalletModalOpen,
   } = useStatusContext();
 
@@ -43,26 +43,26 @@ const AddLiquidityPanel = () => {
 
   const { poolTokens, setPoolTokens } = usePoolTokens();
   const { swapableTokens, setSwapableTokens } = useSwapableTokens();
-  const { addLiquidityToken1, setAddLiquidityToken1 } = useAddLiquidityToken1();
-  const { addLiquidityToken2, setAddLiquidityToken2 } = useAddLiquidityToken2();
+  const { addLiquidityTokenA, setAddLiquidityTokenA } = useAddLiquidityTokenA();
+  const { addLiquidityTokenB, setAddLiquidityTokenB } = useAddLiquidityTokenB();
 
-  const { addLiquidityToken1Amount, setAddLiquidityToken1Amount } =
-    useAddLiquidityToken1Amount();
-  const { addLiquidityToken2Amount, setAddLiquidityToken2Amount } =
-    useAddLiquidityToken2Amount();
+  const { addLiquidityTokenAAmount, setAddLiquidityTokenAAmount } =
+    useAddLiquidityTokenAAmount();
+  const { addLiquidityTokenBAmount, setAddLiquidityTokenBAmount } =
+    useAddLiquidityTokenBAmount();
   const { tokenBalances, setTokenBalances } = useTokenBalances();
 
-  const [addLiquidityToken1Balance, setAddLiquidityToken1Balance] = useState(0);
-  const [addLiquidityToken2Balance, setAddLiquidityToken2Balance] = useState(0);
+  const [addLiquidityTokenABalance, setAddLiquidityTokenABalance] = useState(0);
+  const [addLiquidityTokenBBalance, setAddLiquidityTokenBBalance] = useState(0);
 
   useEffect(() => {
     (async () => {
-      if (addLiquidityToken1.uuid === "") {
+      if (addLiquidityTokenA.uuid === "") {
         try {
           const resPoolTokens = await poolApiService.getPoolTokens();
           if (resPoolTokens.length < 2)
             throw new Error("there must be more than 1 token");
-          setAddLiquidityToken1(resPoolTokens[0]);
+          setAddLiquidityTokenA(resPoolTokens[0]);
           setPoolTokens(resPoolTokens);
         } catch (error) {
           console.error((error as Error).message);
@@ -74,7 +74,6 @@ const AddLiquidityPanel = () => {
   useEffect(() => {
     (async () => {
       if (ordinalAddress !== "") {
-        console.log({ ordinalAddress }, { poolTokens });
         try {
           const resTokenBalances: BalanceType[] =
             await poolApiService.getBalance(ordinalAddress);
@@ -89,50 +88,50 @@ const AddLiquidityPanel = () => {
   }, [ordinalAddress, poolTokens]);
 
   useEffect(() => {
-    if (addLiquidityToken1.runeId === "") {
-      setAddLiquidityToken1Amount(0);
-      setAddLiquidityToken1Balance(0);
+    if (addLiquidityTokenA.runeId === "") {
+      setAddLiquidityTokenAAmount(0);
+      setAddLiquidityTokenABalance(0);
     } else {
       const newBalance = tokenBalances.find(
-        (tokenBalance) => tokenBalance.runeId === addLiquidityToken1.runeId
+        (tokenBalance) => tokenBalance.runeId === addLiquidityTokenA.runeId
       );
       if (newBalance) {
-        setAddLiquidityToken1Balance(newBalance.amount);
+        setAddLiquidityTokenABalance(newBalance.amount);
       } else {
-        setAddLiquidityToken1Balance(0);
+        setAddLiquidityTokenABalance(0);
       }
     }
-  }, [addLiquidityToken1, ordinalAddress, poolTokens, tokenBalances]);
+  }, [addLiquidityTokenA, ordinalAddress, poolTokens, tokenBalances]);
 
   useEffect(() => {
-    if (addLiquidityToken2.runeId === "") {
-      setAddLiquidityToken2Amount(0);
-      setAddLiquidityToken2Balance(0);
+    if (addLiquidityTokenB.runeId === "") {
+      setAddLiquidityTokenBAmount(0);
+      setAddLiquidityTokenBBalance(0);
     } else {
       const newBalance = tokenBalances.find(
-        (tokenBalance) => tokenBalance.runeId === addLiquidityToken1.runeId
+        (tokenBalance) => tokenBalance.runeId === addLiquidityTokenA.runeId
       );
       if (newBalance) {
-        setAddLiquidityToken2Balance(newBalance.amount);
+        setAddLiquidityTokenBBalance(newBalance.amount);
       } else {
-        setAddLiquidityToken2Balance(0);
+        setAddLiquidityTokenBBalance(0);
       }
     }
-  }, [addLiquidityToken1, ordinalAddress, poolTokens, tokenBalances]);
+  }, [addLiquidityTokenA, ordinalAddress, poolTokens, tokenBalances]);
 
   useEffect(() => {
     const newBalance = tokenBalances.find(
-      (tokenBalance) => tokenBalance.runeId === addLiquidityToken2.runeId
+      (tokenBalance) => tokenBalance.runeId === addLiquidityTokenB.runeId
     );
     if (newBalance) {
-      setAddLiquidityToken2Balance(newBalance.amount);
+      setAddLiquidityTokenBBalance(newBalance.amount);
     } else {
-      setAddLiquidityToken2Balance(0);
+      setAddLiquidityTokenBBalance(0);
     }
-  }, [addLiquidityToken2, ordinalAddress, poolTokens, tokenBalances]);
+  }, [addLiquidityTokenB, ordinalAddress, poolTokens, tokenBalances]);
 
-  // const handleAddLiquidityToken1Amount = (amount: number) => {
-  //   setAddLiquidityToken1Amount(amount);
+  // const handleAddLiquidityTokenAAmount = (amount: number) => {
+  //   setAddLiquidityTokenAAmount(amount);
   // };
 
   const handleAddLiquidityConfirmModalOpen = () => {
@@ -151,8 +150,8 @@ const AddLiquidityPanel = () => {
         </Button>
       );
     } else if (
-      addLiquidityToken1.runeId === "" ||
-      addLiquidityToken2.runeId === ""
+      addLiquidityTokenA.runeId === "" ||
+      addLiquidityTokenB.runeId === ""
     ) {
       return (
         <Button
@@ -165,8 +164,8 @@ const AddLiquidityPanel = () => {
         </Button>
       );
     } else if (
-      addLiquidityToken1Amount === 0 ||
-      addLiquidityToken2Amount === 0
+      addLiquidityTokenAAmount === 0 ||
+      addLiquidityTokenBAmount === 0
     ) {
       return (
         <Button
@@ -179,8 +178,8 @@ const AddLiquidityPanel = () => {
         </Button>
       );
     } else if (
-      addLiquidityToken1Amount > addLiquidityToken1Balance ||
-      addLiquidityToken2Amount > addLiquidityToken2Balance
+      addLiquidityTokenAAmount > addLiquidityTokenABalance ||
+      addLiquidityTokenBAmount > addLiquidityTokenBBalance
     ) {
       return (
         <Button
@@ -231,41 +230,42 @@ const AddLiquidityPanel = () => {
                 <div>
                   <input
                     className="w-[150px] bg-transparent outline-none focus:overflow-hidden"
-                    value={addLiquidityToken1Amount}
+                    value={addLiquidityTokenAAmount}
                     onChange={(e) =>
-                      setAddLiquidityToken1Amount(Number(e.target.value))
+                      setAddLiquidityTokenAAmount(Number(e.target.value))
                     }
+                    disabled={addLiquidityTokenA.runeId === ""}
                     type="number"
                   />
                 </div>
                 <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
                   Balance:
-                  {addLiquidityToken1.runeId === "" || ordinalAddress === ""
+                  {addLiquidityTokenA.runeId === "" || ordinalAddress === ""
                     ? " -"
-                    : addLiquidityToken1Balance}
+                    : addLiquidityTokenABalance}
                 </div>
               </div>
-              {addLiquidityToken1.runeId === "" ? (
+              {addLiquidityTokenA.runeId === "" ? (
                 <Button
                   placeholder={undefined}
                   className="bg-gradient font-bold"
-                  onClick={() => setAddLiquiditySelectToken1ModalOpen(true)}
+                  onClick={() => setAddLiquiditySelectTokenAModalOpen(true)}
                 >
                   Select Token
                 </Button>
               ) : (
                 <div
                   className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-light-item px-4 py-2 lg:gap-4 dark:bg-dark-item"
-                  onClick={() => setAddLiquiditySelectToken1ModalOpen(true)}
+                  onClick={() => setAddLiquiditySelectTokenAModalOpen(true)}
                 >
                   <Image
-                    src={addLiquidityToken1.imgUrl}
-                    alt={addLiquidityToken1.name}
+                    src={addLiquidityTokenA.imgUrl}
+                    alt={addLiquidityTokenA.name}
                     width={24}
                     height={24}
                   />
                   <div className="text-[12px] lg:text-[14px]">
-                    {addLiquidityToken1.name}
+                    {addLiquidityTokenA.name}
                   </div>
                   <Image src={ArrowDown} alt="arrow" />
                 </div>
@@ -284,27 +284,27 @@ const AddLiquidityPanel = () => {
                 <div>
                   <input
                     className="w-[150px] bg-transparent outline-none focus:overflow-hidden"
-                    value={addLiquidityToken2Amount}
+                    value={addLiquidityTokenBAmount}
                     onChange={(e) =>
-                      setAddLiquidityToken2Amount(Number(e.target.value))
+                      setAddLiquidityTokenBAmount(Number(e.target.value))
                     }
                     type="number"
+                    disabled={addLiquidityTokenB.runeId === ""}
                   />
                 </div>
                 <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
                   Balance:
-                  {addLiquidityToken2.runeId === "" || ordinalAddress === ""
+                  {addLiquidityTokenB.runeId === "" || ordinalAddress === ""
                     ? " -"
-                    : addLiquidityToken2Balance}
+                    : addLiquidityTokenBBalance}
                 </div>
               </div>
-              {addLiquidityToken2.runeId === "" ? (
+              {addLiquidityTokenB.runeId === "" ? (
                 <Button
                   placeholder={undefined}
                   className="bg-gradient font-bold"
                   onClick={() => {
-                    setAddLiquiditySelectToken2ModalOpen(true);
-                    console.log("setAddLiquiditySelectToken2ModalOpen");
+                    setAddLiquiditySelectTokenBModalOpen(true);
                   }}
                 >
                   Select Token
@@ -312,16 +312,16 @@ const AddLiquidityPanel = () => {
               ) : (
                 <div
                   className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-light-item px-4 py-2 lg:gap-4 dark:bg-dark-item"
-                  onClick={() => setAddLiquiditySelectToken2ModalOpen(true)}
+                  onClick={() => setAddLiquiditySelectTokenBModalOpen(true)}
                 >
                   <Image
-                    src={addLiquidityToken2.imgUrl}
-                    alt={addLiquidityToken2.name}
+                    src={addLiquidityTokenB.imgUrl}
+                    alt={addLiquidityTokenB.name}
                     width={24}
                     height={24}
                   />
                   <div className="text-[12px] lg:text-[14px]">
-                    {addLiquidityToken2.name}
+                    {addLiquidityTokenB.name}
                   </div>
                   <Image src={ArrowDown} alt="arrow" />
                 </div>

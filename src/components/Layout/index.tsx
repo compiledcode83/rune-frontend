@@ -12,7 +12,6 @@ type MainLayoutProps = {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { darkMode } = useThemeContext();
-  console.log({ darkMode });
   return (
     <div
       className={`${darkMode ? "bg-dark-bg text-white" : "bg-light-bg text-black"}  min-h-screen overflow-auto`}

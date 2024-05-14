@@ -1,16 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TokenType, BalanceType } from "@/types/type";
+import { TokenType, LiquidityType } from "@/types/type";
 
 export type PoolState = {
-  addLiquidityToken1: TokenType;
-  addLiquidityToken2: TokenType;
+  addLiquidityTokenA: TokenType;
+  addLiquidityTokenB: TokenType;
   // poolTokens: TokenType[];
   // poolableTokens: TokenType[];
   // tokenBalances: BalanceType[];
-  addLiquidityToken1Amount: number;
-  addLiquidityToken2Amount: number;
-  // minaddLiquidityToken1Amount: number;
-  // maxaddLiquidityToken1Amount: number;
+  addLiquidityTokenAAmount: number;
+  addLiquidityTokenBAmount: number;
+  liquidities: LiquidityType[];
+  // minaddLiquidityTokenAAmount: number;
+  // maxaddLiquidityTokenAAmount: number;
 };
 
 const initialToken: TokenType = {
@@ -24,61 +25,56 @@ const initialToken: TokenType = {
 };
 
 const initialState: PoolState = {
-  addLiquidityToken1: initialToken,
-  addLiquidityToken2: initialToken,
-  // poolTokens: [],
-  // poolableTokens: [],
-  // tokenBalances: [],
-  addLiquidityToken1Amount: 0,
-  addLiquidityToken2Amount: 0,
-  // minaddLiquidityToken1Amount: 0,
-  // maxaddLiquidityToken1Amount: 0,
+  addLiquidityTokenA: initialToken,
+  addLiquidityTokenB: initialToken,
+  addLiquidityTokenAAmount: 0,
+  addLiquidityTokenBAmount: 0,
+  liquidities: [],
+  // minaddLiquidityTokenAAmount: 0,
+  // maxaddLiquidityTokenAAmount: 0,
 };
 
 export const poolSlice = createSlice({
   name: "pool",
   initialState,
   reducers: {
-    setAddLiquidityToken1: (state, action: PayloadAction<TokenType>) => {
-      state.addLiquidityToken1 = action.payload;
+    setAddLiquidityTokenA: (state, action: PayloadAction<TokenType>) => {
+      state.addLiquidityTokenA = action.payload;
     },
-    setAddLiquidityToken2: (state, action: PayloadAction<TokenType>) => {
-      state.addLiquidityToken2 = action.payload;
+    setAddLiquidityTokenB: (state, action: PayloadAction<TokenType>) => {
+      state.addLiquidityTokenB = action.payload;
     },
-    // setPoolTokens: (state, action: PayloadAction<TokenType[]>) => {
-    //   state.poolTokens = action.payload;
-    // },
-    // setPoolableTokens: (state, action: PayloadAction<TokenType[]>) => {
-    //   state.poolableTokens = action.payload;
-    // },
-    setAddLiquidityToken1Amount: (state, action: PayloadAction<number>) => {
-      state.addLiquidityToken1Amount = action.payload;
+
+    setAddLiquidityTokenAAmount: (state, action: PayloadAction<number>) => {
+      state.addLiquidityTokenAAmount = action.payload;
     },
-    setAddLiquidityToken2Amount: (state, action: PayloadAction<number>) => {
-      state.addLiquidityToken2Amount = action.payload;
+    setAddLiquidityTokenBAmount: (state, action: PayloadAction<number>) => {
+      state.addLiquidityTokenBAmount = action.payload;
+    },
+    setLiquidities: (state, action: PayloadAction<LiquidityType[]>) => {
+      state.liquidities = action.payload;
     },
     // setTokenBalances: (state, action: PayloadAction<BalanceType[]>) => {
     //   state.tokenBalances = action.payload;
     // },
-    // setMinaddLiquidityToken1Amount: (state, action: PayloadAction<number>) => {
-    //   state.minaddLiquidityToken1Amount = action.payload;
+    // setMinaddLiquidityTokenAAmount: (state, action: PayloadAction<number>) => {
+    //   state.minaddLiquidityTokenAAmount = action.payload;
     // },
-    // setMaxaddLiquidityToken1Amount: (state, action: PayloadAction<number>) => {
-    //   state.maxaddLiquidityToken1Amount = action.payload;
+    // setMaxaddLiquidityTokenAAmount: (state, action: PayloadAction<number>) => {
+    //   state.maxaddLiquidityTokenAAmount = action.payload;
     // },
   },
 });
 
 export const {
-  setAddLiquidityToken1,
-  setAddLiquidityToken2,
-  // setPoolTokens,
-  // setPoolableTokens,
-  setAddLiquidityToken1Amount,
-  setAddLiquidityToken2Amount,
+  setAddLiquidityTokenA,
+  setAddLiquidityTokenB,
+  setAddLiquidityTokenAAmount,
+  setAddLiquidityTokenBAmount,
+  setLiquidities,
   // setTokenBalances,
-  // setMinaddLiquidityToken1Amount,
-  // setMaxaddLiquidityToken1Amount,
+  // setMinaddLiquidityTokenAAmount,
+  // setMaxaddLiquidityTokenAAmount,
 } = poolSlice.actions;
 
 export default poolSlice.reducer;

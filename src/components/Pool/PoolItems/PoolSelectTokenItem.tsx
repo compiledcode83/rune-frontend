@@ -4,8 +4,8 @@ import { TokenType } from "@/types/type";
 import { useTokenBalances } from "@/state/application/hooks/useSwapHooks";
 import { useStatusContext } from "@/context/StatusContext";
 import {
-  useAddLiquidityToken1,
-  useAddLiquidityToken2,
+  useAddLiquidityTokenA,
+  useAddLiquidityTokenB,
 } from "@/state/application/hooks/usePoolHooks";
 
 type PoolSelectTokenItemProps = {
@@ -28,23 +28,27 @@ const PoolSelectTokenItem: React.FC<PoolSelectTokenItemProps> = ({
   no,
 }) => {
   const { imgUrl, name, runeId, symbol, spaced, divisibility } = token;
-  const { addLiquidityToken1, setAddLiquidityToken1 } = useAddLiquidityToken1();
+  const { addLiquidityTokenA, setAddLiquidityTokenA } = useAddLiquidityTokenA();
   const { tokenBalances } = useTokenBalances();
-  const { setAddLiquidityToken2 } = useAddLiquidityToken2();
+  const { addLiquidityTokenB, setAddLiquidityTokenB } = useAddLiquidityTokenB();
   const [balance, setBalance] = useState(0);
   const {
-    setAddLiquiditySelectToken1ModalOpen,
-    setAddLiquiditySelectToken2ModalOpen,
+    setAddLiquiditySelectTokenAModalOpen,
+    setAddLiquiditySelectTokenBModalOpen,
   } = useStatusContext();
 
-  const handleSetAddLiquidityToken1 = () => {
+  const handleSetAddLiquidityTokenA = () => {
     if (no === 1) {
-      setAddLiquidityToken1(token);
-      setAddLiquidityToken2(initialToken);
-      setAddLiquiditySelectToken1ModalOpen(false);
+      if (token.runeId !== addLiquidityTokenA.runeId) {
+        setAddLiquidityTokenA(token);
+        setAddLiquidityTokenB(initialToken);
+      }
+      setAddLiquiditySelectTokenAModalOpen(false);
     } else if (no === 2) {
-      setAddLiquidityToken2(token);
-      setAddLiquiditySelectToken2ModalOpen(false);
+      if (token.runeId !== addLiquidityTokenB.runeId) {
+        setAddLiquidityTokenB(token);
+      }
+      setAddLiquiditySelectTokenBModalOpen(false);
     }
   };
 
@@ -62,7 +66,7 @@ const PoolSelectTokenItem: React.FC<PoolSelectTokenItemProps> = ({
   return (
     <div
       className="flex cursor-pointer items-start rounded-lg border border-transparent bg-light-panel p-3 text-[14px] hover:border-primary hover:bg-light-item hover:transition-all lg:text-[18px] dark:bg-dark-panel dark:hover:bg-dark-item"
-      onClick={() => handleSetAddLiquidityToken1()}
+      onClick={() => handleSetAddLiquidityTokenA()}
     >
       <Image width={50} height={50} src={imgUrl} alt="bnb" />
       <div className="ml-4 flex flex-col justify-between">

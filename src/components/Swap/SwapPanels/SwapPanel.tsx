@@ -69,7 +69,6 @@ const SwapPanel = () => {
       sendAmount,
       receiveToken.uuid
     );
-    console.log(res);
     setReceiveTokenAmount(Number(res.receivingTokenAmount));
     setMinSendTokenAmount(Number(res.minTradingAmount));
     setMaxSendTokenAmount(Number(res.maxTradingAmount));
@@ -99,7 +98,6 @@ const SwapPanel = () => {
             throw new Error("there must be more than 1 token");
           setSendToken(resPoolTokens[0]);
           setPoolTokens(resPoolTokens);
-          console.log({ resPoolTokens });
         }
       } catch (error) {
         console.error((error as Error).message);
@@ -110,7 +108,6 @@ const SwapPanel = () => {
   useEffect(() => {
     (async () => {
       if (ordinalAddress !== "") {
-        console.log({ ordinalAddress }, { poolTokens });
         try {
           const resTokenBalances: BalanceType[] =
             await poolApiService.getBalance(ordinalAddress);

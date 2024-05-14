@@ -159,7 +159,6 @@ const ConnectWalletModal = () => {
   };
 
   const handleClose = () => {
-    console.log("handleClose wallet modal");
     setConnectWalletModalOpen(false);
   };
 
@@ -214,8 +213,6 @@ const ConnectWalletModal = () => {
               },
             },
             onFinish: (response: GetAddressResponse) => {
-              console.log("response", response);
-
               const address = (response as any).addresses[0].address as string;
               const paymentAddress = (response as any).addresses[1]
                 .address as string;

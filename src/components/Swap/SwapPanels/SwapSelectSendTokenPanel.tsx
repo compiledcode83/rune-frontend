@@ -41,7 +41,6 @@ const SwapSelectSendTokenPanel = () => {
   useEffect(() => {
     (async () => {
       if (ordinalAddress !== "") {
-        console.log({ ordinalAddress }, { poolTokens });
         try {
           const resTokenBalances: BalanceType[] =
             await poolApiService.getBalance(ordinalAddress);

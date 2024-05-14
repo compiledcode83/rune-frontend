@@ -1,130 +1,116 @@
 import { useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import {
-  setAddLiquidityToken1,
-  setAddLiquidityToken2,
-  // setPoolTokens,
-  // setPoolableTokens,
-  setAddLiquidityToken1Amount,
-  setAddLiquidityToken2Amount,
+  setAddLiquidityTokenA,
+  setAddLiquidityTokenB,
+  setAddLiquidityTokenAAmount,
+  setAddLiquidityTokenBAmount,
+  setLiquidities,
   // setTokenBalances,
-  // setMinaddLiquidityToken1Amount,
-  // setMaxaddLiquidityToken1Amount,
+  // setMinaddLiquidityTokenAAmount,
+  // setMaxaddLiquidityTokenAAmount,
   PoolState,
 } from "../slices/poolSlice";
 import { RootState } from "../types";
+import { LiquidityType } from "@/types/type";
 
-// UseaddLiquidityToken1 Hook
-export const useAddLiquidityToken1 = () => {
+// UseaddLiquidityTokenA Hook
+export const useAddLiquidityTokenA = () => {
   const dispatch = useAppDispatch();
-  const addLiquidityToken1 = useAppSelector(
-    (state: RootState) => state.pool.addLiquidityToken1
+  const addLiquidityTokenA = useAppSelector(
+    (state: RootState) => state.pool.addLiquidityTokenA
   );
 
-  const setAddLiquidityToken1Callback = useCallback(
-    (item: PoolState["addLiquidityToken1"]) => {
-      dispatch(setAddLiquidityToken1(item));
+  const setAddLiquidityTokenACallback = useCallback(
+    (item: PoolState["addLiquidityTokenA"]) => {
+      dispatch(setAddLiquidityTokenA(item));
     },
     [dispatch]
   );
 
   return {
-    addLiquidityToken1,
-    setAddLiquidityToken1: setAddLiquidityToken1Callback,
+    addLiquidityTokenA,
+    setAddLiquidityTokenA: setAddLiquidityTokenACallback,
   };
 };
 
-// UseaddLiquidityToken2 Hook
-export const useAddLiquidityToken2 = () => {
+// UseaddLiquidityTokenB Hook
+export const useAddLiquidityTokenB = () => {
   const dispatch = useAppDispatch();
-  const addLiquidityToken2 = useAppSelector(
-    (state: RootState) => state.pool.addLiquidityToken2
+  const addLiquidityTokenB = useAppSelector(
+    (state: RootState) => state.pool.addLiquidityTokenB
   );
 
-  const setAddLiquidityToken2Callback = useCallback(
-    (item: PoolState["addLiquidityToken2"]) => {
-      dispatch(setAddLiquidityToken2(item));
+  const setAddLiquidityTokenBCallback = useCallback(
+    (item: PoolState["addLiquidityTokenB"]) => {
+      dispatch(setAddLiquidityTokenB(item));
     },
     [dispatch]
   );
 
   return {
-    addLiquidityToken2,
-    setAddLiquidityToken2: setAddLiquidityToken2Callback,
+    addLiquidityTokenB,
+    setAddLiquidityTokenB: setAddLiquidityTokenBCallback,
   };
 };
 
-// // UsePoolTokens Hook
-// export const usePoolTokens = () => {
-//   const dispatch = useAppDispatch();
-//   const poolTokens = useAppSelector(
-//     (state: RootState) => state.pool.poolTokens
-//   );
-
-//   const setPoolTokensCallback = useCallback(
-//     (items: PoolState["poolTokens"]) => {
-//       dispatch(setPoolTokens(items));
-//     },
-//     [dispatch]
-//   );
-
-//   return { poolTokens, setPoolTokens: setPoolTokensCallback };
-// };
-
-// // UsePoolableTokens Hook
-// export const usePoolableTokens = () => {
-//   const dispatch = useAppDispatch();
-//   const poolableTokens = useAppSelector(
-//     (state: RootState) => state.pool.poolableTokens
-//   );
-
-//   const setPoolableTokensCallback = useCallback(
-//     (items: PoolState["poolableTokens"]) => {
-//       dispatch(setPoolableTokens(items));
-//     },
-//     [dispatch]
-//   );
-
-//   return { poolableTokens, setPoolableTokens: setPoolableTokensCallback };
-// };
-
-// UseaddLiquidityToken1Amount Hook
-export const useAddLiquidityToken1Amount = () => {
+// UseaddLiquidityTokenAAmount Hook
+export const useAddLiquidityTokenAAmount = () => {
   const dispatch = useAppDispatch();
-  const addLiquidityToken1Amount = useAppSelector(
-    (state: RootState) => state.pool.addLiquidityToken1Amount
+  const addLiquidityTokenAAmount = useAppSelector(
+    (state: RootState) => state.pool.addLiquidityTokenAAmount
   );
 
-  const setAddLiquidityToken1AmountCallback = useCallback(
+  const setAddLiquidityTokenAAmountCallback = useCallback(
     (item: number) => {
-      dispatch(setAddLiquidityToken1Amount(item));
+      dispatch(setAddLiquidityTokenAAmount(item));
     },
     [dispatch]
   );
 
   return {
-    addLiquidityToken1Amount,
-    setAddLiquidityToken1Amount: setAddLiquidityToken1AmountCallback,
+    addLiquidityTokenAAmount,
+    setAddLiquidityTokenAAmount: setAddLiquidityTokenAAmountCallback,
   };
 };
 
-// UseaddLiquidityToken2Amount Hook
-export const useAddLiquidityToken2Amount = () => {
+// UseaddLiquidityTokenBAmount Hook
+export const useAddLiquidityTokenBAmount = () => {
   const dispatch = useAppDispatch();
-  const addLiquidityToken2Amount = useAppSelector(
-    (state: RootState) => state.pool.addLiquidityToken2Amount
+  const addLiquidityTokenBAmount = useAppSelector(
+    (state: RootState) => state.pool.addLiquidityTokenBAmount
   );
 
-  const setAddLiquidityToken2AmountCallback = useCallback(
+  const setAddLiquidityTokenBAmountCallback = useCallback(
     (item: number) => {
-      dispatch(setAddLiquidityToken2Amount(item));
+      dispatch(setAddLiquidityTokenBAmount(item));
     },
     [dispatch]
   );
 
   return {
-    addLiquidityToken2Amount,
-    setAddLiquidityToken2Amount: setAddLiquidityToken2AmountCallback,
+    addLiquidityTokenBAmount,
+    setAddLiquidityTokenBAmount: setAddLiquidityTokenBAmountCallback,
+  };
+};
+
+// UseLiquidities Hook
+export const useLiquidites = () => {
+  const dispatch = useAppDispatch();
+  const liquidities = useAppSelector(
+    (state: RootState) => state.pool.liquidities
+  );
+
+  const setLiquiditiesCallback = useCallback(
+    (items: LiquidityType[]) => {
+      dispatch(setLiquidities(items));
+    },
+    [dispatch]
+  );
+
+  return {
+    liquidities,
+    setLiquidities: setLiquiditiesCallback,
   };
 };
 
@@ -148,42 +134,42 @@ export const useAddLiquidityToken2Amount = () => {
 //   };
 // };
 
-// // UseMinaddLiquidityToken1Amount Hook
-// export const useMinaddLiquidityToken1Amount = () => {
+// // UseMinaddLiquidityTokenAAmount Hook
+// export const useMinaddLiquidityTokenAAmount = () => {
 //   const dispatch = useAppDispatch();
-//   const minaddLiquidityToken1Amount = useAppSelector(
-//     (state: RootState) => state.pool.minaddLiquidityToken1Amount
+//   const minaddLiquidityTokenAAmount = useAppSelector(
+//     (state: RootState) => state.pool.minaddLiquidityTokenAAmount
 //   );
 
-//   const setMinaddLiquidityToken1AmountCallback = useCallback(
+//   const setMinaddLiquidityTokenAAmountCallback = useCallback(
 //     (item: number) => {
-//       dispatch(setMinaddLiquidityToken1Amount(item));
+//       dispatch(setMinaddLiquidityTokenAAmount(item));
 //     },
 //     [dispatch]
 //   );
 
 //   return {
-//     minaddLiquidityToken1Amount,
-//     setMinaddLiquidityToken1Amount: setMinaddLiquidityToken1AmountCallback,
+//     minaddLiquidityTokenAAmount,
+//     setMinaddLiquidityTokenAAmount: setMinaddLiquidityTokenAAmountCallback,
 //   };
 // };
 
-// // UseMaxaddLiquidityToken1Amount Hook
-// export const useMaxaddLiquidityToken1Amount = () => {
+// // UseMaxaddLiquidityTokenAAmount Hook
+// export const useMaxaddLiquidityTokenAAmount = () => {
 //   const dispatch = useAppDispatch();
-//   const maxaddLiquidityToken1Amount = useAppSelector(
-//     (state: RootState) => state.pool.maxaddLiquidityToken1Amount
+//   const maxaddLiquidityTokenAAmount = useAppSelector(
+//     (state: RootState) => state.pool.maxaddLiquidityTokenAAmount
 //   );
 
-//   const setMaxaddLiquidityToken1AmountCallback = useCallback(
+//   const setMaxaddLiquidityTokenAAmountCallback = useCallback(
 //     (item: number) => {
-//       dispatch(setMaxaddLiquidityToken1Amount(item));
+//       dispatch(setMaxaddLiquidityTokenAAmount(item));
 //     },
 //     [dispatch]
 //   );
 
 //   return {
-//     maxaddLiquidityToken1Amount,
-//     setMaxaddLiquidityToken1Amount: setMaxaddLiquidityToken1AmountCallback,
+//     maxaddLiquidityTokenAAmount,
+//     setMaxaddLiquidityTokenAAmount: setMaxaddLiquidityTokenAAmountCallback,
 //   };
 // };

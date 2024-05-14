@@ -5,8 +5,8 @@ import TxSubmittedModal from "./TxSubmittedModal";
 import ImportTokenModal from "./ImportTokenModal";
 import AddLiquidityModal from "../Pool/PoolModals/AddLiquidityModal";
 import AddLiquidityConfirmModal from "../Pool/PoolModals/AddLiquidityConfirmModal";
-import AddLiquiditySelectToken1Modal from "../Pool/PoolModals/AddLiquiditySelectToken1Modal";
-import AddLiquiditySelectToken2Modal from "../Pool/PoolModals/AddLiquiditySelectToken2Modal";
+import AddLiquiditySelectTokenAModal from "../Pool/PoolModals/AddLiquiditySelectTokenAModal";
+import AddLiquiditySelectTokenBModal from "../Pool/PoolModals/AddLiquiditySelectTokenBModal";
 import RemoveLiquidityConfirmModal from "./RemoveLiquidityConfirmModal";
 import RemoveLiquidityModal from "./RemoveLiquidityModal";
 import ConnectWalletModal from "./ConnectWalletModal";
@@ -20,8 +20,8 @@ const Modals = () => {
       <ImportTokenModal />
       <AddLiquidityModal />
       <AddLiquidityConfirmModal />
-      <AddLiquiditySelectToken1Modal />
-      <AddLiquiditySelectToken2Modal />
+      <AddLiquiditySelectTokenAModal />
+      <AddLiquiditySelectTokenBModal />
       <RemoveLiquidityModal />
       <RemoveLiquidityConfirmModal />
       <ConnectWalletModal />

@@ -1,49 +1,35 @@
 import { NextSeo } from "next-seo";
 import WingImg from "@/assets/imgs/wing.svg";
 import WaveImg from "@/assets/imgs/wave.svg";
-import EthImg from "@/assets/imgs/ETH.svg";
-import EosImg from "@/assets/imgs/EOS.svg";
+import NullImg from "@/assets/imgs/null.svg";
 import ArrowTopRightYellowImg from "@/assets/imgs/arrow-top-right-yellow.svg";
 import Image from "next/image";
 import { Button } from "@material-tailwind/react";
 import LiquidityPairPanel from "@/components/Panels/LiquidityPairPanel";
 import { useStatusContext } from "@/context/StatusContext";
-
-const liquidities = [
-  {
-    token1: "ETH",
-    token2: "EOS",
-    amount1: 0.000226482,
-    amount2: 0.00069525491,
-    sharedpercent: 0.14,
-    totalamount: 0.000092210891,
-    img1: EthImg,
-    img2: EosImg,
-  },
-  {
-    token1: "ETH",
-    token2: "EOS",
-    amount1: 0.000226482,
-    amount2: 0.00069525491,
-    sharedpercent: 0.14,
-    totalamount: 0.000092210891,
-    img1: EthImg,
-    img2: EosImg,
-  },
-  {
-    token1: "ETH",
-    token2: "EOS",
-    amount1: 0.000226482,
-    amount2: 0.00069525491,
-    sharedpercent: 0.14,
-    totalamount: 0.000092210891,
-    img1: EthImg,
-    img2: EosImg,
-  },
-];
+import { useLiquidites } from "@/state/application/hooks/usePoolHooks";
+import { useEffect } from "react";
+import poolApiService from "@/api.services/pool/pool.api.service";
+import { useUserContext } from "@/context/UserContext";
 
 export default function Pool() {
   const { setAddLiquidityModalOpen } = useStatusContext();
+  const { ordinalAddress } = useUserContext();
+  const { liquidities, setLiquidities } = useLiquidites();
+
+  useEffect(() => {
+    if (ordinalAddress !== "") {
+      (async () => {
+        try {
+          const resLiquidities =
+            await poolApiService.getLiquidities(ordinalAddress);
+          setLiquidities(resLiquidities);
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    }
+  }, [ordinalAddress]);
 
   return (
     <>
@@ -141,22 +127,35 @@ export default function Pool() {
                 </Button>
               </div>
               <div className="mt-4 lg:mt-8">
-                {liquidities.map((item, index) => (
-                  <LiquidityPairPanel
-                    key={index}
-                    img1={item.img1}
-                    img2={item.img2}
-                    amount1={item.amount1}
-                    amount2={item.amount2}
-                    sharedpercent={item.sharedpercent}
-                    token1={item.token1}
-                    token2={item.token2}
-                    totalamount={item.totalamount}
-                  />
-                ))}
+                {liquidities.length > 0 ? (
+                  liquidities.map((item, index) => (
+                    <LiquidityPairPanel
+                      key={index}
+                      img1={item.tokenA.imgUrl}
+                      img2={item.tokenB.imgUrl}
+                      amount1={0}
+                      amount2={0}
+                      sharedpercent={0}
+                      tokena={item.tokenA.spaced}
+                      tokenb={item.tokenB.spaced}
+                      totalamount={0}
+                    />
+                  ))
+                ) : (
+                  <div className="mb-20 mt-16 flex flex-col items-center gap-[14px]">
+                    <Image
+                      src={NullImg}
+                      alt="null"
+                      className="h-[120px] w-[120px]"
+                    />
+                    <div className="text-[24px] text-[#A9A9A9]">
+                      No liquidity found.
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="flex justify-center gap-2 text-[16px] lg:gap-4 lg:text-[24px]">
-                <div>Don’t see a pool you joined?</div>
+                <div>Don't see a pool you joined?</div>
                 <div className="text-primary">Import it</div>
               </div>
             </div>

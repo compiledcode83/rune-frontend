@@ -21,11 +21,11 @@ import poolApiService from "@/api.services/pool/pool.api.service";
 import { TokenType } from "@/types/type";
 import { containsSubstring } from "@/utils/utils";
 import SelectModalSearchBox from "@/components/SelectModalSearchBox";
-import { useAddLiquidityToken1 } from "@/state/application/hooks/usePoolHooks";
+import { useAddLiquidityTokenA } from "@/state/application/hooks/usePoolHooks";
 
-const PoolSelectAddLiquidityToken1Panel = () => {
-  const { setAddLiquiditySelectToken2ModalOpen } = useStatusContext();
-  const { addLiquidityToken1 } = useAddLiquidityToken1();
+const PoolSelectAddLiquidityTokenAPanel = () => {
+  const { setAddLiquiditySelectTokenBModalOpen } = useStatusContext();
+  const { addLiquidityTokenA } = useAddLiquidityTokenA();
   const { swapableTokens, setSwapableTokens } = useSwapableTokens();
 
   const [searchText, setSearchText] = useState("");
@@ -35,20 +35,20 @@ const PoolSelectAddLiquidityToken1Panel = () => {
   >([]);
 
   const handleSelectTokenModalClose = () => {
-    setAddLiquiditySelectToken2ModalOpen(false);
+    setAddLiquiditySelectTokenBModalOpen(false);
   };
 
   const getSwapableTokens = async () => {
     try {
       const res = await poolApiService.getSwapableTokens(
-        addLiquidityToken1.uuid
+        addLiquidityTokenA.uuid
       );
       setSwapableTokens(res);
     } catch (error) {}
   };
 
   useEffect(() => {
-    if (addLiquidityToken1.runeId !== "") getSwapableTokens();
+    if (addLiquidityTokenA.runeId !== "") getSwapableTokens();
   }, []);
 
   useEffect(() => {
@@ -115,4 +115,4 @@ const PoolSelectAddLiquidityToken1Panel = () => {
   );
 };
 
-export default PoolSelectAddLiquidityToken1Panel;
+export default PoolSelectAddLiquidityTokenAPanel;

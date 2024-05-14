@@ -35,7 +35,6 @@ const SwapConfirmPanel = () => {
     paymentAddress,
     walletType,
   } = useUserContext();
-  console.log({ walletType });
 
   const { sendToken } = useSendToken();
   const { receiveToken } = useReceiveToken();
@@ -59,14 +58,10 @@ const SwapConfirmPanel = () => {
         sendTokenAmount,
         receiveTokenAmount
       );
-      console.log(res);
       const { psbt, txId } = res;
-      console.log(psbt);
 
       const signedPsbt = await window.unisat.signPsbt(psbt);
-      console.log(signedPsbt);
       const txRes = await poolApiService.pushTx(signedPsbt, txId);
-      console.log(txRes);
       setSwapTxId(txRes.txId);
       setSwapTxSubmittedModalOpen(true);
     } catch (error) {}

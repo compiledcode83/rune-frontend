@@ -21,10 +21,10 @@ export type StatusContextProps = {
   setAddLiquidityModalOpen: (open: boolean) => void;
   addLiquidityConfirmModalOpen: boolean;
   setAddLiquidityConfirmModalOpen: (open: boolean) => void;
-  addLiquiditySelectToken1ModalOpen: boolean;
-  setAddLiquiditySelectToken1ModalOpen: (open: boolean) => void;
-  addLiquiditySelectToken2ModalOpen: boolean;
-  setAddLiquiditySelectToken2ModalOpen: (open: boolean) => void;
+  addLiquiditySelectTokenAModalOpen: boolean;
+  setAddLiquiditySelectTokenAModalOpen: (open: boolean) => void;
+  addLiquiditySelectTokenBModalOpen: boolean;
+  setAddLiquiditySelectTokenBModalOpen: (open: boolean) => void;
   removeLiquidityModalOpen: boolean;
   setRemoveLiquidityModalOpen: (open: boolean) => void;
   removeLiquidityConfirmModalOpen: boolean;

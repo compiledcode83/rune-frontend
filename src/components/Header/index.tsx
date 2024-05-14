@@ -22,7 +22,6 @@ const MenuItems = [
 ];
 const Header = () => {
   const router = useRouter();
-  console.log(router.pathname, "pathname");
   const { darkMode, handleTheme } = useThemeContext();
   const { setConnectWalletModalOpen } = useStatusContext();
   const { isConnected, paymentAddress, handleDisconnect } = useUserContext();

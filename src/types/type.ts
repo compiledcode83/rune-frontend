@@ -25,6 +25,11 @@ export type TokenType = {
   divisibility: number;
 };
 
+export type LiquidityType = {
+  tokenA: TokenType;
+  tokenB: TokenType;
+};
+
 export type BalanceType = {
   amount: number;
   divisibility: number;

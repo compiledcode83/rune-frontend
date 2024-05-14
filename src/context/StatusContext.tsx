@@ -16,10 +16,10 @@ export const StatusContext = createContext<StatusContextProps>({
   setAddLiquidityModalOpen: () => {},
   addLiquidityConfirmModalOpen: false,
   setAddLiquidityConfirmModalOpen: () => {},
-  addLiquiditySelectToken1ModalOpen: false,
-  setAddLiquiditySelectToken1ModalOpen: () => {},
-  addLiquiditySelectToken2ModalOpen: false,
-  setAddLiquiditySelectToken2ModalOpen: () => {},
+  addLiquiditySelectTokenAModalOpen: false,
+  setAddLiquiditySelectTokenAModalOpen: () => {},
+  addLiquiditySelectTokenBModalOpen: false,
+  setAddLiquiditySelectTokenBModalOpen: () => {},
   removeLiquidityModalOpen: false,
   setRemoveLiquidityModalOpen: () => {},
   removeLiquidityConfirmModalOpen: false,
@@ -47,12 +47,12 @@ export const StatusProvider = ({ ...props }) => {
   const [addLiquidityConfirmModalOpen, setAddLiquidityConfirmModalOpen] =
     useState(false);
   const [
-    addLiquiditySelectToken1ModalOpen,
-    setAddLiquiditySelectToken1ModalOpen,
+    addLiquiditySelectTokenAModalOpen,
+    setAddLiquiditySelectTokenAModalOpen,
   ] = useState(false);
   const [
-    addLiquiditySelectToken2ModalOpen,
-    setAddLiquiditySelectToken2ModalOpen,
+    addLiquiditySelectTokenBModalOpen,
+    setAddLiquiditySelectTokenBModalOpen,
   ] = useState(false);
   const [removeLiquidityModalOpen, setRemoveLiquidityModalOpen] =
     useState(false);
@@ -84,10 +84,10 @@ export const StatusProvider = ({ ...props }) => {
         setAddLiquidityModalOpen,
         addLiquidityConfirmModalOpen,
         setAddLiquidityConfirmModalOpen,
-        addLiquiditySelectToken1ModalOpen,
-        setAddLiquiditySelectToken1ModalOpen,
-        addLiquiditySelectToken2ModalOpen,
-        setAddLiquiditySelectToken2ModalOpen,
+        addLiquiditySelectTokenAModalOpen,
+        setAddLiquiditySelectTokenAModalOpen,
+        addLiquiditySelectTokenBModalOpen,
+        setAddLiquiditySelectTokenBModalOpen,
         removeLiquidityModalOpen,
         setRemoveLiquidityModalOpen,
         removeLiquidityConfirmModalOpen,

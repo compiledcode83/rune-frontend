@@ -7,8 +7,8 @@ import { useStatusContext } from "@/context/StatusContext";
 type LiquidityPairPanelProps = {
   img1: string;
   img2: string;
-  token1: string;
-  token2: string;
+  tokena: string;
+  tokenb: string;
   amount1: number;
   amount2: number;
   totalamount: number;
@@ -18,8 +18,8 @@ type LiquidityPairPanelProps = {
 const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   img1,
   img2,
-  token1,
-  token2,
+  tokena,
+  tokenb,
   amount1,
   amount2,
   totalamount,
@@ -34,10 +34,16 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
         onClick={() => setOpen(!open)}
       >
         <div className="flex items-center gap-2">
-          <Image src={img1} alt="tokenimg1" />
-          <Image src={img2} alt="tokenimg2" />
+          <Image src={img1} alt="tokenimg1" width={50} height={50} />
+          <Image
+            src={img2}
+            alt="tokenimg2"
+            width={50}
+            height={50}
+            className="mr-8"
+          />
           <div>
-            {token1}/{token2}
+            {tokena} / {tokenb}
           </div>
         </div>
         <ChevronDownIcon
@@ -53,15 +59,15 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
               <div>{totalamount}</div>
             </div>
             <div className="flex justify-between">
-              <div>Pooled {token1}</div>
+              <div>Pooled {tokena}</div>
               <div>
-                {amount1} {token1}
+                {amount1} {tokena}
               </div>
             </div>
             <div className="flex justify-between">
-              <div>Pooled {token2}</div>
+              <div>Pooled {tokenb}</div>
               <div>
-                {amount2} {token2}
+                {amount2} {tokenb}
               </div>
             </div>
             <div className="flex justify-between">
@@ -69,7 +75,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
               <div>{sharedpercent}%</div>
             </div>
           </div>
-          <div className="text-dark-primary mt-4 text-center lg:mt-8">
+          <div className="mt-4 text-center text-dark-primary lg:mt-8">
             View Accrued Fees and Analytics
           </div>
           <div className="mt-8 flex items-center justify-center gap-2 lg:mt-12">
@@ -81,7 +87,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
               Remove
             </Button>
             <Button
-              className="text-dark-primary bg-white text-[16px] normal-case lg:text-[24px] dark:bg-dark-item"
+              className="bg-white text-[16px] normal-case text-dark-primary lg:text-[24px] dark:bg-dark-item"
               placeholder={undefined}
             >
               Add

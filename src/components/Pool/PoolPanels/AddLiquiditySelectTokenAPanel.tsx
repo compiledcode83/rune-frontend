@@ -22,8 +22,8 @@ import { useUserContext } from "@/context/UserContext";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import PoolSelectTokenItem from "../PoolItems/PoolSelectTokenItem";
 
-const SwapSelectAddLiquidityToken1Panel = () => {
-  const { setAddLiquiditySelectToken1ModalOpen } = useStatusContext();
+const SwapSelectAddLiquidityTokenAPanel = () => {
+  const { setAddLiquiditySelectTokenAModalOpen } = useStatusContext();
   const { ordinalAddress } = useUserContext();
   const { poolTokens, setPoolTokens } = usePoolTokens();
   const { setTokenBalances } = useTokenBalances();
@@ -35,13 +35,12 @@ const SwapSelectAddLiquidityToken1Panel = () => {
   >([]);
 
   const handleSelectTokenModalClose = () => {
-    setAddLiquiditySelectToken1ModalOpen(false);
+    setAddLiquiditySelectTokenAModalOpen(false);
   };
 
   useEffect(() => {
     (async () => {
       if (ordinalAddress !== "") {
-        console.log({ ordinalAddress }, { poolTokens });
         try {
           const resTokenBalances: BalanceType[] =
             await poolApiService.getBalance(ordinalAddress);
@@ -121,4 +120,4 @@ const SwapSelectAddLiquidityToken1Panel = () => {
   );
 };
 
-export default SwapSelectAddLiquidityToken1Panel;
+export default SwapSelectAddLiquidityTokenAPanel;
