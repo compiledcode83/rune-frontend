@@ -38,7 +38,7 @@ const Header = () => {
           <div className="hidden items-center text-[24px] 2xl:flex 2xl:gap-12">
             {MenuItems.map((menu) => {
               return (
-                <Link href={menu.link}>
+                <Link href={menu.link} key={menu.link}>
                   <div
                     className={`cursor-pointer transition-all hover:border-b hover:border-primary hover:text-primary ${menu.link === router.pathname ? "border-b-[1px] border-primary text-primary " : ""}`}
                   >
@@ -94,7 +94,7 @@ const Header = () => {
       <div className="relative z-50 flex items-center gap-2 px-4 py-2 2xl:hidden">
         {MenuItems.map((menu) => {
           return (
-            <Link href={menu.link}>
+            <Link href={menu.link} key={menu.link}>
               <Button
                 placeholder={undefined}
                 className={`bg-transparent px-2 py-1 text-[16px] normal-case text-black transition-all hover:bg-light-item hover:text-primary dark:hover:bg-dark-item  ${menu.link === router.pathname ? " !important text-primary" : "dark:text-white"}`}
