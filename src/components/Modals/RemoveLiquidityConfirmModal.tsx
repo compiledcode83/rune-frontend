@@ -1,7 +1,7 @@
 import React from "react";
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import { useStatusContext } from "@/context/StatusContext";
-import AddLiquidityPanel from "../Panels/AddLiquidityPanel";
+import AddLiquidityPanel from "../Pool/PoolPanels/AddLiquidityPanel";
 import RemoveLiquidityPanel from "../Panels/RemoveLiquidityPanel";
 import RemoveLiquidityConfirmPanel from "../Panels/RemoveLiquidityConfirmPanel";
 

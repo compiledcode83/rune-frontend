@@ -10,8 +10,7 @@ import BNB from "@/assets/imgs/bnb.svg";
 import Menu from "@/assets/imgs/menu.svg";
 import Image from "next/image";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import SwapSelectTokenItem from "../SwapItems/SwapSelectTokenItem";
-import SelectModalSearchBox from "../../SelectModalSearchBox";
+import SelectModalSearchBox from "@/components/SelectModalSearchBox";
 
 import {
   usePoolTokens,
@@ -21,9 +20,10 @@ import { BalanceType, TokenType } from "@/types/type";
 import { containsSubstring } from "@/utils/utils";
 import { useUserContext } from "@/context/UserContext";
 import poolApiService from "@/api.services/pool/pool.api.service";
+import PoolSelectTokenItem from "../PoolItems/PoolSelectTokenItem";
 
-const SwapSelectSendTokenPanel = () => {
-  const { setSwapSelectSendTokenModalOpen } = useStatusContext();
+const SwapSelectAddLiquidityToken1Panel = () => {
+  const { setAddLiquiditySelectToken1ModalOpen } = useStatusContext();
   const { ordinalAddress } = useUserContext();
   const { poolTokens, setPoolTokens } = usePoolTokens();
   const { setTokenBalances } = useTokenBalances();
@@ -35,7 +35,7 @@ const SwapSelectSendTokenPanel = () => {
   >([]);
 
   const handleSelectTokenModalClose = () => {
-    setSwapSelectSendTokenModalOpen(false);
+    setAddLiquiditySelectToken1ModalOpen(false);
   };
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const SwapSelectSendTokenPanel = () => {
       </div>
       <div className="flex h-[50vh] flex-col gap-2 overflow-auto">
         {poolTokenSearchResults.map((token, index) => (
-          <SwapSelectTokenItem key={index} token={token} type="send" />
+          <PoolSelectTokenItem key={index} token={token} no={1} />
         ))}
       </div>
       {/* <div className="flex cursor-pointer items-center justify-center gap-2 text-primary dark:text-[#EAAC33]">
@@ -121,4 +121,4 @@ const SwapSelectSendTokenPanel = () => {
   );
 };
 
-export default SwapSelectSendTokenPanel;
+export default SwapSelectAddLiquidityToken1Panel;

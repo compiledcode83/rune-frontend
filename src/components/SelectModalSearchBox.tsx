@@ -30,7 +30,7 @@ const SelectModalSearchBox: React.FC<PropsType> = ({
         placeholder={isFocused ? "" : "Search name or pasto addrss"}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className="w-full text-[20px] outline-none dark:bg-dark-panel"
+        className="w-full bg-transparent text-[20px] outline-none"
         onChange={onChangeSearchText}
       ></input>
     </div>

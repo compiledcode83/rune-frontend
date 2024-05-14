@@ -3,6 +3,7 @@ import offerReducer from "./application/slices/offerSlice";
 import myOfferReducer from "./application/slices/myOfferSlice";
 import discoverDealReducer from "./application/slices/discoverDealSlice";
 import swapReducer from "./application/slices/swapSlice";
+import poolReducer from "./application/slices/poolSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     myOffer: myOfferReducer,
     discoverDeal: discoverDealReducer,
     swap: swapReducer,
+    pool: poolReducer,
   },
 });
 

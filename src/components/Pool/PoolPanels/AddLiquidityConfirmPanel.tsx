@@ -11,7 +11,7 @@ import Eth from "@/assets/imgs/ETH.svg";
 import Eos from "@/assets/imgs/EOS.svg";
 import ArrowDown from "@/assets/imgs/arrowdown.svg";
 import Arrow2 from "@/assets/imgs/arrow-2.svg";
-import SettingPanel from "./SettingPanel";
+import SettingPanel from "../../Panels/SettingPanel";
 import { useStatusContext } from "@/context/StatusContext";
 import {
   XMarkIcon,

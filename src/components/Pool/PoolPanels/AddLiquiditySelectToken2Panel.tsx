@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useEffect, useState } from "react";
 import {
   XMarkIcon,
   ChevronLeftIcon,
@@ -10,60 +10,45 @@ import BNB from "@/assets/imgs/bnb.svg";
 import Menu from "@/assets/imgs/menu.svg";
 import Image from "next/image";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import SwapSelectTokenItem from "../SwapItems/SwapSelectTokenItem";
-import SelectModalSearchBox from "../../SelectModalSearchBox";
-
+import PoolSelectTokenItem from "../PoolItems/PoolSelectTokenItem";
 import {
   usePoolTokens,
-  useTokenBalances,
+  useSwapableTokens,
 } from "@/state/application/hooks/useSwapHooks";
-import { BalanceType, TokenType } from "@/types/type";
-import { containsSubstring } from "@/utils/utils";
-import { useUserContext } from "@/context/UserContext";
+
 import poolApiService from "@/api.services/pool/pool.api.service";
 
-const SwapSelectSendTokenPanel = () => {
-  const { setSwapSelectSendTokenModalOpen } = useStatusContext();
-  const { ordinalAddress } = useUserContext();
-  const { poolTokens, setPoolTokens } = usePoolTokens();
-  const { setTokenBalances } = useTokenBalances();
+import { TokenType } from "@/types/type";
+import { containsSubstring } from "@/utils/utils";
+import SelectModalSearchBox from "@/components/SelectModalSearchBox";
+import { useAddLiquidityToken1 } from "@/state/application/hooks/usePoolHooks";
+
+const PoolSelectAddLiquidityToken1Panel = () => {
+  const { setAddLiquiditySelectToken2ModalOpen } = useStatusContext();
+  const { addLiquidityToken1 } = useAddLiquidityToken1();
+  const { swapableTokens, setSwapableTokens } = useSwapableTokens();
+
   const [searchText, setSearchText] = useState("");
   const [filterText, setFilterText] = useState("");
-
-  const [poolTokenSearchResults, setPoolTokenSearchResults] = useState<
+  const [swapableTokenSearchResults, setSwapableTokenSearchResults] = useState<
     TokenType[]
   >([]);
 
   const handleSelectTokenModalClose = () => {
-    setSwapSelectSendTokenModalOpen(false);
+    setAddLiquiditySelectToken2ModalOpen(false);
+  };
+
+  const getSwapableTokens = async () => {
+    try {
+      const res = await poolApiService.getSwapableTokens(
+        addLiquidityToken1.uuid
+      );
+      setSwapableTokens(res);
+    } catch (error) {}
   };
 
   useEffect(() => {
-    (async () => {
-      if (ordinalAddress !== "") {
-        console.log({ ordinalAddress }, { poolTokens });
-        try {
-          const resTokenBalances: BalanceType[] =
-            await poolApiService.getBalance(ordinalAddress);
-          setTokenBalances(resTokenBalances);
-        } catch (error) {
-          console.error((error as Error).message);
-        }
-      } else {
-        setTokenBalances([]);
-      }
-    })();
-  }, [poolTokens]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const resPoolTokens = await poolApiService.getPoolTokens();
-        setPoolTokens(resPoolTokens);
-      } catch (e) {
-        console.error(e);
-      }
-    })();
+    if (addLiquidityToken1.runeId !== "") getSwapableTokens();
   }, []);
 
   useEffect(() => {
@@ -81,11 +66,11 @@ const SwapSelectSendTokenPanel = () => {
   };
 
   useEffect(() => {
-    const resultList = poolTokens.filter((token) => {
+    const resultList = swapableTokens.filter((token) => {
       return containsSubstring(token.name, filterText);
     });
-    setPoolTokenSearchResults(resultList);
-  }, [filterText, poolTokens]);
+    setSwapableTokenSearchResults(resultList);
+  }, [filterText, swapableTokens]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -103,14 +88,23 @@ const SwapSelectSendTokenPanel = () => {
         </div>
       </div>
       <div>
+        {/* <Input
+          crossOrigin={undefined}
+          label="Search name or pasto address"
+          icon={<MagnifyingGlassIcon width={20} />}
+          color="amber"
+          className="text-[12px] text-black lg:!text-[24px] dark:text-white"
+          value={searchText}
+          onChange={onChangeSearchInput}
+        /> */}
         <SelectModalSearchBox
           searchText={searchText}
           onChangeSearchText={onChangeSearchInput}
         />
       </div>
       <div className="flex h-[50vh] flex-col gap-2 overflow-auto">
-        {poolTokenSearchResults.map((token, index) => (
-          <SwapSelectTokenItem key={index} token={token} type="send" />
+        {swapableTokenSearchResults.map((token, index) => (
+          <PoolSelectTokenItem key={index} token={token} no={2} />
         ))}
       </div>
       {/* <div className="flex cursor-pointer items-center justify-center gap-2 text-primary dark:text-[#EAAC33]">
@@ -121,4 +115,4 @@ const SwapSelectSendTokenPanel = () => {
   );
 };
 
-export default SwapSelectSendTokenPanel;
+export default PoolSelectAddLiquidityToken1Panel;

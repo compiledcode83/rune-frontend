@@ -5,7 +5,6 @@ import EthImg from "@/assets/imgs/ETH.svg";
 import EosImg from "@/assets/imgs/EOS.svg";
 import ArrowTopRightYellowImg from "@/assets/imgs/arrow-top-right-yellow.svg";
 import Image from "next/image";
-import SwapPanel from "@/components/Panels/SwapPanel";
 import { Button } from "@material-tailwind/react";
 import LiquidityPairPanel from "@/components/Panels/LiquidityPairPanel";
 import { useStatusContext } from "@/context/StatusContext";

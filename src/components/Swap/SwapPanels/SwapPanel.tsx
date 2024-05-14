@@ -59,7 +59,7 @@ const SwapPanel = () => {
   const { minSendTokenAmount, setMinSendTokenAmount } = useMinSendTokenAmount();
   const { maxSendTokenAmount, setMaxSendTokenAmount } = useMaxSendTokenAmount();
 
-  const handleTokenAmount = async (sendAmount: number) => {
+  const handleTokenAmount = (sendAmount: number) => {
     setSendTokenAmount(sendAmount);
   };
 
@@ -284,12 +284,12 @@ const SwapPanel = () => {
                     <div className="text-[12px] lg:text-[14px]">
                       {sendToken.name}
                     </div>
-                    <Image src={ArrowDown} alt="eth" />
+                    <Image src={ArrowDown} alt="arrow" />
                   </div>
                 )}
                 <div>
                   <input
-                    className="w-[60px] bg-transparent text-right outline-none focus:overflow-hidden"
+                    className="w-[150px] bg-transparent text-right outline-none focus:overflow-hidden"
                     value={sendTokenAmount}
                     onChange={(e) => handleTokenAmount(Number(e.target.value))}
                     type="number"
@@ -301,12 +301,14 @@ const SwapPanel = () => {
                   <div>
                     Balance: {`${sendTokenBalance} ${sendToken.symbol}`}
                   </div>
-                  <div
-                    className={sendTokenBalance > 0 ? "cursor-pointer" : ""}
-                    onClick={onMax}
-                  >
-                    MAX
-                  </div>
+                  {sendTokenBalance > 0 ? (
+                    <div
+                      className="cursor-pointer text-primary"
+                      onClick={onMax}
+                    >
+                      MAX
+                    </div>
+                  ) : null}
                 </div>
                 <div>≈$ 6726.2307</div>
               </div>

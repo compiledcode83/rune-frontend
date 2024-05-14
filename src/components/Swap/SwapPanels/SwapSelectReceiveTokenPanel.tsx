@@ -20,7 +20,7 @@ import poolApiService from "@/api.services/pool/pool.api.service";
 
 import { TokenType } from "@/types/type";
 import { containsSubstring } from "@/utils/utils";
-import SelectModalSearchBox from "../SelectModalSearchBox";
+import SelectModalSearchBox from "../../SelectModalSearchBox";
 
 const SwapSelectReceiveTokenPanel = () => {
   const { setSwapSelectReceiveTokenModalOpen } = useStatusContext();

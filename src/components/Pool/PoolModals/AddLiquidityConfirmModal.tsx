@@ -1,15 +1,15 @@
 import React from "react";
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import { useStatusContext } from "@/context/StatusContext";
-import AddLiquidityPanel from "../Panels/AddLiquidityPanel";
-
-const AddLiquidityModal = () => {
-  const { addLiquidityModalOpen } = useStatusContext();
+import AddLiquidityPanel from "../PoolPanels/AddLiquidityPanel";
+import AddLiquidityConfirmPanel from "../PoolPanels/AddLiquidityConfirmPanel";
+const AddLiquidityConfirmModal = () => {
+  const { addLiquidityConfirmModalOpen } = useStatusContext();
 
   return (
     <Dialog
       placeholder={undefined}
-      open={addLiquidityModalOpen}
+      open={addLiquidityConfirmModalOpen}
       className="bg-transparent shadow-none outline-none"
       animate={{
         mount: { scale: 1, y: 0 },
@@ -22,11 +22,11 @@ const AddLiquidityModal = () => {
         className="z-50 mx-auto overflow-auto rounded-[20px] bg-transparent p-[20px] shadow-none"
       >
         <div>
-          <AddLiquidityPanel />
+          <AddLiquidityConfirmPanel />
         </div>
       </DialogBody>
     </Dialog>
   );
 };
 
-export default AddLiquidityModal;
+export default AddLiquidityConfirmModal;
