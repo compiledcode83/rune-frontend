@@ -1,14 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TokenType, LiquidityType } from "@/types/type";
+import { TokenType, LiquidityType, PoolInfoType } from "@/types/type";
 
 export type PoolState = {
   addLiquidityTokenA: TokenType;
   addLiquidityTokenB: TokenType;
-  // poolTokens: TokenType[];
-  // poolableTokens: TokenType[];
-  // tokenBalances: BalanceType[];
+  addLiquidityPoolUuid: string;
   addLiquidityTokenAAmount: number;
   addLiquidityTokenBAmount: number;
+  addLiquidityLpTokenAmount: number;
   liquidities: LiquidityType[];
   // minaddLiquidityTokenAAmount: number;
   // maxaddLiquidityTokenAAmount: number;
@@ -27,8 +26,10 @@ const initialToken: TokenType = {
 const initialState: PoolState = {
   addLiquidityTokenA: initialToken,
   addLiquidityTokenB: initialToken,
+  addLiquidityPoolUuid: "",
   addLiquidityTokenAAmount: 0,
   addLiquidityTokenBAmount: 0,
+  addLiquidityLpTokenAmount: 0,
   liquidities: [],
   // minaddLiquidityTokenAAmount: 0,
   // maxaddLiquidityTokenAAmount: 0,
@@ -54,6 +55,12 @@ export const poolSlice = createSlice({
     setLiquidities: (state, action: PayloadAction<LiquidityType[]>) => {
       state.liquidities = action.payload;
     },
+    setAddLiquidityPoolUuid: (state, action: PayloadAction<string>) => {
+      state.addLiquidityPoolUuid = action.payload;
+    },
+    setAddLiquidityLpTokenAmount: (state, action: PayloadAction<number>) => {
+      state.addLiquidityLpTokenAmount = action.payload;
+    },
     // setTokenBalances: (state, action: PayloadAction<BalanceType[]>) => {
     //   state.tokenBalances = action.payload;
     // },
@@ -72,6 +79,9 @@ export const {
   setAddLiquidityTokenAAmount,
   setAddLiquidityTokenBAmount,
   setLiquidities,
+  setAddLiquidityPoolUuid,
+  setAddLiquidityLpTokenAmount,
+
   // setTokenBalances,
   // setMinaddLiquidityTokenAAmount,
   // setMaxaddLiquidityTokenAAmount,

@@ -18,10 +18,11 @@ import { BalanceType, TokenType } from "@/types/type";
 
 import {
   usePoolTokens,
-  useSwapableTokens,
   useTokenBalances,
 } from "@/state/application/hooks/useSwapHooks";
 import {
+  useAddLiquidityLpTokenAmount,
+  useAddLiquidityPoolUuid,
   useAddLiquidityTokenA,
   useAddLiquidityTokenAAmount,
   useAddLiquidityTokenB,
@@ -42,7 +43,6 @@ const AddLiquidityPanel = () => {
   const { ordinalAddress } = useUserContext();
 
   const { poolTokens, setPoolTokens } = usePoolTokens();
-  const { swapableTokens, setSwapableTokens } = useSwapableTokens();
   const { addLiquidityTokenA, setAddLiquidityTokenA } = useAddLiquidityTokenA();
   const { addLiquidityTokenB, setAddLiquidityTokenB } = useAddLiquidityTokenB();
 
@@ -50,6 +50,9 @@ const AddLiquidityPanel = () => {
     useAddLiquidityTokenAAmount();
   const { addLiquidityTokenBAmount, setAddLiquidityTokenBAmount } =
     useAddLiquidityTokenBAmount();
+  const { addLiquidityPoolUuid, setAddLiquidityPoolUuid } =
+    useAddLiquidityPoolUuid();
+  const { setAddLiquidityLpTokenAmount } = useAddLiquidityLpTokenAmount();
   const { tokenBalances, setTokenBalances } = useTokenBalances();
 
   const [addLiquidityTokenABalance, setAddLiquidityTokenABalance] = useState(0);
@@ -130,9 +133,52 @@ const AddLiquidityPanel = () => {
     }
   }, [addLiquidityTokenB, ordinalAddress, poolTokens, tokenBalances]);
 
-  // const handleAddLiquidityTokenAAmount = (amount: number) => {
-  //   setAddLiquidityTokenAAmount(amount);
-  // };
+  useEffect(() => {
+    if (addLiquidityTokenA.uuid !== "" && addLiquidityTokenB.uuid !== "") {
+      (async () => {
+        const resPoolInfo = await poolApiService.getPoolInfo(
+          addLiquidityTokenA.uuid,
+          addLiquidityTokenB.uuid
+        );
+        setAddLiquidityPoolUuid(resPoolInfo.uuid);
+      })();
+    }
+  }, [addLiquidityTokenA, addLiquidityTokenB]);
+
+  useEffect(() => {
+    console.log(
+      { addLiquidityTokenAAmount },
+      { addLiquidityPoolUuid },
+      "changed"
+    );
+    if (addLiquidityPoolUuid !== "") {
+      (async () => {
+        const resTokensAmount = await poolApiService.getAddLiquidityTokenAmount(
+          addLiquidityPoolUuid,
+          addLiquidityTokenAAmount,
+          "A"
+        );
+        const { tokenBAmount, lpTokenAmount } = resTokensAmount;
+        setAddLiquidityTokenBAmount(tokenBAmount);
+        setAddLiquidityLpTokenAmount(lpTokenAmount);
+      })();
+    }
+  }, [addLiquidityTokenAAmount, addLiquidityPoolUuid]);
+
+  // useEffect(() => {
+  //   if (addLiquidityPoolUuid !== "") {
+  //     (async () => {
+  //       const resTokensAmount = await poolApiService.getAddLiquidityTokenAmount(
+  //         addLiquidityPoolUuid,
+  //         addLiquidityTokenBAmount,
+  //         "B"
+  //       );
+  //       const { tokenAAmount, lpTokenAmount } = resTokensAmount;
+  //       setAddLiquidityTokenAAmount(tokenAAmount);
+  //       setAddLiquidityLpTokenAmount(lpTokenAmount);
+  //     })();
+  //   }
+  // }, [addLiquidityTokenBAmount, addLiquidityPoolUuid]);
 
   const handleAddLiquidityConfirmModalOpen = () => {
     setAddLiquidityConfirmModalOpen(true);
@@ -160,11 +206,11 @@ const AddLiquidityPanel = () => {
           disabled
           // onClick={() => handleConfirmSwapModalOpen()}
         >
-          Select a Token
+          Invalid Pair
         </Button>
       );
     } else if (
-      addLiquidityTokenAAmount === 0 ||
+      addLiquidityTokenAAmount === 0 &&
       addLiquidityTokenBAmount === 0
     ) {
       return (
@@ -285,11 +331,11 @@ const AddLiquidityPanel = () => {
                   <input
                     className="w-[150px] bg-transparent outline-none focus:overflow-hidden"
                     value={addLiquidityTokenBAmount}
-                    onChange={(e) =>
-                      setAddLiquidityTokenBAmount(Number(e.target.value))
-                    }
+                    // onChange={(e) =>
+                    //   setAddLiquidityTokenBAmount(Number(e.target.value))
+                    // }
                     type="number"
-                    disabled={addLiquidityTokenB.runeId === ""}
+                    disabled
                   />
                 </div>
                 <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">

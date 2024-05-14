@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import {
   Popover,
   PopoverHandler,
@@ -59,20 +59,30 @@ const SwapPanel = () => {
   const { minSendTokenAmount, setMinSendTokenAmount } = useMinSendTokenAmount();
   const { maxSendTokenAmount, setMaxSendTokenAmount } = useMaxSendTokenAmount();
 
+  const sendTokenAmountRef = useRef<any>(null);
+  const sendTokenRef = useRef<any>(null);
+  const receiveTokenRef = useRef<any>(null);
+
   const handleTokenAmount = (sendAmount: number) => {
     setSendTokenAmount(sendAmount);
   };
 
   const getReceiveAmount = async (sendAmount: number) => {
     const res = await poolApiService.getSwapAmount(
-      sendToken.uuid,
+      sendTokenRef.current.uuid,
       sendAmount,
-      receiveToken.uuid
+      receiveTokenRef.current.uuid
     );
     setReceiveTokenAmount(Number(res.receivingTokenAmount));
     setMinSendTokenAmount(Number(res.minTradingAmount));
     setMaxSendTokenAmount(Number(res.maxTradingAmount));
   };
+
+  useEffect(() => {
+    sendTokenAmountRef.current = sendTokenAmount;
+    receiveTokenRef.current = receiveToken;
+    sendTokenRef.current = sendToken;
+  }, [sendToken, receiveToken, sendTokenAmount]);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -103,6 +113,23 @@ const SwapPanel = () => {
         console.error((error as Error).message);
       }
     })();
+
+    const getReceiveTokenAmountTimer = setInterval(() => {
+      console.log(
+        sendTokenAmountRef.current,
+        sendTokenRef.current.uuid,
+        receiveTokenRef.current.uuid
+      );
+      if (
+        receiveTokenRef.current.uuid !== "" &&
+        sendTokenRef.current.uuid !== ""
+      ) {
+        getReceiveAmount(sendTokenAmountRef.current);
+      }
+    }, 15000);
+    return () => {
+      clearInterval(getReceiveTokenAmountTimer);
+    };
   }, []);
 
   useEffect(() => {

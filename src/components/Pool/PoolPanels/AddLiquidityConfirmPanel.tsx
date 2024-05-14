@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Popover,
   PopoverHandler,
@@ -19,12 +19,76 @@ import {
   MagnifyingGlassIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/solid";
+import {
+  useAddLiquidityLpTokenAmount,
+  useAddLiquidityPoolUuid,
+  useAddLiquidityTokenA,
+  useAddLiquidityTokenAAmount,
+  useAddLiquidityTokenB,
+  useAddLiquidityTokenBAmount,
+} from "@/state/application/hooks/usePoolHooks";
+import poolApiService from "@/api.services/pool/pool.api.service";
+import { useUserContext } from "@/context/UserContext";
 
 const AddLiquidityConfirmPanel = () => {
   const { setAddLiquidityConfirmModalOpen, setAddLiquidityModalOpen } =
     useStatusContext();
 
+  const {
+    ordinalAddress,
+    ordinalPublicKey,
+    paymentAddress,
+    paymentPublicKey,
+    walletType,
+  } = useUserContext();
+
+  const { addLiquidityTokenAAmount } = useAddLiquidityTokenAAmount();
+
+  const { addLiquidityTokenA } = useAddLiquidityTokenA();
+  const { addLiquidityTokenBAmount } = useAddLiquidityTokenBAmount();
+
+  const { addLiquidityTokenB } = useAddLiquidityTokenB();
+  const { addLiquidityPoolUuid } = useAddLiquidityPoolUuid();
+  const { addLiquidityLpTokenAmount } = useAddLiquidityLpTokenAmount();
+
+  const [tokenAPrice, setTokenAPrice] = useState(0);
+  const [tokenBPrice, setTokenBPrice] = useState(0);
+  const [poolSharePercentage, setPoolSharePercentage] = useState(0);
+
+  useEffect(() => {
+    () => {
+      (async () => {
+        const resPoolInfo = await poolApiService.getLiquidityTokenAmount(
+          ordinalAddress,
+          addLiquidityPoolUuid
+        );
+        const { tokenAAmount, tokenBAmount, share } = resPoolInfo;
+        setTokenAPrice(tokenBAmount / tokenAAmount);
+        setTokenBPrice(tokenAAmount / tokenBAmount);
+        setPoolSharePercentage(share);
+      })();
+    };
+  }, []);
+
   const handleConfirmSupply = () => {
+    (async () => {
+      try {
+        const res = await poolApiService.generateAddLiquidityPsbt(
+          ordinalAddress,
+          ordinalPublicKey,
+          paymentAddress,
+          paymentPublicKey,
+          walletType,
+          addLiquidityPoolUuid,
+          addLiquidityTokenAAmount,
+          addLiquidityTokenBAmount
+        );
+        const { psbt, txId } = res;
+        const signedPsbt = await window.unisat.signPsbt(psbt);
+        const txRes = await poolApiService.pushTx(signedPsbt, txId);
+      } catch (error) {}
+    })();
+
     setAddLiquidityConfirmModalOpen(false);
     setAddLiquidityModalOpen(false);
   };
@@ -49,7 +113,7 @@ const AddLiquidityConfirmPanel = () => {
         </div>
         <div className="mt-4 flex flex-col gap-2 lg:mt-8">
           <div className="text-[16px] font-semibold lg:text-[24px]">
-            0.000922108941
+            {addLiquidityLpTokenAmount}
           </div>
           <div className="text-[12px] lg:text-[16px]">ETH/EOS Pool Tokens</div>
           <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
@@ -58,30 +122,50 @@ const AddLiquidityConfirmPanel = () => {
           </div>
           <div className="flex flex-col gap-2 text-[12px] lg:text-[16px]">
             <div className="flex items-center justify-between">
-              <div>ETH Deposited</div>
-              <div className="flex items-center gap-1">
-                <Image src={Eth} alt="eth" />
-                <div>0.022</div>
+              <div>{addLiquidityTokenA.spaced} Deposited</div>
+              <div className="flex items-center gap-4">
+                <Image
+                  src={addLiquidityTokenA.imgUrl}
+                  alt={addLiquidityTokenA.name}
+                  width={24}
+                  height={24}
+                />
+                <div>
+                  {addLiquidityTokenAAmount} {addLiquidityTokenA.symbol}
+                </div>
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <div>EOS Deposited</div>
-              <div className="flex items-center gap-1">
-                <Image src={Eos} alt="eth" />
-                <div>82.89</div>
+              <div>{addLiquidityTokenB.spaced} Deposited</div>
+              <div className="flex items-center gap-4">
+                <Image
+                  src={addLiquidityTokenB.imgUrl}
+                  alt={addLiquidityTokenB.name}
+                  width={24}
+                  height={24}
+                />
+                <div>
+                  {addLiquidityTokenBAmount} {addLiquidityTokenB.symbol}
+                </div>
               </div>
             </div>
           </div>
           <div className="flex justify-between text-[12px] lg:text-[16px]">
             <div>Rates</div>
             <div className="flex flex-col gap-2">
-              <div>1 ETH = 3753.23 EOS</div>
-              <div>1 EOS = 0.00027 ETH</div>
+              <div>
+                1 {addLiquidityTokenA.spaced} = {tokenAPrice}{" "}
+                {addLiquidityTokenB.spaced}
+              </div>
+              <div>
+                1 {addLiquidityTokenB.spaced} = {tokenBPrice}{" "}
+                {addLiquidityTokenA.spaced}
+              </div>
             </div>
           </div>
           <div className="flex justify-between text-[10px] lg:text-[14px]">
             <div>Share of Pool</div>
-            <div>0.14%</div>
+            <div>{poolSharePercentage}%</div>
           </div>
         </div>
         <div className="mt-8">

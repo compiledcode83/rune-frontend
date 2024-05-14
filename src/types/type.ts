@@ -31,6 +31,13 @@ export type LiquidityType = {
   poolUuid: string;
 };
 
+export type PoolInfoType = {
+  tokenAAmount: number;
+  tokenBAmount: number;
+  userLpTokenAmount: number;
+  share: number;
+};
+
 export type BalanceType = {
   amount: number;
   divisibility: number;

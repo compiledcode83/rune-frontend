@@ -6,6 +6,8 @@ import {
   setAddLiquidityTokenAAmount,
   setAddLiquidityTokenBAmount,
   setLiquidities,
+  setAddLiquidityPoolUuid,
+  setAddLiquidityLpTokenAmount,
   // setTokenBalances,
   // setMinaddLiquidityTokenAAmount,
   // setMaxaddLiquidityTokenAAmount,
@@ -114,6 +116,45 @@ export const useLiquidites = () => {
   };
 };
 
+// UseaddLiquidityPoolUuid Hook
+export const useAddLiquidityPoolUuid = () => {
+  const dispatch = useAppDispatch();
+  const addLiquidityPoolUuid = useAppSelector(
+    (state: RootState) => state.pool.addLiquidityPoolUuid
+  );
+
+  const setAddLiquidityPoolUuidCallback = useCallback(
+    (item: string) => {
+      dispatch(setAddLiquidityPoolUuid(item));
+    },
+    [dispatch]
+  );
+
+  return {
+    addLiquidityPoolUuid,
+    setAddLiquidityPoolUuid: setAddLiquidityPoolUuidCallback,
+  };
+};
+
+// UseaddLiquidityLpTokenAmount Hook
+export const useAddLiquidityLpTokenAmount = () => {
+  const dispatch = useAppDispatch();
+  const addLiquidityLpTokenAmount = useAppSelector(
+    (state: RootState) => state.pool.addLiquidityLpTokenAmount
+  );
+
+  const setAddLiquidityLpTokenAmountCallback = useCallback(
+    (item: number) => {
+      dispatch(setAddLiquidityLpTokenAmount(item));
+    },
+    [dispatch]
+  );
+
+  return {
+    addLiquidityLpTokenAmount,
+    setAddLiquidityLpTokenAmount: setAddLiquidityLpTokenAmountCallback,
+  };
+};
 // // UseTokenBalances Hook
 // export const useTokenBalances = () => {
 //   const dispatch = useAppDispatch();

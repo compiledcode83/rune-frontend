@@ -42,9 +42,11 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
       (async () => {
         const resLiquidityAmountInfo =
           await poolApiService.getLiquidityTokenAmount(ordinalAddress, uuid);
-        const { tokenAAmount, tokenBAmount, share } = resLiquidityAmountInfo;
+        const { tokenAAmount, tokenBAmount, share, userLpTokenAmount } =
+          resLiquidityAmountInfo;
         setAmount1(tokenAAmount);
         setAmount2(tokenBAmount);
+        setTotalAmount(userLpTokenAmount);
         setSharedpercent(share);
       })();
     }
