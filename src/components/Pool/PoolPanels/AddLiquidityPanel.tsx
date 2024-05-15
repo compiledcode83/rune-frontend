@@ -140,40 +140,40 @@ const AddLiquidityPanel = () => {
     }
   }, [addLiquidityTokenA, addLiquidityTokenB]);
 
-  useEffect(() => {
-    if (addLiquidityTokenAAmount === 0 || addLiquidityTokenB.uuid === "") {
-      setAddLiquidityTokenBAmount(0);
-    } else if (addLiquidityPoolUuid !== "") {
-      (async () => {
-        const poolTokenARuneId = liquidities.find((liquidity) => {
-          return liquidity.poolUuid === addLiquidityPoolUuid;
-        })?.tokenA.runeId;
-        let tokenType;
-        if (poolTokenARuneId === addLiquidityTokenA.runeId) {
-          tokenType = "A";
-        } else {
-          tokenType = "B";
-        }
-        const resTokensAmount = await poolApiService.getAddLiquidityTokenAmount(
-          addLiquidityPoolUuid,
-          addLiquidityTokenAAmount,
-          tokenType
-        );
-        const { tokenBAmount, tokenAAmount, lpTokenAmount } = resTokensAmount;
-        if (tokenType === "A") {
-          setAddLiquidityTokenBAmount(tokenBAmount);
-        } else {
-          setAddLiquidityTokenBAmount(tokenAAmount);
-        }
-        setAddLiquidityLpTokenAmount(lpTokenAmount);
-      })();
-    }
-  }, [
-    addLiquidityTokenAAmount,
-    addLiquidityTokenA.uuid,
-    addLiquidityTokenB.uuid,
-    addLiquidityPoolUuid,
-  ]);
+  // useEffect(() => {
+  //   if (addLiquidityTokenAAmount === 0 || addLiquidityTokenB.uuid === "") {
+  //     setAddLiquidityTokenBAmount(0);
+  //   } else if (addLiquidityPoolUuid !== "") {
+  //     (async () => {
+  //       const poolTokenARuneId = liquidities.find((liquidity) => {
+  //         return liquidity.poolUuid === addLiquidityPoolUuid;
+  //       })?.tokenA.runeId;
+  //       let tokenType;
+  //       if (poolTokenARuneId === addLiquidityTokenA.runeId) {
+  //         tokenType = "A";
+  //       } else {
+  //         tokenType = "B";
+  //       }
+  //       const resTokensAmount = await poolApiService.getAddLiquidityTokenAmount(
+  //         addLiquidityPoolUuid,
+  //         addLiquidityTokenAAmount,
+  //         tokenType
+  //       );
+  //       const { tokenBAmount, tokenAAmount, lpTokenAmount } = resTokensAmount;
+  //       if (tokenType === "A") {
+  //         setAddLiquidityTokenBAmount(tokenBAmount);
+  //       } else {
+  //         setAddLiquidityTokenBAmount(tokenAAmount);
+  //       }
+  //       setAddLiquidityLpTokenAmount(lpTokenAmount);
+  //     })();
+  //   }
+  // }, [
+  //   addLiquidityTokenAAmount,
+  //   addLiquidityTokenA.uuid,
+  //   addLiquidityTokenB.uuid,
+  //   addLiquidityPoolUuid,
+  // ]);
 
   const handleAddLiquidityConfirmModalOpen = () => {
     setAddLiquidityConfirmModalOpen(true);
@@ -376,16 +376,12 @@ const AddLiquidityPanel = () => {
             </div>
           </div>
         </div>
-        <div className="mt-2 flex flex-col gap-2 text-[12px] lg:mt-4 lg:text-[14px]">
+        {/* <div className="mt-2 flex flex-col gap-2 text-[12px] lg:mt-4 lg:text-[14px]">
           <div className="flex items-center justify-between">
-            <div>Share of Pool</div>
-            <div>0.14%</div>
-          </div>
-          {/* <div className="flex items-center justify-between">
             <div>Price</div>
             <div>0.00027 ETH per 1 EOS</div>
-          </div> */}
-        </div>
+          </div>
+        </div> */}
         <div className="mt-8">{AddLiquidityButton()}</div>
       </div>
       <div className="mt-8 text-center text-[12px] text-white lg:text-[16px]">

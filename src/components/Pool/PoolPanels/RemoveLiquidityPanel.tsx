@@ -43,7 +43,7 @@ const RemoveLiquidityPanel = () => {
           </div>
         </div>
         <div className="mt-4 flex flex-col gap-2 lg:mt-8">
-          <div className="flex justify-between text-[12px] lg:text-[16px]">
+          {/* <div className="flex justify-between text-[12px] lg:text-[16px]">
             <div>Amount</div>
             <div className="text-primary">Detailed</div>
           </div>
@@ -63,7 +63,7 @@ const RemoveLiquidityPanel = () => {
             <div className="cursor-pointer rounded-lg border border-transparent bg-light-item px-4 py-1 transition-all hover:border-primary dark:bg-dark-item">
               MAX
             </div>
-          </div>
+          </div> */}
           <div className="flex flex-col gap-2 text-[12px] lg:text-[16px]">
             <div className="flex items-center justify-between">
               <div>0.0002226458</div>

@@ -53,29 +53,7 @@ const AddLiquidityConfirmPanel = () => {
   const { addLiquidityPoolUuid } = useAddLiquidityPoolUuid();
   const { addLiquidityLpTokenAmount } = useAddLiquidityLpTokenAmount();
 
-  const [tokenAPrice, setTokenAPrice] = useState("");
-  const [tokenBPrice, setTokenBPrice] = useState("");
-  const [poolSharePercentage, setPoolSharePercentage] = useState(0);
   const [isConfirming, setIsConfirming] = useState(false);
-
-  useEffect(() => {
-    console.log("ordinalAddress, addLiquidityPoolUuid changed");
-    (async () => {
-      try {
-        const resPoolInfo = await poolApiService.getLiquidityTokenAmount(
-          ordinalAddress,
-          addLiquidityPoolUuid
-        );
-        const { tokenAAmount, tokenBAmount, share } = resPoolInfo;
-        console.log({ tokenAAmount }, { tokenBAmount });
-        setTokenAPrice((tokenBAmount / tokenAAmount).toFixed(5));
-        setTokenBPrice((tokenAAmount / tokenBAmount).toFixed(5));
-        setPoolSharePercentage(share);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [ordinalAddress, addLiquidityPoolUuid]);
 
   const handleConfirmSupply = async () => {
     try {
@@ -167,18 +145,20 @@ const AddLiquidityConfirmPanel = () => {
             <div>Rates</div>
             <div className="flex flex-col gap-2">
               <div>
-                1 {addLiquidityTokenA.spaced} = {tokenAPrice}{" "}
+                1 {addLiquidityTokenA.spaced} ={" "}
+                {(addLiquidityTokenBAmount / addLiquidityTokenAAmount).toFixed(
+                  5
+                )}{" "}
                 {addLiquidityTokenB.spaced}
               </div>
               <div>
-                1 {addLiquidityTokenB.spaced} = {tokenBPrice}{" "}
+                1 {addLiquidityTokenB.spaced} ={" "}
+                {(addLiquidityTokenAAmount / addLiquidityTokenBAmount).toFixed(
+                  5
+                )}{" "}
                 {addLiquidityTokenA.spaced}
               </div>
             </div>
-          </div>
-          <div className="flex justify-between text-[10px] lg:text-[14px]">
-            <div>Share of Pool</div>
-            <div>{poolSharePercentage}%</div>
           </div>
         </div>
         <div className="mt-8">
