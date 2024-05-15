@@ -381,10 +381,10 @@ const AddLiquidityPanel = () => {
             <div>Share of Pool</div>
             <div>0.14%</div>
           </div>
-          <div className="flex items-center justify-between">
+          {/* <div className="flex items-center justify-between">
             <div>Price</div>
             <div>0.00027 ETH per 1 EOS</div>
-          </div>
+          </div> */}
         </div>
         <div className="mt-8">{AddLiquidityButton()}</div>
       </div>

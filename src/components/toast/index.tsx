@@ -70,9 +70,10 @@ const ToastNotification: FC<Props> = (props) => {
             href={props.link}
             className="mr-5 whitespace-nowrap text-lg font-bold"
             passHref
+            legacyBehavior
           >
             <a target="_blank" rel="noopener noreferrer">
-              Open in mempool
+              Open
             </a>
           </Link>
         )}

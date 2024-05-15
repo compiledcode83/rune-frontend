@@ -23,6 +23,7 @@ type LiquidityPairPanelProps = {
   // sharedpercent: number;
 };
 
+const lpdecimal = 8;
 const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   tokenA,
   tokenB,
@@ -95,7 +96,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
           <div className="flex flex-col gap-2 lg:gap-4">
             <div className="flex justify-between">
               <div>Your total pool tokens</div>
-              <div>{totalAmount}</div>
+              <div>{totalAmount / 10 ** lpdecimal}</div>
             </div>
             <div className="flex justify-between">
               <div>Pooled {tokenA.spaced}</div>

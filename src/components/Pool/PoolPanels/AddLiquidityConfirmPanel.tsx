@@ -31,6 +31,7 @@ import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
 import { customToast } from "@/components/toast";
 
+const lpdecimal = 8;
 const AddLiquidityConfirmPanel = () => {
   const { setAddLiquidityConfirmModalOpen, setAddLiquidityModalOpen } =
     useStatusContext();
@@ -125,7 +126,7 @@ const AddLiquidityConfirmPanel = () => {
         </div>
         <div className="mt-4 flex flex-col gap-2 lg:mt-8">
           <div className="text-[16px] font-semibold lg:text-[24px]">
-            {addLiquidityLpTokenAmount}
+            {addLiquidityLpTokenAmount / 10 ** lpdecimal}
           </div>
           <div className="text-[12px] lg:text-[16px]">ETH/EOS Pool Tokens</div>
           <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
