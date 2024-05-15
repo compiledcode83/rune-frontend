@@ -1,9 +1,9 @@
 import React from "react";
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import { useStatusContext } from "@/context/StatusContext";
-import AddLiquidityPanel from "../Pool/PoolPanels/AddLiquidityPanel";
-import RemoveLiquidityPanel from "../Panels/RemoveLiquidityPanel";
-import RemoveLiquidityConfirmPanel from "../Panels/RemoveLiquidityConfirmPanel";
+import AddLiquidityPanel from "../PoolPanels/AddLiquidityPanel";
+import RemoveLiquidityPanel from "../PoolPanels/RemoveLiquidityPanel";
+import RemoveLiquidityConfirmPanel from "../PoolPanels/RemoveLiquidityConfirmPanel";
 
 const RemoveLiquidityConfirmModal = () => {
   const { removeLiquidityConfirmModalOpen } = useStatusContext();

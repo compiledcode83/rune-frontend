@@ -7,8 +7,8 @@ import AddLiquidityModal from "../Pool/PoolModals/AddLiquidityModal";
 import AddLiquidityConfirmModal from "../Pool/PoolModals/AddLiquidityConfirmModal";
 import AddLiquiditySelectTokenAModal from "../Pool/PoolModals/AddLiquiditySelectTokenAModal";
 import AddLiquiditySelectTokenBModal from "../Pool/PoolModals/AddLiquiditySelectTokenBModal";
-import RemoveLiquidityConfirmModal from "./RemoveLiquidityConfirmModal";
-import RemoveLiquidityModal from "./RemoveLiquidityModal";
+import RemoveLiquidityConfirmModal from "../Pool/PoolModals/RemoveLiquidityConfirmModal";
+import RemoveLiquidityModal from "../Pool/PoolModals/RemoveLiquidityModal";
 import ConnectWalletModal from "./ConnectWalletModal";
 
 const Modals = () => {

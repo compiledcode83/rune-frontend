@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Popover,
   PopoverHandler,
@@ -11,7 +11,7 @@ import Eth from "@/assets/imgs/ETH.svg";
 import Eos from "@/assets/imgs/EOS.svg";
 import ArrowDown from "@/assets/imgs/arrowdown.svg";
 import Arrow2 from "@/assets/imgs/arrow-2.svg";
-import SettingPanel from "./SettingPanel";
+import SettingPanel from "../../Panels/SettingPanel";
 import { useStatusContext } from "@/context/StatusContext";
 import {
   XMarkIcon,
@@ -19,6 +19,8 @@ import {
   MagnifyingGlassIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/solid";
+import { useUserContext } from "@/context/UserContext";
+import poolApiService from "@/api.services/pool/pool.api.service";
 
 const RemoveLiquidityConfirmPanel = () => {
   const { setRemoveLiquidityConfirmModalOpen, setRemoveLiquidityModalOpen } =
@@ -28,6 +30,23 @@ const RemoveLiquidityConfirmPanel = () => {
     setRemoveLiquidityConfirmModalOpen(false);
     setRemoveLiquidityModalOpen(false);
   };
+
+  const { ordinalAddress } = useUserContext();
+
+  useEffect(() => {
+    if (ordinalAddress !== "" && uuid !== "") {
+      (async () => {
+        const resLiquidityAmountInfo =
+          await poolApiService.getLiquidityTokenAmount(ordinalAddress, uuid);
+        const { tokenAAmount, tokenBAmount, share, userLpTokenAmount } =
+          resLiquidityAmountInfo;
+        setAmount1(tokenAAmount);
+        setAmount2(tokenBAmount);
+        setTotalAmount(userLpTokenAmount);
+        setSharedpercent(share);
+      })();
+    }
+  }, [uuid]);
 
   return (
     <div className="mx-auto w-[300px] text-black lg:w-[526px] dark:text-white">

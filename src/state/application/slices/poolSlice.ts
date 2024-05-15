@@ -9,6 +9,7 @@ export type PoolState = {
   addLiquidityTokenBAmount: number;
   addLiquidityLpTokenAmount: number;
   liquidities: LiquidityType[];
+  removeLiquidityUuid: string;
   // minaddLiquidityTokenAAmount: number;
   // maxaddLiquidityTokenAAmount: number;
 };
@@ -30,6 +31,7 @@ const initialState: PoolState = {
   addLiquidityTokenAAmount: 0,
   addLiquidityTokenBAmount: 0,
   addLiquidityLpTokenAmount: 0,
+  removeLiquidityUuid: "",
   liquidities: [],
   // minaddLiquidityTokenAAmount: 0,
   // maxaddLiquidityTokenAAmount: 0,

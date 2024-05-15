@@ -257,9 +257,13 @@ const generateSwapPsbt = async (
 
 const pushTx = async (psbt: string, uuid: string) => {
   try {
-    const response = await axiosInstance.get(`/pool-transaction/swap/push-tx`, {
-      params: { psbt, uuid },
-    });
+    const response = await axiosInstance.post(
+      `/pool-transaction/swap/push-tx`,
+      {
+        psbt,
+        uuid,
+      }
+    );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
