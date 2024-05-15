@@ -22,12 +22,16 @@ import {
 } from "@/state/application/hooks/useSwapHooks";
 import { useUserContext } from "@/context/UserContext";
 import poolApiService from "@/api.services/pool/pool.api.service";
-import SwapTxSubmittedModal from "../SwapModals/SwapTxSubmittedModal";
+import TxSubmittedModal from "../../Modals/TxSubmittedModal";
 import { useState } from "react";
 
 const SwapConfirmPanel = () => {
-  const { setSwapConfirmModalOpen, setSwapTxSubmittedModalOpen } =
-    useStatusContext();
+  const {
+    setSwapConfirmModalOpen,
+    setTxSubmittedModalOpen,
+    setTransactionId,
+    setTransactionDesc,
+  } = useStatusContext();
 
   const {
     ordinalAddress,
@@ -43,7 +47,6 @@ const SwapConfirmPanel = () => {
   const { receiveTokenAmount } = useReceiveTokenAmount();
   const { slippage } = useSlippage();
 
-  const [swapTxId, setSwapTxId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleConfirmSwap = async () => {
@@ -64,10 +67,15 @@ const SwapConfirmPanel = () => {
 
       const signedPsbt = await window.unisat.signPsbt(psbt);
       const txRes = await poolApiService.pushTx(signedPsbt, txId);
-      setSwapTxId(txRes.txId);
-      setSwapTxSubmittedModalOpen(true);
-    } catch (error) {}
-    // setSwapConfirmModalOpen(false);
+      setTransactionId(txRes.txId);
+      setTransactionDesc(
+        `Swapping ${sendTokenAmount} ${sendToken.spaced} for ${receiveTokenAmount} ${receiveToken.spaced}`
+      );
+      setTxSubmittedModalOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
+    setSwapConfirmModalOpen(false);
     // setTxSubmittedModalOpen(true);
     setIsLoading(false);
   };
@@ -123,7 +131,7 @@ const SwapConfirmPanel = () => {
           </div>
         </div>
       </div>
-      <div className="text-[12px] text-light-gray-font lg:text-[14px] lg:text-[16px] dark:text-dark-gray-font">
+      <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
         Output is estimated. If the price changes by more than {slippage}% your
         transaction will revert
       </div>
@@ -190,7 +198,6 @@ const SwapConfirmPanel = () => {
       >
         Confirm
       </Button>
-      <SwapTxSubmittedModal txId={swapTxId} />
     </div>
   );
 };

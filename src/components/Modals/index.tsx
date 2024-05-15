@@ -1,7 +1,6 @@
 import React from "react";
 import SelectTokenModal from "./SelectTokenModal";
 import ConfirmSwapModal from "./ConfirmSwapModal";
-import TxSubmittedModal from "./TxSubmittedModal";
 import ImportTokenModal from "./ImportTokenModal";
 import AddLiquidityModal from "../Pool/PoolModals/AddLiquidityModal";
 import AddLiquidityConfirmModal from "../Pool/PoolModals/AddLiquidityConfirmModal";
@@ -10,13 +9,13 @@ import AddLiquiditySelectTokenBModal from "../Pool/PoolModals/AddLiquiditySelect
 import RemoveLiquidityConfirmModal from "../Pool/PoolModals/RemoveLiquidityConfirmModal";
 import RemoveLiquidityModal from "../Pool/PoolModals/RemoveLiquidityModal";
 import ConnectWalletModal from "./ConnectWalletModal";
+import TxSubmittedModal from "./TxSubmittedModal";
 
 const Modals = () => {
   return (
     <div>
       <SelectTokenModal />
       <ConfirmSwapModal />
-      <TxSubmittedModal />
       <ImportTokenModal />
       <AddLiquidityModal />
       <AddLiquidityConfirmModal />
@@ -25,6 +24,7 @@ const Modals = () => {
       <RemoveLiquidityModal />
       <RemoveLiquidityConfirmModal />
       <ConnectWalletModal />
+      <TxSubmittedModal />
     </div>
   );
 };

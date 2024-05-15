@@ -8,7 +8,8 @@ import { Button } from "@material-tailwind/react";
 import { useThemeContext } from "@/context/ThemeContext";
 
 const TxSubmittedPanel = () => {
-  const { setTxSubmittedModalOpen } = useStatusContext();
+  const { setTxSubmittedModalOpen, transactionDesc, transactionId } =
+    useStatusContext();
   const { darkMode } = useThemeContext();
 
   return (
@@ -17,7 +18,9 @@ const TxSubmittedPanel = () => {
         <XMarkIcon
           width={20}
           className="cursor-pointer"
-          onClick={() => setTxSubmittedModalOpen(false)}
+          onClick={() => {
+            setTxSubmittedModalOpen(false);
+          }}
         />
       </div>
       <div>
@@ -31,15 +34,20 @@ const TxSubmittedPanel = () => {
         Transaction Submitted
       </div>
       <div className="text-center text-[12px] lg:text-[14px]">
-        Swapping 0.022 ETH for 82.89 EOS
+        {transactionDesc}
       </div>
       <div className="mt-4">
-        <Button
-          placeholder={undefined}
-          className="dark:text-dark-primary bg-light-tooltip-bg dark:bg-dark-tooltip-bg w-full text-[16px] font-bold normal-case text-primary lg:text-[18px]"
+        <a
+          href={`https://mempool.space/testnet/tx/${transactionId}`}
+          target="_blank"
         >
-          View in Mempool
-        </Button>
+          <Button
+            placeholder={undefined}
+            className="w-full bg-light-tooltip-bg text-[16px] font-bold normal-case text-primary lg:text-[18px] dark:bg-dark-tooltip-bg dark:text-dark-primary"
+          >
+            View in Mempool
+          </Button>
+        </a>
       </div>
     </div>
   );

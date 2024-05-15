@@ -19,10 +19,23 @@ import {
   MagnifyingGlassIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/solid";
+import {
+  useRemoveLiquiditySharePercent,
+  useRemoveLiquidityTokenA,
+  useRemoveLiquidityTokenAAmount,
+  useRemoveLiquidityTokenB,
+  useRemoveLiquidityTokenBAmount,
+} from "@/state/application/hooks/usePoolHooks";
 
 const RemoveLiquidityPanel = () => {
   const { setRemoveLiquidityModalOpen, setRemoveLiquidityConfirmModalOpen } =
     useStatusContext();
+
+  const { removeLiquidityTokenA } = useRemoveLiquidityTokenA();
+  const { removeLiquidityTokenAAmount } = useRemoveLiquidityTokenAAmount();
+  const { removeLiquidityTokenB } = useRemoveLiquidityTokenB();
+  const { removeLiquidityTokenBAmount } = useRemoveLiquidityTokenBAmount();
+  const { removeLiquiditySharePercent } = useRemoveLiquiditySharePercent();
 
   return (
     <div className="mx-auto w-[300px] text-black lg:w-[526px] dark:text-white">
@@ -66,39 +79,61 @@ const RemoveLiquidityPanel = () => {
           </div> */}
           <div className="flex flex-col gap-2 text-[12px] lg:text-[16px]">
             <div className="flex items-center justify-between">
-              <div>0.0002226458</div>
+              <div>{removeLiquidityTokenAAmount}</div>
               <div className="flex items-center gap-1">
-                <Image src={Eth} alt="eth" />
-                <div>ETH</div>
+                <Image
+                  src={removeLiquidityTokenA.imgUrl}
+                  alt={removeLiquidityTokenA.name}
+                  width={24}
+                  height={24}
+                />
+                <div>{removeLiquidityTokenA.spaced}</div>
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <div>0.0000659465996</div>
+              <div>{removeLiquidityTokenBAmount}</div>
               <div className="flex items-center gap-1">
-                <Image src={Eos} alt="eth" />
-                <div>EOS</div>
+                <Image
+                  src={removeLiquidityTokenB.imgUrl}
+                  alt={removeLiquidityTokenB.name}
+                  width={24}
+                  height={24}
+                />
+                <div>{removeLiquidityTokenB.spaced}</div>
               </div>
             </div>
           </div>
           <div className="flex justify-between text-[12px] lg:text-[16px]">
             <div>Price</div>
-            <div className="flex flex-col gap-2">
-              <div>1 ETH = 3753.23 EOS</div>
-              <div>1 EOS = 0.00027 ETH</div>
+          </div>
+          <div className="flex flex-col items-end gap-2">
+            <div>
+              1 {removeLiquidityTokenA.spaced} ={" "}
+              {(
+                removeLiquidityTokenBAmount / removeLiquidityTokenAAmount
+              ).toFixed(5)}{" "}
+              {removeLiquidityTokenB.spaced}
+            </div>
+            <div>
+              1 {removeLiquidityTokenB.spaced} ={" "}
+              {(
+                removeLiquidityTokenAAmount / removeLiquidityTokenBAmount
+              ).toFixed(5)}{" "}
+              {removeLiquidityTokenA.spaced}
             </div>
           </div>
           <div className="flex justify-between text-[10px] lg:text-[14px]">
             <div>Share of Pool</div>
-            <div>0.14%</div>
+            <div>{removeLiquiditySharePercent}%</div>
           </div>
         </div>
         <div className="mt-8 flex gap-2">
-          <Button
+          {/* <Button
             className="w-full bg-dark-panel text-[16px] normal-case text-light-gray-font lg:text-[24px] dark:bg-light-panel"
             placeholder={undefined}
           >
             Approve
-          </Button>
+          </Button> */}
           <Button
             className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
             placeholder={undefined}

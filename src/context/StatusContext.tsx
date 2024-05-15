@@ -23,6 +23,8 @@ export const StatusContext = createContext<StatusContextProps>({
   removeLiquidityModalOpen: false,
   setRemoveLiquidityModalOpen: () => {},
   removeLiquidityConfirmModalOpen: false,
+  setCollectFeesModalOpen: () => {},
+  collectFeesModalOpen: false,
   setRemoveLiquidityConfirmModalOpen: () => {},
   swapSelectSendTokenModalOpen: false,
   setSwapSelectSendTokenModalOpen: () => {},
@@ -30,8 +32,10 @@ export const StatusContext = createContext<StatusContextProps>({
   setSwapSelectReceiveTokenModalOpen: () => {},
   swapConfirmModalOpen: false,
   setSwapConfirmModalOpen: () => {},
-  swapTxSubmittedModalOpen: false,
-  setSwapTxSubmittedModalOpen: () => {},
+  transactionId: "",
+  setTransactionId: () => {},
+  transactionDesc: "",
+  setTransactionDesc: () => {},
 });
 
 export const useStatusContext = () => useContext(StatusContext);
@@ -46,6 +50,7 @@ export const StatusProvider = ({ ...props }) => {
   const [addLiquidityModalOpen, setAddLiquidityModalOpen] = useState(false);
   const [addLiquidityConfirmModalOpen, setAddLiquidityConfirmModalOpen] =
     useState(false);
+  const [collectFeesModalOpen, setCollectFeesModalOpen] = useState(false);
   const [
     addLiquiditySelectTokenAModalOpen,
     setAddLiquiditySelectTokenAModalOpen,
@@ -65,8 +70,8 @@ export const StatusProvider = ({ ...props }) => {
   const [swapSelectReceiveTokenModalOpen, setSwapSelectReceiveTokenModalOpen] =
     useState(false);
   const [swapConfirmModalOpen, setSwapConfirmModalOpen] = useState(false);
-  const [swapTxSubmittedModalOpen, setSwapTxSubmittedModalOpen] =
-    useState(false);
+  const [transactionId, setTransactionId] = useState("");
+  const [transactionDesc, setTransactionDesc] = useState("");
   return (
     <StatusContext.Provider
       value={{
@@ -92,6 +97,8 @@ export const StatusProvider = ({ ...props }) => {
         setRemoveLiquidityModalOpen,
         removeLiquidityConfirmModalOpen,
         setRemoveLiquidityConfirmModalOpen,
+        collectFeesModalOpen,
+        setCollectFeesModalOpen,
 
         swapSelectSendTokenModalOpen,
         setSwapSelectSendTokenModalOpen,
@@ -99,8 +106,10 @@ export const StatusProvider = ({ ...props }) => {
         setSwapSelectReceiveTokenModalOpen,
         swapConfirmModalOpen,
         setSwapConfirmModalOpen,
-        swapTxSubmittedModalOpen,
-        setSwapTxSubmittedModalOpen,
+        transactionId,
+        setTransactionId,
+        transactionDesc,
+        setTransactionDesc,
       }}
     >
       {children}

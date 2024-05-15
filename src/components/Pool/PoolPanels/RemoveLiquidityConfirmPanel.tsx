@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Popover,
   PopoverHandler,
@@ -21,32 +21,70 @@ import {
 } from "@heroicons/react/24/solid";
 import { useUserContext } from "@/context/UserContext";
 import poolApiService from "@/api.services/pool/pool.api.service";
+import {
+  useRemoveLiquidityLpTokenAmount,
+  useRemoveLiquiditySharePercent,
+  useRemoveLiquidityTokenA,
+  useRemoveLiquidityTokenAAmount,
+  useRemoveLiquidityTokenB,
+  useRemoveLiquidityTokenBAmount,
+  useRemoveLiquidityPoolUuid,
+} from "@/state/application/hooks/usePoolHooks";
+
+const lpdecimal = 8;
 
 const RemoveLiquidityConfirmPanel = () => {
-  const { setRemoveLiquidityConfirmModalOpen, setRemoveLiquidityModalOpen } =
-    useStatusContext();
+  const {
+    setRemoveLiquidityConfirmModalOpen,
+    setRemoveLiquidityModalOpen,
+    setTransactionId,
+    setTransactionDesc,
+    setTxSubmittedModalOpen,
+  } = useStatusContext();
+  const {
+    ordinalAddress,
+    ordinalPublicKey,
+    paymentPublicKey,
+    paymentAddress,
+    walletType,
+  } = useUserContext();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleConfirmSupply = () => {
+  const { removeLiquidityTokenA } = useRemoveLiquidityTokenA();
+  const { removeLiquidityTokenAAmount } = useRemoveLiquidityTokenAAmount();
+  const { removeLiquidityTokenB } = useRemoveLiquidityTokenB();
+  const { removeLiquidityTokenBAmount } = useRemoveLiquidityTokenBAmount();
+  const { removeLiquiditySharePercent } = useRemoveLiquiditySharePercent();
+  const { removeLiquidityLpTokenAmount } = useRemoveLiquidityLpTokenAmount();
+  const { removeLiquidityPoolUuid } = useRemoveLiquidityPoolUuid();
+
+  const handleConfirmRemove = async () => {
+    setIsLoading(true);
+    try {
+      const res = await poolApiService.generateRemoveLiquidityPsbt(
+        ordinalAddress,
+        ordinalPublicKey,
+        paymentAddress,
+        paymentPublicKey,
+        walletType,
+        removeLiquidityPoolUuid
+      );
+      const { psbt, txId } = res;
+
+      const signedPsbt = await window.unisat.signPsbt(psbt);
+      const txRes = await poolApiService.pushTx(signedPsbt, txId);
+      setTransactionId(txRes.txId);
+      setTransactionDesc(
+        `Removing pool ${removeLiquidityTokenA.spaced} / ${removeLiquidityTokenB.spaced}`
+      );
+      setTxSubmittedModalOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
     setRemoveLiquidityConfirmModalOpen(false);
     setRemoveLiquidityModalOpen(false);
+    setIsLoading(false);
   };
-
-  const { ordinalAddress } = useUserContext();
-
-  useEffect(() => {
-    if (ordinalAddress !== "" && uuid !== "") {
-      (async () => {
-        const resLiquidityAmountInfo =
-          await poolApiService.getLiquidityTokenAmount(ordinalAddress, uuid);
-        const { tokenAAmount, tokenBAmount, share, userLpTokenAmount } =
-          resLiquidityAmountInfo;
-        setAmount1(tokenAAmount);
-        setAmount2(tokenBAmount);
-        setTotalAmount(userLpTokenAmount);
-        setSharedpercent(share);
-      })();
-    }
-  }, [uuid]);
 
   return (
     <div className="mx-auto w-[300px] text-black lg:w-[526px] dark:text-white">
@@ -67,36 +105,87 @@ const RemoveLiquidityConfirmPanel = () => {
           </div>
         </div>
         <div className="mt-4 flex flex-col gap-2 lg:mt-8">
-          <div className="text-[16px] font-semibold lg:text-[24px]">
-            0.000922108941
+          <div className="text-[12px] lg:text-[16px]">
+            {removeLiquidityTokenA.spaced}/{removeLiquidityTokenB.spaced} Pool
+            Tokens
           </div>
-          <div className="text-[12px] lg:text-[16px]">ETH/EOS Pool Tokens</div>
-          <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
-            Output is estimated. If the price changes by more than 0.5% your
-            transaction revert
-          </div>
-          <div className="my-2 text-[12px] font-semibold lg:text-[16px]">
-            ETH/EOS
-          </div>
-          <div className="flex flex-col gap-2 rounded-lg bg-light-item p-4 text-[12px] lg:text-[16px] dark:bg-dark-item">
-            <div className="flex justify-between">
-              <div>ETH/EOS</div>
-              <div className="flex gap-1">
-                <div>0.3265595496479</div>
-                <Image src={Eth} alt="eth" />
-                <Image src={Eos} alt="eos" />
+          <div className="flex flex-col gap-2 text-[12px] lg:text-[16px]">
+            <div className="flex items-center justify-between">
+              <div>{removeLiquidityTokenA.spaced} Deposited</div>
+              <div className="flex items-center gap-4">
+                <Image
+                  src={removeLiquidityTokenA.imgUrl}
+                  alt={removeLiquidityTokenA.name}
+                  width={24}
+                  height={24}
+                />
+                <div>
+                  {removeLiquidityTokenAAmount} {removeLiquidityTokenA.symbol}
+                </div>
               </div>
             </div>
-            <div className="flex justify-between">
-              <div>Rates</div>
-              <div className="flex flex-col gap-2">
-                <div>1 ETH = 3753.23 EOS</div>
-                <div>1 EOS = 0.00027 ETH</div>
+            <div className="flex items-center justify-between">
+              <div>{removeLiquidityTokenB.spaced} Deposited</div>
+              <div className="flex items-center gap-4">
+                <Image
+                  src={removeLiquidityTokenB.imgUrl}
+                  alt={removeLiquidityTokenB.name}
+                  width={24}
+                  height={24}
+                />
+                <div>
+                  {removeLiquidityTokenBAmount} {removeLiquidityTokenB.symbol}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
+            Output is estimated. If the price changes by more than 0.5% your
+            transaction revert
+          </div> */}
+          <div className="flex flex-col gap-2 rounded-lg bg-light-item p-4 text-[12px] lg:text-[16px] dark:bg-dark-item">
+            <div className="flex flex-col">
+              <div>
+                {removeLiquidityTokenA.spaced}/{removeLiquidityTokenB.spaced}
+              </div>
+              <div className="flex justify-end gap-1">
+                <div>{removeLiquidityLpTokenAmount / 10 ** lpdecimal}</div>
+                <Image
+                  src={removeLiquidityTokenA.imgUrl}
+                  width={24}
+                  height={24}
+                  alt={removeLiquidityTokenA.name}
+                />
+                <Image
+                  src={removeLiquidityTokenB.imgUrl}
+                  width={24}
+                  height={24}
+                  alt={removeLiquidityTokenB.name}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div>Price</div>
+              <div className="flex flex-col items-end gap-2">
+                <div>
+                  1 {removeLiquidityTokenA.spaced} ={" "}
+                  {(
+                    removeLiquidityTokenBAmount / removeLiquidityTokenAAmount
+                  ).toFixed(5)}{" "}
+                  {removeLiquidityTokenB.spaced}
+                </div>
+                <div>
+                  1 {removeLiquidityTokenB.spaced} ={" "}
+                  {(
+                    removeLiquidityTokenAAmount / removeLiquidityTokenBAmount
+                  ).toFixed(5)}{" "}
+                  {removeLiquidityTokenA.spaced}
+                </div>
               </div>
             </div>
             <div className="flex justify-between">
               <div>Share of Pool</div>
-              <div>0.14%</div>
+              <div>{removeLiquiditySharePercent}%</div>
             </div>
           </div>
         </div>
@@ -104,9 +193,9 @@ const RemoveLiquidityConfirmPanel = () => {
           <Button
             className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
             placeholder={undefined}
-            onClick={() => handleConfirmSupply()}
+            onClick={() => handleConfirmRemove()}
           >
-            Confirm Supply
+            Confirm Remove
           </Button>
         </div>
       </div>

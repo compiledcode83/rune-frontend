@@ -9,9 +9,13 @@ export type PoolState = {
   addLiquidityTokenBAmount: number;
   addLiquidityLpTokenAmount: number;
   liquidities: LiquidityType[];
-  removeLiquidityUuid: string;
-  // minaddLiquidityTokenAAmount: number;
-  // maxaddLiquidityTokenAAmount: number;
+  removeLiquidityTokenA: TokenType;
+  removeLiquidityTokenB: TokenType;
+  removeLiquidityPoolUuid: string;
+  removeLiquidityTokenAAmount: number;
+  removeLiquidityTokenBAmount: number;
+  removeLiquiditySharePercent: number;
+  removeLiquidityLpTokenAmount: number;
 };
 
 const initialToken: TokenType = {
@@ -31,11 +35,14 @@ const initialState: PoolState = {
   addLiquidityTokenAAmount: 0,
   addLiquidityTokenBAmount: 0,
   addLiquidityLpTokenAmount: 0,
-  removeLiquidityUuid: "",
+  removeLiquidityTokenA: initialToken,
+  removeLiquidityTokenB: initialToken,
+  removeLiquidityPoolUuid: "",
+  removeLiquidityTokenAAmount: 0,
+  removeLiquidityTokenBAmount: 0,
+  removeLiquiditySharePercent: 0,
+  removeLiquidityLpTokenAmount: 0,
   liquidities: [],
-  // poolInfo: [],
-  // minaddLiquidityTokenAAmount: 0,
-  // maxaddLiquidityTokenAAmount: 0,
 };
 
 export const poolSlice = createSlice({
@@ -55,24 +62,40 @@ export const poolSlice = createSlice({
     setAddLiquidityTokenBAmount: (state, action: PayloadAction<number>) => {
       state.addLiquidityTokenBAmount = action.payload;
     },
-    setLiquidities: (state, action: PayloadAction<LiquidityType[]>) => {
-      state.liquidities = action.payload;
-    },
+
     setAddLiquidityPoolUuid: (state, action: PayloadAction<string>) => {
       state.addLiquidityPoolUuid = action.payload;
     },
     setAddLiquidityLpTokenAmount: (state, action: PayloadAction<number>) => {
       state.addLiquidityLpTokenAmount = action.payload;
     },
-    // setTokenBalances: (state, action: PayloadAction<BalanceType[]>) => {
-    //   state.tokenBalances = action.payload;
-    // },
-    // setMinaddLiquidityTokenAAmount: (state, action: PayloadAction<number>) => {
-    //   state.minaddLiquidityTokenAAmount = action.payload;
-    // },
-    // setMaxaddLiquidityTokenAAmount: (state, action: PayloadAction<number>) => {
-    //   state.maxaddLiquidityTokenAAmount = action.payload;
-    // },
+    setLiquidities: (state, action: PayloadAction<LiquidityType[]>) => {
+      state.liquidities = action.payload;
+    },
+    setRemoveLiquidityTokenA: (state, action: PayloadAction<TokenType>) => {
+      state.removeLiquidityTokenA = action.payload;
+    },
+    setRemoveLiquidityTokenB: (state, action: PayloadAction<TokenType>) => {
+      state.removeLiquidityTokenB = action.payload;
+    },
+
+    setRemoveLiquidityTokenAAmount: (state, action: PayloadAction<number>) => {
+      state.removeLiquidityTokenAAmount = action.payload;
+    },
+    setRemoveLiquidityTokenBAmount: (state, action: PayloadAction<number>) => {
+      state.removeLiquidityTokenBAmount = action.payload;
+    },
+
+    setRemoveLiquidityPoolUuid: (state, action: PayloadAction<string>) => {
+      state.removeLiquidityPoolUuid = action.payload;
+    },
+
+    setRemoveLiquiditySharePercent: (state, action: PayloadAction<number>) => {
+      state.removeLiquiditySharePercent = action.payload;
+    },
+    setRemoveLiquidityLpTokenAmount: (state, action: PayloadAction<number>) => {
+      state.removeLiquidityLpTokenAmount = action.payload;
+    },
   },
 });
 
@@ -81,13 +104,16 @@ export const {
   setAddLiquidityTokenB,
   setAddLiquidityTokenAAmount,
   setAddLiquidityTokenBAmount,
-  setLiquidities,
   setAddLiquidityPoolUuid,
   setAddLiquidityLpTokenAmount,
-
-  // setTokenBalances,
-  // setMinaddLiquidityTokenAAmount,
-  // setMaxaddLiquidityTokenAAmount,
+  setLiquidities,
+  setRemoveLiquidityTokenA,
+  setRemoveLiquidityTokenB,
+  setRemoveLiquidityTokenAAmount,
+  setRemoveLiquidityTokenBAmount,
+  setRemoveLiquidityPoolUuid,
+  setRemoveLiquiditySharePercent,
+  setRemoveLiquidityLpTokenAmount,
 } = poolSlice.actions;
 
 export default poolSlice.reducer;

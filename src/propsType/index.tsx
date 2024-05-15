@@ -29,18 +29,19 @@ export type StatusContextProps = {
   setRemoveLiquidityModalOpen: (open: boolean) => void;
   removeLiquidityConfirmModalOpen: boolean;
   setRemoveLiquidityConfirmModalOpen: (open: boolean) => void;
+  collectFeesModalOpen: boolean;
+  setCollectFeesModalOpen: (open: boolean) => void;
 
   swapSelectSendTokenModalOpen: boolean;
   setSwapSelectSendTokenModalOpen: (open: boolean) => void;
-
   swapSelectReceiveTokenModalOpen: boolean;
   setSwapSelectReceiveTokenModalOpen: (open: boolean) => void;
-
   swapConfirmModalOpen: boolean;
   setSwapConfirmModalOpen: (open: boolean) => void;
-
-  swapTxSubmittedModalOpen: boolean;
-  setSwapTxSubmittedModalOpen: (open: boolean) => void;
+  transactionId: string;
+  setTransactionId: (txId: string) => void;
+  transactionDesc: string;
+  setTransactionDesc: (txId: string) => void;
 };
 
 export type UserSessionProps = {

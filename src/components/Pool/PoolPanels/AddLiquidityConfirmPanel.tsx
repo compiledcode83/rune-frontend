@@ -6,12 +6,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import Image from "next/image";
-import Setting from "@/assets/imgs/setting.svg";
-import Eth from "@/assets/imgs/ETH.svg";
-import Eos from "@/assets/imgs/EOS.svg";
-import ArrowDown from "@/assets/imgs/arrowdown.svg";
-import Arrow2 from "@/assets/imgs/arrow-2.svg";
-import SettingPanel from "../../Panels/SettingPanel";
+
 import { useStatusContext } from "@/context/StatusContext";
 import {
   XMarkIcon,
@@ -30,11 +25,17 @@ import {
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
 import { customToast } from "@/components/toast";
+import TxSubmittedModal from "@/components/Modals/TxSubmittedModal";
 
 const lpdecimal = 8;
 const AddLiquidityConfirmPanel = () => {
-  const { setAddLiquidityConfirmModalOpen, setAddLiquidityModalOpen } =
-    useStatusContext();
+  const {
+    setAddLiquidityConfirmModalOpen,
+    setAddLiquidityModalOpen,
+    setTxSubmittedModalOpen,
+    setTransactionDesc,
+    setTransactionId,
+  } = useStatusContext();
 
   const {
     ordinalAddress,
@@ -69,19 +70,26 @@ const AddLiquidityConfirmPanel = () => {
         addLiquidityTokenBAmount
       );
       const { psbt, txId } = res;
+
       const signedPsbt = await window.unisat.signPsbt(psbt);
       const txRes = await poolApiService.pushTx(signedPsbt, txId);
-      setAddLiquidityConfirmModalOpen(false);
-      setAddLiquidityModalOpen(false);
-      customToast({
-        toastType: "success",
-        title: "Add liquidity success",
-        link: `https://mempool.space/testnet/tx/${txRes.txId}`,
-      });
+      setTransactionId(txRes.txId);
+      setTransactionDesc(
+        `Adding liquidity ${addLiquidityTokenAAmount} ${addLiquidityTokenA.spaced} and ${addLiquidityTokenBAmount} ${addLiquidityTokenB.spaced}`
+      );
+      setTxSubmittedModalOpen(true);
+
+      // customToast({
+      //   toastType: "success",
+      //   title: "Add liquidity success",
+      //   link: `https://mempool.space/testnet/tx/${txRes.txId}`,
+      // });
     } catch (error) {
       console.error(error);
     }
     setIsConfirming(false);
+    setAddLiquidityConfirmModalOpen(false);
+    setAddLiquidityModalOpen(false);
   };
 
   return (
@@ -106,11 +114,13 @@ const AddLiquidityConfirmPanel = () => {
           <div className="text-[16px] font-semibold lg:text-[24px]">
             {addLiquidityLpTokenAmount / 10 ** lpdecimal}
           </div>
-          <div className="text-[12px] lg:text-[16px]">ETH/EOS Pool Tokens</div>
-          <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
+          <div className="text-[12px] lg:text-[16px]">
+            {addLiquidityTokenA.spaced}/{addLiquidityTokenB.spaced} Pool Tokens
+          </div>
+          {/* <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
             Output is estimated. If the price changes by more than 0.5% your
             transaction revert
-          </div>
+          </div> */}
           <div className="flex flex-col gap-2 text-[12px] lg:text-[16px]">
             <div className="flex items-center justify-between">
               <div>{addLiquidityTokenA.spaced} Deposited</div>

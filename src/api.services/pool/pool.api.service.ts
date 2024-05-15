@@ -257,13 +257,10 @@ const generateSwapPsbt = async (
 
 const pushTx = async (psbt: string, uuid: string) => {
   try {
-    const response = await axiosInstance.post(
-      `/pool-transaction/swap/push-tx`,
-      {
-        psbt,
-        uuid,
-      }
-    );
+    const response = await axiosInstance.post(`/pool-transaction/push-tx`, {
+      psbt,
+      uuid,
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -321,6 +318,43 @@ const generateAddLiquidityPsbt = async (
   }
 };
 
+const generateRemoveLiquidityPsbt = async (
+  address: string,
+  pubkey: string,
+  paymentAddress: string,
+  paymentPubkey: string,
+  walletType: string,
+  poolUuid: string
+) => {
+  try {
+    const response = await axiosInstance.post(
+      `/pool-transaction/remove-liquidity/generate-psbt`,
+      {
+        address,
+        pubkey,
+        paymentAddress,
+        paymentPubkey,
+        walletType,
+        poolUuid,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // AxiosError type allows access to error response data
+      if (error.response) {
+        console.log(error.response.data.message); // Access error response data
+        customToast({ toastType: "error", title: error.response.data.message });
+      } else {
+        console.log("Error occurred, but no response was received");
+      }
+    } else {
+      console.log("Non-Axios error occurred:", error);
+    }
+    throw error;
+  }
+};
+
 export default {
   getSwapableTokens,
   getPoolTokens,
@@ -332,5 +366,6 @@ export default {
   getLiquidityTokenAmount,
   getAddLiquidityTokenAmount,
   generateAddLiquidityPsbt,
+  generateRemoveLiquidityPsbt,
   getPoolInfo,
 };

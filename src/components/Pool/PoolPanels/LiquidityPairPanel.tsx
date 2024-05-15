@@ -10,6 +10,13 @@ import {
   useAddLiquidityTokenAAmount,
   useAddLiquidityTokenB,
   useAddLiquidityTokenBAmount,
+  useRemoveLiquidityLpTokenAmount,
+  useRemoveLiquidityPoolUuid,
+  useRemoveLiquiditySharePercent,
+  useRemoveLiquidityTokenA,
+  useRemoveLiquidityTokenAAmount,
+  useRemoveLiquidityTokenB,
+  useRemoveLiquidityTokenBAmount,
 } from "@/state/application/hooks/usePoolHooks";
 import { TokenType } from "@/types/type";
 
@@ -33,13 +40,24 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   // totalamount,
   // sharedpercent,
 }) => {
-  const { setRemoveLiquidityModalOpen, setAddLiquidityModalOpen } =
-    useStatusContext();
+  const {
+    setRemoveLiquidityModalOpen,
+    setAddLiquidityModalOpen,
+    setCollectFeesModalOpen,
+  } = useStatusContext();
   const { ordinalAddress } = useUserContext();
   const { setAddLiquidityTokenA } = useAddLiquidityTokenA();
   const { setAddLiquidityTokenAAmount } = useAddLiquidityTokenAAmount();
   const { setAddLiquidityTokenB } = useAddLiquidityTokenB();
   const { setAddLiquidityTokenBAmount } = useAddLiquidityTokenBAmount();
+  const { setRemoveLiquidityTokenA } = useRemoveLiquidityTokenA();
+  const { setRemoveLiquidityTokenAAmount } = useRemoveLiquidityTokenAAmount();
+  const { setRemoveLiquidityTokenB } = useRemoveLiquidityTokenB();
+  const { setRemoveLiquidityTokenBAmount } = useRemoveLiquidityTokenBAmount();
+  const { setRemoveLiquiditySharePercent } = useRemoveLiquiditySharePercent();
+  const { setRemoveLiquidityLpTokenAmount } = useRemoveLiquidityLpTokenAmount();
+  const { setRemoveLiquidityPoolUuid } = useRemoveLiquidityPoolUuid();
+
   const [open, setOpen] = useState(false);
   const [amount1, setAmount1] = useState(0);
   const [amount2, setAmount2] = useState(0);
@@ -52,6 +70,19 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
     setAddLiquidityTokenAAmount(0);
     setAddLiquidityTokenB(tokenB);
     setAddLiquidityTokenBAmount(0);
+  };
+  const handleRemoveLiquidity = () => {
+    setRemoveLiquidityModalOpen(true);
+    setRemoveLiquidityTokenA(tokenA);
+    setRemoveLiquidityTokenAAmount(amount1);
+    setRemoveLiquidityTokenB(tokenB);
+    setRemoveLiquidityTokenBAmount(amount2);
+    setRemoveLiquiditySharePercent(sharedpercent);
+    setRemoveLiquidityLpTokenAmount(totalAmount);
+    setRemoveLiquidityPoolUuid(uuid);
+  };
+  const handleCollectFeesLiquidity = () => {
+    setCollectFeesModalOpen(true);
   };
   useEffect(() => {
     if (ordinalAddress !== "" && uuid !== "") {
@@ -118,11 +149,11 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
           <div className="mt-4 text-center text-dark-primary lg:mt-8">
             View Accrued Fees and Analytics
           </div>
-          <div className="mt-8 flex items-center justify-center gap-2 lg:mt-12">
+          <div className="mt-8 flex items-center justify-between lg:mt-12">
             <Button
               className="bg-white text-[16px] normal-case text-primary lg:text-[24px] dark:bg-dark-item"
               placeholder={undefined}
-              onClick={() => setRemoveLiquidityModalOpen(true)}
+              onClick={handleRemoveLiquidity}
             >
               Remove
             </Button>
@@ -132,6 +163,13 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
               onClick={handleAddLiquidity}
             >
               Add
+            </Button>
+            <Button
+              className="bg-white text-[16px] normal-case text-dark-item lg:text-[24px] dark:bg-dark-item"
+              placeholder={undefined}
+              onClick={handleCollectFeesLiquidity}
+            >
+              Collect Fees
             </Button>
           </div>
         </div>
