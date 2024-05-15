@@ -124,17 +124,20 @@ const SwapConfirmPanel = () => {
         </div>
       </div>
       <div className="text-[12px] text-light-gray-font lg:text-[14px] lg:text-[16px] dark:text-dark-gray-font">
-        Output is estimated. If the price changes by more than 0.5% your
+        Output is estimated. If the price changes by more than {slippage}% your
         transaction will revert
       </div>
       <div className="flex flex-col gap-2 text-[12px] lg:gap-4 lg:text-[14px]">
-        <div className="flex items-center justify-between ">
+        {/* <div className="flex items-center justify-between ">
           <div>Price</div>
           <div className="flex items-center gap-1">
-            <div>0.00027 ETH per 1 EOS</div>
+            <div>
+              {(receiveTokenAmount / sendTokenAmount).toFixed(5)}{" "}
+              {receiveToken.symbol} per 1 {sendToken.symbol}
+            </div>
             <ArrowsUpDownIcon width={20} />
           </div>
-        </div>
+        </div> */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
             <div>Minimum received</div>
