@@ -140,40 +140,40 @@ const AddLiquidityPanel = () => {
     }
   }, [addLiquidityTokenA, addLiquidityTokenB]);
 
-  // useEffect(() => {
-  //   if (addLiquidityTokenAAmount === 0 || addLiquidityTokenB.uuid === "") {
-  //     setAddLiquidityTokenBAmount(0);
-  //   } else if (addLiquidityPoolUuid !== "") {
-  //     (async () => {
-  //       const poolTokenARuneId = liquidities.find((liquidity) => {
-  //         return liquidity.poolUuid === addLiquidityPoolUuid;
-  //       })?.tokenA.runeId;
-  //       let tokenType;
-  //       if (poolTokenARuneId === addLiquidityTokenA.runeId) {
-  //         tokenType = "A";
-  //       } else {
-  //         tokenType = "B";
-  //       }
-  //       const resTokensAmount = await poolApiService.getAddLiquidityTokenAmount(
-  //         addLiquidityPoolUuid,
-  //         addLiquidityTokenAAmount,
-  //         tokenType
-  //       );
-  //       const { tokenBAmount, tokenAAmount, lpTokenAmount } = resTokensAmount;
-  //       if (tokenType === "A") {
-  //         setAddLiquidityTokenBAmount(tokenBAmount);
-  //       } else {
-  //         setAddLiquidityTokenBAmount(tokenAAmount);
-  //       }
-  //       setAddLiquidityLpTokenAmount(lpTokenAmount);
-  //     })();
-  //   }
-  // }, [
-  //   addLiquidityTokenAAmount,
-  //   addLiquidityTokenA.uuid,
-  //   addLiquidityTokenB.uuid,
-  //   addLiquidityPoolUuid,
-  // ]);
+  useEffect(() => {
+    if (addLiquidityTokenAAmount === 0 || addLiquidityTokenB.uuid === "") {
+      setAddLiquidityTokenBAmount(0);
+    } else if (addLiquidityPoolUuid !== "") {
+      (async () => {
+        const poolTokenARuneId = liquidities.find((liquidity) => {
+          return liquidity.poolUuid === addLiquidityPoolUuid;
+        })?.tokenA.runeId;
+        let tokenType;
+        if (poolTokenARuneId === addLiquidityTokenA.runeId) {
+          tokenType = "A";
+        } else {
+          tokenType = "B";
+        }
+        const resTokensAmount = await poolApiService.getAddLiquidityTokenAmount(
+          addLiquidityPoolUuid,
+          addLiquidityTokenAAmount,
+          tokenType
+        );
+        const { tokenBAmount, tokenAAmount, lpTokenAmount } = resTokensAmount;
+        if (tokenType === "A") {
+          setAddLiquidityTokenBAmount(tokenBAmount);
+        } else {
+          setAddLiquidityTokenBAmount(tokenAAmount);
+        }
+        setAddLiquidityLpTokenAmount(lpTokenAmount);
+      })();
+    }
+  }, [
+    addLiquidityTokenAAmount,
+    addLiquidityTokenA.uuid,
+    addLiquidityTokenB.uuid,
+    addLiquidityPoolUuid,
+  ]);
 
   const handleAddLiquidityConfirmModalOpen = () => {
     setAddLiquidityConfirmModalOpen(true);
