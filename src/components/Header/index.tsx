@@ -18,7 +18,7 @@ import { addressShortening } from "@/utils/adress";
 const MenuItems = [
   { name: "Swap", link: "/" },
   { name: "Pool", link: "/pool" },
-  { name: "Claim", link: "/claim" },
+  // { name: "Claim", link: "/claim" },
 ];
 const Header = () => {
   const router = useRouter();
