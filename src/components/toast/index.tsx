@@ -48,7 +48,7 @@ const ToastNotification: FC<Props> = (props) => {
   else if (props.toastType === "warn") bg = "bg-[#FF9179]";
 
   return (
-    <div className="dark: dark:shadow- bg-light-toast dark:bg-dark-toast [ relative flex w-[350px] items-center justify-between rounded-lg border-[1px] border-none bg-opacity-80 p-4 pl-8 pt-6 text-lg text-dark-bg shadow-[0px_2px_0px_0px_#ddd] dark:bg-opacity-80 dark:text-light-bg dark:shadow-[0px_1px_0px_0px_#222]">
+    <div className="dark: dark:shadow- [ relative flex w-[350px] items-center justify-between rounded-lg border-[1px] border-none bg-light-toast bg-opacity-80 p-4 pl-8 pt-6 text-lg text-dark-bg shadow-[0px_2px_0px_0px_#ddd] dark:bg-dark-toast dark:bg-opacity-80 dark:text-light-bg dark:shadow-[0px_1px_0px_0px_#222]">
       <div className="flex items-center gap-4">
         {props.toastType === "success" ? (
           <Image src={Success} alt="success" />
@@ -68,9 +68,12 @@ const ToastNotification: FC<Props> = (props) => {
         {props.link && (
           <Link
             href={props.link}
-            className="whitespace-nowrap text-lg font-bold"
+            className="mr-5 whitespace-nowrap text-lg font-bold"
+            passHref
           >
-            Open
+            <a target="_blank" rel="noopener noreferrer">
+              Open in mempool
+            </a>
           </Link>
         )}
         <button

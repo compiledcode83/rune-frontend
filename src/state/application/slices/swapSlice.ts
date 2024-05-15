@@ -11,6 +11,7 @@ export type SwapState = {
   receiveTokenAmount: number;
   minSendTokenAmount: number;
   maxSendTokenAmount: number;
+  slippage: number;
 };
 
 const initialToken: TokenType = {
@@ -33,6 +34,7 @@ const initialState: SwapState = {
   receiveTokenAmount: 0,
   minSendTokenAmount: 0,
   maxSendTokenAmount: 0,
+  slippage: 1,
 };
 
 export const swapSlice = createSlice({
@@ -66,6 +68,9 @@ export const swapSlice = createSlice({
     setMaxSendTokenAmount: (state, action: PayloadAction<number>) => {
       state.maxSendTokenAmount = action.payload;
     },
+    setSlippage: (state, action: PayloadAction<number>) => {
+      state.slippage = action.payload;
+    },
   },
 });
 
@@ -79,6 +84,7 @@ export const {
   setTokenBalances,
   setMinSendTokenAmount,
   setMaxSendTokenAmount,
+  setSlippage,
 } = swapSlice.actions;
 
 export default swapSlice.reducer;

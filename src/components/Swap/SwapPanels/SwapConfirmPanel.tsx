@@ -18,6 +18,7 @@ import {
   useReceiveTokenAmount,
   useSendToken,
   useSendTokenAmount,
+  useSlippage,
 } from "@/state/application/hooks/useSwapHooks";
 import { useUserContext } from "@/context/UserContext";
 import poolApiService from "@/api.services/pool/pool.api.service";
@@ -40,6 +41,7 @@ const SwapConfirmPanel = () => {
   const { receiveToken } = useReceiveToken();
   const { sendTokenAmount } = useSendTokenAmount();
   const { receiveTokenAmount } = useReceiveTokenAmount();
+  const { slippage } = useSlippage();
 
   const [swapTxId, setSwapTxId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -144,12 +146,12 @@ const SwapConfirmPanel = () => {
             </CustomTooltip>
           </div>
           <div className="flex items-center gap-1">
-            <div>9.741 EOS</div>
+            <div>{`${receiveTokenAmount - (receiveTokenAmount / 100) * slippage} ${receiveToken.symbol}`}</div>
           </div>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <div>Price Impact</div>
+            <div>slippage</div>
             <CustomTooltip
               content="The difference between the market price and estimated price
               due to trade size"
@@ -158,7 +160,7 @@ const SwapConfirmPanel = () => {
             </CustomTooltip>
           </div>
           <div className="flex items-center gap-1">
-            <div>0.01%</div>
+            <div>{slippage}%</div>
           </div>
         </div>
         <div className="flex items-center justify-between">
@@ -173,7 +175,7 @@ const SwapConfirmPanel = () => {
             </CustomTooltip>
           </div>
           <div className="flex items-center gap-1">
-            <div>0.0000066 ETH</div>
+            <div>0.0001 BTC</div>
           </div>
         </div>
       </div>

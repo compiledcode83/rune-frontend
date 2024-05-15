@@ -301,12 +301,12 @@ const SwapPanel = () => {
                   >
                     <Image
                       src={sendToken.imgUrl}
-                      alt={sendToken.name}
+                      alt={sendToken.spaced}
                       width={24}
                       height={24}
                     />
                     <div className="text-[12px] lg:text-[14px]">
-                      {sendToken.name}
+                      {sendToken.spaced}
                     </div>
                     <Image src={ArrowDown} alt="arrow" />
                   </div>
@@ -334,7 +334,7 @@ const SwapPanel = () => {
                     </div>
                   ) : null}
                 </div>
-                <div>≈$ 6726.2307</div>
+                {/* <div>≈$ 6726.2307</div> */}
               </div>
             </div>
             <div className="mt-2 rounded-xl bg-light-item p-4 px-6 dark:bg-dark-item">
@@ -354,12 +354,12 @@ const SwapPanel = () => {
                   >
                     <Image
                       src={receiveToken.imgUrl}
-                      alt={receiveToken.name}
+                      alt={receiveToken.spaced}
                       width={24}
                       height={24}
                     />
                     <div className="text-[12px] lg:text-[14px]">
-                      {receiveToken.name}
+                      {receiveToken.spaced}
                     </div>
                     <Image src={ArrowDown} alt="eth" />
                   </div>
@@ -370,7 +370,7 @@ const SwapPanel = () => {
                 <div>
                   Balance: {`${receiveTokenBalance} ${receiveToken.symbol} `}
                 </div>
-                <div>≈$ 284.6382</div>
+                {/* <div>≈$ 284.6382</div> */}
               </div>
             </div>
             <div

@@ -33,6 +33,7 @@ const initialState: PoolState = {
   addLiquidityLpTokenAmount: 0,
   removeLiquidityUuid: "",
   liquidities: [],
+  // poolInfo: [],
   // minaddLiquidityTokenAAmount: 0,
   // maxaddLiquidityTokenAAmount: 0,
 };

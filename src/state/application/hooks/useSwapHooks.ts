@@ -10,6 +10,7 @@ import {
   setTokenBalances,
   setMinSendTokenAmount,
   setMaxSendTokenAmount,
+  setSlippage,
   SwapState,
 } from "../slices/swapSlice";
 import { RootState } from "../types";
@@ -174,5 +175,23 @@ export const useMaxSendTokenAmount = () => {
   return {
     maxSendTokenAmount,
     setMaxSendTokenAmount: setMaxSendTokenAmountCallback,
+  };
+};
+
+// UseSlippage Hook
+export const useSlippage = () => {
+  const dispatch = useAppDispatch();
+  const slippage = useAppSelector((state: RootState) => state.swap.slippage);
+
+  const setSlippageCallback = useCallback(
+    (item: number) => {
+      dispatch(setSlippage(item));
+    },
+    [dispatch]
+  );
+
+  return {
+    slippage,
+    setSlippage: setSlippageCallback,
   };
 };

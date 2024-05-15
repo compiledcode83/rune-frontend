@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Popover,
-  PopoverHandler,
-  PopoverContent,
-  Button,
-} from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import Image from "next/image";
-import Setting from "@/assets/imgs/setting.svg";
-import Eth from "@/assets/imgs/ETH.svg";
-import Eos from "@/assets/imgs/EOS.svg";
 import ArrowDown from "@/assets/imgs/arrowdown.svg";
 import Arrow2 from "@/assets/imgs/arrow-2.svg";
-import SettingPanel from "../../Panels/SettingPanel";
 import { useStatusContext } from "@/context/StatusContext";
 import { XMarkIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { BalanceType, TokenType } from "@/types/type";
@@ -27,6 +18,7 @@ import {
   useAddLiquidityTokenAAmount,
   useAddLiquidityTokenB,
   useAddLiquidityTokenBAmount,
+  useLiquidites,
 } from "@/state/application/hooks/usePoolHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
@@ -54,6 +46,7 @@ const AddLiquidityPanel = () => {
     useAddLiquidityPoolUuid();
   const { setAddLiquidityLpTokenAmount } = useAddLiquidityLpTokenAmount();
   const { tokenBalances, setTokenBalances } = useTokenBalances();
+  const { liquidities } = useLiquidites();
 
   const [addLiquidityTokenABalance, setAddLiquidityTokenABalance] = useState(0);
   const [addLiquidityTokenBBalance, setAddLiquidityTokenBBalance] = useState(0);
@@ -142,41 +135,55 @@ const AddLiquidityPanel = () => {
         );
         setAddLiquidityPoolUuid(resPoolInfo.uuid);
       })();
+    } else {
+      setAddLiquidityPoolUuid("");
     }
   }, [addLiquidityTokenA, addLiquidityTokenB]);
 
   useEffect(() => {
-    if (addLiquidityPoolUuid !== "") {
+    if (addLiquidityTokenAAmount === 0 || addLiquidityTokenB.uuid === "") {
+      setAddLiquidityTokenBAmount(0);
+    } else if (addLiquidityPoolUuid !== "") {
       (async () => {
+        const poolTokenARuneId = liquidities.find((liquidity) => {
+          return liquidity.poolUuid === addLiquidityPoolUuid;
+        })?.tokenA.runeId;
+        let tokenType;
+        if (poolTokenARuneId === addLiquidityTokenA.runeId) {
+          tokenType = "A";
+        } else {
+          tokenType = "B";
+        }
         const resTokensAmount = await poolApiService.getAddLiquidityTokenAmount(
           addLiquidityPoolUuid,
           addLiquidityTokenAAmount,
-          "A"
+          tokenType
         );
-        const { tokenBAmount, lpTokenAmount } = resTokensAmount;
-        setAddLiquidityTokenBAmount(tokenBAmount);
+        const { tokenBAmount, tokenAAmount, lpTokenAmount } = resTokensAmount;
+        if (tokenType === "A") {
+          setAddLiquidityTokenBAmount(tokenBAmount);
+        } else {
+          setAddLiquidityTokenBAmount(tokenAAmount);
+        }
         setAddLiquidityLpTokenAmount(lpTokenAmount);
       })();
     }
-  }, [addLiquidityTokenAAmount, addLiquidityPoolUuid]);
-
-  // useEffect(() => {
-  //   if (addLiquidityPoolUuid !== "") {
-  //     (async () => {
-  //       const resTokensAmount = await poolApiService.getAddLiquidityTokenAmount(
-  //         addLiquidityPoolUuid,
-  //         addLiquidityTokenBAmount,
-  //         "B"
-  //       );
-  //       const { tokenAAmount, lpTokenAmount } = resTokensAmount;
-  //       setAddLiquidityTokenAAmount(tokenAAmount);
-  //       setAddLiquidityLpTokenAmount(lpTokenAmount);
-  //     })();
-  //   }
-  // }, [addLiquidityTokenBAmount, addLiquidityPoolUuid]);
+  }, [
+    addLiquidityTokenAAmount,
+    addLiquidityTokenA.uuid,
+    addLiquidityTokenB.uuid,
+    addLiquidityPoolUuid,
+  ]);
 
   const handleAddLiquidityConfirmModalOpen = () => {
     setAddLiquidityConfirmModalOpen(true);
+  };
+
+  const reverse = () => {
+    const tempTokenA = addLiquidityTokenA;
+    setAddLiquidityTokenA(addLiquidityTokenB);
+    setAddLiquidityTokenAAmount(addLiquidityTokenBAmount);
+    setAddLiquidityTokenB(tempTokenA);
   };
 
   const AddLiquidityButton = () => {
@@ -314,7 +321,10 @@ const AddLiquidityPanel = () => {
             </div>
           </div>
           <div className="my-8 h-[1px] bg-[#535358]">
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full  border-[2px] border-light-panel bg-light-item p-2 dark:border-dark-panel dark:bg-dark-item">
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full  border-[2px] border-light-panel bg-light-item p-2 dark:border-dark-panel dark:bg-dark-item"
+              onClick={reverse}
+            >
               <Image src={Arrow2} alt="exchangearrow" />
             </div>
           </div>
@@ -326,10 +336,6 @@ const AddLiquidityPanel = () => {
                   <input
                     className="w-[150px] bg-transparent outline-none focus:overflow-hidden"
                     value={addLiquidityTokenBAmount}
-                    // onChange={(e) =>
-                    //   setAddLiquidityTokenBAmount(Number(e.target.value))
-                    // }
-                    type="number"
                     disabled
                   />
                 </div>

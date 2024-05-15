@@ -52,54 +52,57 @@ const AddLiquidityConfirmPanel = () => {
   const { addLiquidityPoolUuid } = useAddLiquidityPoolUuid();
   const { addLiquidityLpTokenAmount } = useAddLiquidityLpTokenAmount();
 
-  const [tokenAPrice, setTokenAPrice] = useState(0);
-  const [tokenBPrice, setTokenBPrice] = useState(0);
+  const [tokenAPrice, setTokenAPrice] = useState("");
+  const [tokenBPrice, setTokenBPrice] = useState("");
   const [poolSharePercentage, setPoolSharePercentage] = useState(0);
+  const [isConfirming, setIsConfirming] = useState(false);
 
   useEffect(() => {
-    () => {
-      (async () => {
+    console.log("ordinalAddress, addLiquidityPoolUuid changed");
+    (async () => {
+      try {
         const resPoolInfo = await poolApiService.getLiquidityTokenAmount(
           ordinalAddress,
           addLiquidityPoolUuid
         );
         const { tokenAAmount, tokenBAmount, share } = resPoolInfo;
-        setTokenAPrice(tokenBAmount / tokenAAmount);
-        setTokenBPrice(tokenAAmount / tokenBAmount);
+        console.log({ tokenAAmount }, { tokenBAmount });
+        setTokenAPrice((tokenBAmount / tokenAAmount).toFixed(5));
+        setTokenBPrice((tokenAAmount / tokenBAmount).toFixed(5));
         setPoolSharePercentage(share);
-      })();
-    };
-  }, []);
-
-  const handleConfirmSupply = () => {
-    (async () => {
-      try {
-        const res = await poolApiService.generateAddLiquidityPsbt(
-          ordinalAddress,
-          ordinalPublicKey,
-          paymentAddress,
-          paymentPublicKey,
-          walletType,
-          addLiquidityPoolUuid,
-          addLiquidityTokenAAmount,
-          addLiquidityTokenBAmount
-        );
-        const { psbt, txId } = res;
-        const signedPsbt = await window.unisat.signPsbt(psbt);
-        const txRes = await poolApiService.pushTx(signedPsbt, txId);
-        customToast({
-          toastType: "success",
-          title: "Success",
-          description: "Add Liquidity Success",
-          link: `https://mempool.space/testnet/tx/${txRes.txId}`,
-        });
       } catch (error) {
         console.error(error);
       }
     })();
+  }, [ordinalAddress, addLiquidityPoolUuid]);
 
-    setAddLiquidityConfirmModalOpen(false);
-    setAddLiquidityModalOpen(false);
+  const handleConfirmSupply = async () => {
+    try {
+      setIsConfirming(true);
+      const res = await poolApiService.generateAddLiquidityPsbt(
+        ordinalAddress,
+        ordinalPublicKey,
+        paymentAddress,
+        paymentPublicKey,
+        walletType,
+        addLiquidityPoolUuid,
+        addLiquidityTokenAAmount,
+        addLiquidityTokenBAmount
+      );
+      const { psbt, txId } = res;
+      const signedPsbt = await window.unisat.signPsbt(psbt);
+      const txRes = await poolApiService.pushTx(signedPsbt, txId);
+      setAddLiquidityConfirmModalOpen(false);
+      setAddLiquidityModalOpen(false);
+      customToast({
+        toastType: "success",
+        title: "Add liquidity success",
+        link: `https://mempool.space/testnet/tx/${txRes.txId}`,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    setIsConfirming(false);
   };
 
   return (
@@ -178,13 +181,24 @@ const AddLiquidityConfirmPanel = () => {
           </div>
         </div>
         <div className="mt-8">
-          <Button
-            className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
-            placeholder={undefined}
-            onClick={() => handleConfirmSupply()}
-          >
-            Confirm Supply
-          </Button>
+          {!isConfirming ? (
+            <Button
+              className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
+              placeholder={undefined}
+              onClick={() => handleConfirmSupply()}
+            >
+              Confirm Supply
+            </Button>
+          ) : (
+            <Button
+              className="flex w-full justify-center bg-gradient text-[16px] normal-case lg:text-[24px]"
+              loading
+              placeholder={undefined}
+              onClick={() => handleConfirmSupply()}
+            >
+              Confirm Supply
+            </Button>
+          )}
         </div>
       </div>
       <div className="mt-8 text-center text-[12px] text-white lg:text-[16px]">
