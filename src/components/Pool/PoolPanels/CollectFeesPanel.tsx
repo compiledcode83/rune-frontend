@@ -21,18 +21,20 @@ const AddLiquidityPanel = () => {
     <div className="mx-auto w-[300px] text-black lg:w-[526px] dark:text-white">
       <div className="mx-auto mt-8 rounded-xl bg-light-panel p-4 lg:p-8 dark:bg-dark-panel">
         <div className="flex flex-col">
-          <div className="invisible">
-            <ChevronLeftIcon width={20} className="cursor-pointer" />
-          </div>
-          <div className="text-[16px] font-bold lg:text-[24px]">
-            Collect Fees
-          </div>
-          <div>
-            <XMarkIcon
-              width={20}
-              className="cursor-pointer"
-              onClick={() => setCollectFeesModalOpen(false)}
-            />
+          <div className="mb-10 flex justify-between">
+            <div className="invisible">
+              <ChevronLeftIcon width={20} className="cursor-pointer" />
+            </div>
+            <div className="text-[16px] font-bold lg:text-[24px]">
+              Collect Fees
+            </div>
+            <div className="mr-0">
+              <XMarkIcon
+                width={20}
+                className="cursor-pointer"
+                onClick={() => setCollectFeesModalOpen(false)}
+              />
+            </div>
           </div>
           <div className="mb-2 text-[12px] lg:text-[16px]">
             Reward Date: 25/04/2024

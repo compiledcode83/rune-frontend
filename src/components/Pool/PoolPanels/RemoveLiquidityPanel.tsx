@@ -37,6 +37,9 @@ const RemoveLiquidityPanel = () => {
   const { removeLiquidityTokenBAmount } = useRemoveLiquidityTokenBAmount();
   const { removeLiquiditySharePercent } = useRemoveLiquiditySharePercent();
 
+  // const RemoveButton = () =>{
+  //   if(removeLiquidityTokenAAmount === 0 || )
+  // }
   return (
     <div className="mx-auto w-[300px] text-black lg:w-[526px] dark:text-white">
       <div className="mx-auto mt-8 rounded-xl bg-light-panel p-4 lg:p-8 dark:bg-dark-panel">

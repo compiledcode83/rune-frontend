@@ -8,6 +8,7 @@ import AddLiquiditySelectTokenAModal from "../Pool/PoolModals/AddLiquiditySelect
 import AddLiquiditySelectTokenBModal from "../Pool/PoolModals/AddLiquiditySelectTokenBModal";
 import RemoveLiquidityConfirmModal from "../Pool/PoolModals/RemoveLiquidityConfirmModal";
 import RemoveLiquidityModal from "../Pool/PoolModals/RemoveLiquidityModal";
+import CollectFeesModal from "../Pool/PoolModals/CollectFeesModal";
 import ConnectWalletModal from "./ConnectWalletModal";
 import TxSubmittedModal from "./TxSubmittedModal";
 
@@ -25,6 +26,7 @@ const Modals = () => {
       <RemoveLiquidityConfirmModal />
       <ConnectWalletModal />
       <TxSubmittedModal />
+      <CollectFeesModal />
     </div>
   );
 };

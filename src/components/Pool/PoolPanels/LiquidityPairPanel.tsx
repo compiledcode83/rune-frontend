@@ -149,23 +149,23 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
           <div className="mt-4 text-center text-dark-primary lg:mt-8">
             View Accrued Fees and Analytics
           </div>
-          <div className="mt-8 flex items-center justify-between lg:mt-12">
+          <div className="mt-8 flex items-center justify-between gap-5 lg:mt-12">
             <Button
-              className="bg-white text-[16px] normal-case text-primary lg:text-[24px] dark:bg-dark-item"
+              className="w-60 flex-1 bg-white text-[16px] normal-case text-primary lg:text-[24px] dark:bg-dark-item"
               placeholder={undefined}
               onClick={handleRemoveLiquidity}
             >
               Remove
             </Button>
             <Button
-              className="bg-white text-[16px] normal-case text-dark-primary lg:text-[24px] dark:bg-dark-item"
+              className="w-60 flex-1 bg-white text-[16px] normal-case text-dark-primary lg:text-[24px] dark:bg-dark-item"
               placeholder={undefined}
               onClick={handleAddLiquidity}
             >
               Add
             </Button>
             <Button
-              className="bg-white text-[16px] normal-case text-dark-item lg:text-[24px] dark:bg-dark-item"
+              className="w-60 flex-1 bg-white text-[16px] normal-case text-[#B0B0B0EB] lg:text-[24px] dark:bg-dark-item"
               placeholder={undefined}
               onClick={handleCollectFeesLiquidity}
             >
