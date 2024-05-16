@@ -92,12 +92,6 @@ export default function Pool() {
                 <div className="hidden items-center gap-2 lg:flex">
                   <Button
                     placeholder={undefined}
-                    className="bg-light-panel text-[20px] font-semibold normal-case text-primary lg:text-[24px] dark:bg-dark-panel dark:text-dark-primary"
-                  >
-                    Create a Pair
-                  </Button>
-                  <Button
-                    placeholder={undefined}
                     className="bg-gradient text-[20px] font-semibold normal-case text-white lg:text-[24px]"
                     onClick={() => setAddLiquidityModalOpen(true)}
                   >
@@ -148,10 +142,6 @@ export default function Pool() {
                     </div>
                   </div>
                 )}
-              </div>
-              <div className="flex justify-center gap-2 text-[16px] lg:gap-4 lg:text-[24px]">
-                <div>Don't see a pool you joined?</div>
-                <div className="text-primary">Import it</div>
               </div>
             </div>
           </div>
