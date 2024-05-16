@@ -313,7 +313,7 @@ const AddLiquidityPanel = () => {
                     height={24}
                   />
                   <div className="text-[12px] lg:text-[14px]">
-                    {addLiquidityTokenA.name}
+                    {addLiquidityTokenA.spaced}
                   </div>
                   <Image src={ArrowDown} alt="arrow" />
                 </div>
@@ -368,7 +368,7 @@ const AddLiquidityPanel = () => {
                     height={24}
                   />
                   <div className="text-[12px] lg:text-[14px]">
-                    {addLiquidityTokenB.name}
+                    {addLiquidityTokenB.spaced}
                   </div>
                   <Image src={ArrowDown} alt="arrow" />
                 </div>
