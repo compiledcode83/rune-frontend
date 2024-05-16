@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TokenType, LiquidityType, PoolInfoType } from "@/types/type";
+import { TokenType, LiquidityType, PoolType } from "@/types/type";
 
 export type PoolState = {
   addLiquidityTokenA: TokenType;
@@ -8,6 +8,7 @@ export type PoolState = {
   addLiquidityTokenAAmount: number;
   addLiquidityTokenBAmount: number;
   addLiquidityLpTokenAmount: number;
+  addLiquidityCurrentPool: PoolType;
   liquidities: LiquidityType[];
   removeLiquidityTokenA: TokenType;
   removeLiquidityTokenB: TokenType;
@@ -28,6 +29,12 @@ const initialToken: TokenType = {
   divisibility: 0,
 };
 
+const initialPool: PoolType = {
+  tokenA: initialToken,
+  tokenB: initialToken,
+  uuid: "",
+};
+
 const initialState: PoolState = {
   addLiquidityTokenA: initialToken,
   addLiquidityTokenB: initialToken,
@@ -43,6 +50,7 @@ const initialState: PoolState = {
   removeLiquiditySharePercent: 0,
   removeLiquidityLpTokenAmount: 0,
   liquidities: [],
+  addLiquidityCurrentPool: initialPool,
 };
 
 export const poolSlice = createSlice({
@@ -69,9 +77,15 @@ export const poolSlice = createSlice({
     setAddLiquidityLpTokenAmount: (state, action: PayloadAction<number>) => {
       state.addLiquidityLpTokenAmount = action.payload;
     },
+
+    setAddLiquidityCurrentPool: (state, action: PayloadAction<PoolType>) => {
+      state.addLiquidityCurrentPool = action.payload;
+    },
+
     setLiquidities: (state, action: PayloadAction<LiquidityType[]>) => {
       state.liquidities = action.payload;
     },
+
     setRemoveLiquidityTokenA: (state, action: PayloadAction<TokenType>) => {
       state.removeLiquidityTokenA = action.payload;
     },
@@ -106,6 +120,7 @@ export const {
   setAddLiquidityTokenBAmount,
   setAddLiquidityPoolUuid,
   setAddLiquidityLpTokenAmount,
+  setAddLiquidityCurrentPool,
   setLiquidities,
   setRemoveLiquidityTokenA,
   setRemoveLiquidityTokenB,

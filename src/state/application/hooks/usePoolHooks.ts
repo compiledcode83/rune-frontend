@@ -7,6 +7,7 @@ import {
   setAddLiquidityTokenBAmount,
   setAddLiquidityPoolUuid,
   setAddLiquidityLpTokenAmount,
+  setAddLiquidityCurrentPool,
   setRemoveLiquidityTokenA,
   setRemoveLiquidityTokenB,
   setRemoveLiquidityTokenAAmount,
@@ -18,7 +19,7 @@ import {
   PoolState,
 } from "../slices/poolSlice";
 import { RootState } from "../types";
-import { LiquidityType } from "@/types/type";
+import { LiquidityType, PoolType } from "@/types/type";
 
 // UseaddLiquidityTokenA Hook
 export const useAddLiquidityTokenA = () => {
@@ -77,6 +78,25 @@ export const useAddLiquidityTokenAAmount = () => {
   return {
     addLiquidityTokenAAmount,
     setAddLiquidityTokenAAmount: setAddLiquidityTokenAAmountCallback,
+  };
+};
+
+export const useAddLiquidityCurrentPool = () => {
+  const dispatch = useAppDispatch();
+  const addLiquidityCurrentPool = useAppSelector(
+    (state: RootState) => state.pool.addLiquidityCurrentPool
+  );
+
+  const setAddLiquidityCurrentPoolCallback = useCallback(
+    (item: PoolType) => {
+      dispatch(setAddLiquidityCurrentPool(item));
+    },
+    [dispatch]
+  );
+
+  return {
+    addLiquidityCurrentPool,
+    setAddLiquidityCurrentPool: setAddLiquidityCurrentPoolCallback,
   };
 };
 

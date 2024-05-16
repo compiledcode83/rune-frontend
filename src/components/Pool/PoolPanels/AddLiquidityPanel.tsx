@@ -12,6 +12,7 @@ import {
   useTokenBalances,
 } from "@/state/application/hooks/useSwapHooks";
 import {
+  useAddLiquidityCurrentPool,
   useAddLiquidityLpTokenAmount,
   useAddLiquidityPoolUuid,
   useAddLiquidityTokenA,
@@ -47,6 +48,8 @@ const AddLiquidityPanel = () => {
   const { setAddLiquidityLpTokenAmount } = useAddLiquidityLpTokenAmount();
   const { tokenBalances, setTokenBalances } = useTokenBalances();
   const { liquidities } = useLiquidites();
+  const { addLiquidityCurrentPool, setAddLiquidityCurrentPool } =
+    useAddLiquidityCurrentPool();
 
   const [addLiquidityTokenABalance, setAddLiquidityTokenABalance] = useState(0);
   const [addLiquidityTokenBBalance, setAddLiquidityTokenBBalance] = useState(0);
@@ -134,6 +137,7 @@ const AddLiquidityPanel = () => {
           addLiquidityTokenB.uuid
         );
         setAddLiquidityPoolUuid(resPoolInfo.uuid);
+        setAddLiquidityCurrentPool(resPoolInfo);
       })();
     } else {
       setAddLiquidityPoolUuid("");
@@ -145,11 +149,10 @@ const AddLiquidityPanel = () => {
       setAddLiquidityTokenBAmount(0);
     } else if (addLiquidityPoolUuid !== "") {
       (async () => {
-        const poolTokenARuneId = liquidities.find((liquidity) => {
-          return liquidity.poolUuid === addLiquidityPoolUuid;
-        })?.tokenA.runeId;
         let tokenType;
-        if (poolTokenARuneId === addLiquidityTokenA.runeId) {
+        if (
+          addLiquidityCurrentPool.tokenA.runeId === addLiquidityTokenA.runeId
+        ) {
           tokenType = "A";
         } else {
           tokenType = "B";
