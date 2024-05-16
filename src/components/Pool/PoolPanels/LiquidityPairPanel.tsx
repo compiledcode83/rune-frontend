@@ -10,6 +10,11 @@ import {
   useAddLiquidityTokenAAmount,
   useAddLiquidityTokenB,
   useAddLiquidityTokenBAmount,
+  useCollectFeePoolUuid,
+  useCollectFeeTokenA,
+  useCollectFeeTokenAAmount,
+  useCollectFeeTokenB,
+  useCollectFeeTokenBAmount,
   useRemoveLiquidityLpTokenAmount,
   useRemoveLiquidityPoolUuid,
   useRemoveLiquiditySharePercent,
@@ -58,6 +63,12 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   const { setRemoveLiquidityLpTokenAmount } = useRemoveLiquidityLpTokenAmount();
   const { setRemoveLiquidityPoolUuid } = useRemoveLiquidityPoolUuid();
 
+  const { setCollectFeeTokenA } = useCollectFeeTokenA();
+  const { setCollectFeeTokenB } = useCollectFeeTokenB();
+  // const { setCollectFeeTokenAAmount } = useCollectFeeTokenAAmount();
+  // const { setCollectFeeTokenBAmount } = useCollectFeeTokenBAmount();
+  const { setCollectFeePoolUuid } = useCollectFeePoolUuid();
+
   const [open, setOpen] = useState(false);
   const [amount1, setAmount1] = useState(0);
   const [amount2, setAmount2] = useState(0);
@@ -82,6 +93,9 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
     setRemoveLiquidityPoolUuid(uuid);
   };
   const handleCollectFeesLiquidity = () => {
+    setCollectFeeTokenA(tokenA);
+    setCollectFeeTokenB(tokenB);
+    setCollectFeePoolUuid(uuid);
     setCollectFeesModalOpen(true);
   };
   useEffect(() => {

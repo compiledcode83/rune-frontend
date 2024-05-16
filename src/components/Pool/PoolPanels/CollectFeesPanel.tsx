@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import Image from "next/image";
-import ArrowDown from "@/assets/imgs/arrowdown.svg";
+import Btc from "@/assets/imgs/btc-ico.svg";
 import Arrow2 from "@/assets/imgs/arrow-2.svg";
 import { useStatusContext } from "@/context/StatusContext";
 import { XMarkIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
@@ -9,14 +9,72 @@ import { BalanceType, TokenType } from "@/types/type";
 
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
+import {
+  useCollectFeePoolUuid,
+  useCollectFeeTokenA,
+  useCollectFeeTokenAAmount,
+  useCollectFeeTokenB,
+  useCollectFeeTokenBAmount,
+} from "@/state/application/hooks/usePoolHooks";
 
 const AddLiquidityPanel = () => {
-  const { setCollectFeesModalOpen } = useStatusContext();
+  const {
+    setCollectFeesModalOpen,
+    setTxSubmittedModalOpen,
+    setTransactionId,
+    setTransactionDesc,
+  } = useStatusContext();
 
-  const { ordinalAddress } = useUserContext();
-  const [addLiquidityTokenABalance, setAddLiquidityTokenABalance] = useState(0);
-  const [addLiquidityTokenBBalance, setAddLiquidityTokenBBalance] = useState(0);
+  const {
+    ordinalAddress,
+    ordinalPublicKey,
+    paymentPublicKey,
+    paymentAddress,
+    walletType,
+  } = useUserContext();
 
+  const { collectFeeTokenA } = useCollectFeeTokenA();
+  const { collectFeeTokenB } = useCollectFeeTokenB();
+  const { collectFeeTokenAAmount } = useCollectFeeTokenAAmount();
+  const { collectFeeTokenBAmount } = useCollectFeeTokenBAmount();
+  const { collectFeePoolUuid } = useCollectFeePoolUuid();
+  const [feeAmount, setFeeAmount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const res = await poolApiService.getCollectFeeAmount(
+        ordinalAddress,
+        collectFeePoolUuid
+      );
+      setFeeAmount(res);
+    })();
+  }, [ordinalAddress, collectFeePoolUuid]);
+
+  const handleCollect = async () => {
+    setIsLoading(true);
+    try {
+      const res = await poolApiService.generateCollectFeePsbt(
+        ordinalAddress,
+        ordinalPublicKey,
+        paymentAddress,
+        paymentPublicKey,
+        walletType,
+        collectFeePoolUuid
+      );
+      const { psbt, txId } = res;
+
+      const signedPsbt = await window.unisat.signPsbt(psbt);
+      const txRes = await poolApiService.pushRewardTx(signedPsbt, txId);
+      setTransactionId(txRes.txId);
+      setTransactionDesc(`Collecting Fees: ${feeAmount} BTC`);
+      setTxSubmittedModalOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
+    setCollectFeesModalOpen(false);
+    setIsLoading(false);
+  };
   return (
     <div className="mx-auto w-[300px] text-black lg:w-[526px] dark:text-white">
       <div className="mx-auto mt-8 rounded-xl bg-light-panel p-4 lg:p-8 dark:bg-dark-panel">
@@ -36,7 +94,7 @@ const AddLiquidityPanel = () => {
               />
             </div>
           </div>
-          <div className="mb-2 text-[12px] lg:text-[16px]">
+          {/* <div className="mb-2 text-[12px] lg:text-[16px]">
             Reward Date: 25/04/2024
           </div>
           <div className="mb-5 text-[10px] lg:text-[14px]  dark:text-[#B7B7B7]">
@@ -75,13 +133,31 @@ const AddLiquidityPanel = () => {
             <div>
               -When claim success the fee will immediately reset to the 1st day
             </div>
+          </div> */}
+          <div className="mb-8 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Image src={Btc} alt="BTC" width={25} height={25} />
+              <div className="text-[12px] lg:text-[16px]">{feeAmount}</div>
+            </div>
+            <div>BTC</div>
           </div>
-          <Button
-            placeholder={undefined}
-            className="flex w-full justify-center bg-gradient text-[14px] font-bold normal-case  lg:text-[18px]"
-          >
-            Confirm
-          </Button>
+          {feeAmount > 0 ? (
+            <Button
+              placeholder={undefined}
+              className="flex w-full justify-center bg-gradient text-[14px] font-bold normal-case  lg:text-[18px]"
+              onClick={handleCollect}
+            >
+              Collect
+            </Button>
+          ) : (
+            <Button
+              placeholder={undefined}
+              className="disabled: flex w-full justify-center bg-gradient text-[14px] font-bold normal-case lg:text-[18px]"
+              disabled
+            >
+              Collect
+            </Button>
+          )}
         </div>
       </div>
     </div>
