@@ -32,6 +32,7 @@ import {
   setTokenBalances,
 } from "@/state/application/slices/swapSlice";
 import { BalanceType, TokenType } from "@/types/type";
+import { convertToSats, convertWithDecimal } from "@/utils/utils";
 
 const SwapPanel = () => {
   const {
@@ -68,14 +69,15 @@ const SwapPanel = () => {
   };
 
   const getReceiveAmount = async (sendAmount: number) => {
-    const res = await poolApiService.getSwapAmount(
+    const res: any = await poolApiService.getSwapAmount(
       sendTokenRef.current.uuid,
       sendAmount,
       receiveTokenRef.current.uuid
     );
-    setReceiveTokenAmount(Number(res.receivingTokenAmount));
-    setMinSendTokenAmount(Number(res.minTradingAmount));
-    setMaxSendTokenAmount(Number(res.maxTradingAmount));
+    console.log({ res });
+    setReceiveTokenAmount(Number(res?.receivingTokenAmount));
+    setMinSendTokenAmount(Number(res?.minTradingAmount));
+    setMaxSendTokenAmount(Number(res?.maxTradingAmount));
   };
 
   useEffect(() => {
@@ -314,8 +316,13 @@ const SwapPanel = () => {
                 <div>
                   <input
                     className="w-[150px] bg-transparent text-right outline-none focus:overflow-hidden"
-                    value={sendTokenAmount}
-                    onChange={(e) => handleTokenAmount(Number(e.target.value))}
+                    value={convertWithDecimal(sendTokenAmount, sendToken)}
+                    // value={sendTokenAmount}
+                    onChange={(e) =>
+                      handleTokenAmount(
+                        convertToSats(Number(e.target.value), sendToken)
+                      )
+                    }
                     type="number"
                   />
                 </div>
@@ -323,7 +330,8 @@ const SwapPanel = () => {
               <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
                 <div className="flex gap-2">
                   <div>
-                    Balance: {`${sendTokenBalance} ${sendToken.symbol}`}
+                    Balance:{" "}
+                    {`${convertWithDecimal(sendTokenBalance, sendToken)} ${sendToken.symbol}`}
                   </div>
                   {sendTokenBalance > 0 ? (
                     <div
@@ -364,11 +372,15 @@ const SwapPanel = () => {
                     <Image src={ArrowDown} alt="eth" />
                   </div>
                 )}
-                <div>{receiveTokenAmount}</div>
+                <div>
+                  {convertWithDecimal(receiveTokenAmount, receiveToken)}
+                </div>
               </div>
               <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
                 <div>
-                  Balance: {`${receiveTokenBalance} ${receiveToken.symbol} `}
+                  Balance:{" "}
+                  {`${convertWithDecimal(receiveTokenBalance, receiveToken)} ${receiveToken.symbol} `}
+                  {/* Balance: {`${receiveTokenBalance} ${receiveToken.symbol} `} */}
                 </div>
                 {/* <div>≈$ 284.6382</div> */}
               </div>
@@ -388,11 +400,13 @@ const SwapPanel = () => {
               <div className="flex w-full flex-col">
                 <div className="flex justify-between">
                   <div>Min sending amount for sale</div>
-                  <div>{minSendTokenAmount}</div>
+                  {/* <div>{minSendTokenAmount}</div> */}
+                  <div>{convertWithDecimal(minSendTokenAmount, sendToken)}</div>
                 </div>
                 <div className="flex justify-between">
                   <div>Max sending amount for sale</div>
-                  <div>{maxSendTokenAmount}</div>
+                  <div>{convertWithDecimal(maxSendTokenAmount, sendToken)}</div>
+                  {/* <div>{maxSendTokenAmount}</div> */}
                 </div>
               </div>
             </div>

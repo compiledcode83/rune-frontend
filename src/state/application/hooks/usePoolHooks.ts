@@ -17,11 +17,12 @@ import {
   setRemoveLiquidityLpTokenAmount,
   setLiquidities,
   PoolState,
-  setCollectFeeTokenA,
-  setCollectFeeTokenB,
-  setCollectFeeTokenAAmount,
-  setCollectFeeTokenBAmount,
+  // setCollectFeeTokenA,
+  // setCollectFeeTokenB,
+  // setCollectFeeTokenAAmount,
+  // setCollectFeeTokenBAmount,
   setCollectFeePoolUuid,
+  setCollectFeeAmount,
 } from "../slices/poolSlice";
 import { RootState } from "../types";
 import { LiquidityType, PoolType } from "@/types/type";
@@ -324,84 +325,84 @@ export const useRemoveLiquidityLpTokenAmount = () => {
   };
 };
 
-export const useCollectFeeTokenA = () => {
-  const dispatch = useAppDispatch();
-  const collectFeeTokenA = useAppSelector(
-    (state: RootState) => state.pool.collectFeeTokenA
-  );
+// export const useCollectFeeTokenA = () => {
+//   const dispatch = useAppDispatch();
+//   const collectFeeTokenA = useAppSelector(
+//     (state: RootState) => state.pool.collectFeeTokenA
+//   );
 
-  const setCollectFeeTokenACallback = useCallback(
-    (item: PoolState["collectFeeTokenA"]) => {
-      dispatch(setCollectFeeTokenA(item));
-    },
-    [dispatch]
-  );
+//   const setCollectFeeTokenACallback = useCallback(
+//     (item: PoolState["collectFeeTokenA"]) => {
+//       dispatch(setCollectFeeTokenA(item));
+//     },
+//     [dispatch]
+//   );
 
-  return {
-    collectFeeTokenA,
-    setCollectFeeTokenA: setCollectFeeTokenACallback,
-  };
-};
+//   return {
+//     collectFeeTokenA,
+//     setCollectFeeTokenA: setCollectFeeTokenACallback,
+//   };
+// };
 
-// UsecollectFeeTokenB Hook
-export const useCollectFeeTokenB = () => {
-  const dispatch = useAppDispatch();
-  const collectFeeTokenB = useAppSelector(
-    (state: RootState) => state.pool.collectFeeTokenB
-  );
+// // UsecollectFeeTokenB Hook
+// export const useCollectFeeTokenB = () => {
+//   const dispatch = useAppDispatch();
+//   const collectFeeTokenB = useAppSelector(
+//     (state: RootState) => state.pool.collectFeeTokenB
+//   );
 
-  const setCollectFeeTokenBCallback = useCallback(
-    (item: PoolState["collectFeeTokenB"]) => {
-      dispatch(setCollectFeeTokenB(item));
-    },
-    [dispatch]
-  );
+//   const setCollectFeeTokenBCallback = useCallback(
+//     (item: PoolState["collectFeeTokenB"]) => {
+//       dispatch(setCollectFeeTokenB(item));
+//     },
+//     [dispatch]
+//   );
 
-  return {
-    collectFeeTokenB,
-    setCollectFeeTokenB: setCollectFeeTokenBCallback,
-  };
-};
+//   return {
+//     collectFeeTokenB,
+//     setCollectFeeTokenB: setCollectFeeTokenBCallback,
+//   };
+// };
 
-// UsecollectFeeTokenAAmount Hook
-export const useCollectFeeTokenAAmount = () => {
-  const dispatch = useAppDispatch();
-  const collectFeeTokenAAmount = useAppSelector(
-    (state: RootState) => state.pool.collectFeeTokenAAmount
-  );
+// // UsecollectFeeTokenAAmount Hook
+// export const useCollectFeeTokenAAmount = () => {
+//   const dispatch = useAppDispatch();
+//   const collectFeeTokenAAmount = useAppSelector(
+//     (state: RootState) => state.pool.collectFeeTokenAAmount
+//   );
 
-  const setCollectFeeTokenAAmountCallback = useCallback(
-    (item: number) => {
-      dispatch(setCollectFeeTokenAAmount(item));
-    },
-    [dispatch]
-  );
+//   const setCollectFeeTokenAAmountCallback = useCallback(
+//     (item: number) => {
+//       dispatch(setCollectFeeTokenAAmount(item));
+//     },
+//     [dispatch]
+//   );
 
-  return {
-    collectFeeTokenAAmount,
-    setCollectFeeTokenAAmount: setCollectFeeTokenAAmountCallback,
-  };
-};
+//   return {
+//     collectFeeTokenAAmount,
+//     setCollectFeeTokenAAmount: setCollectFeeTokenAAmountCallback,
+//   };
+// };
 
-// UsecollectFeeTokenBAmount Hook
-export const useCollectFeeTokenBAmount = () => {
-  const dispatch = useAppDispatch();
-  const collectFeeTokenBAmount = useAppSelector(
-    (state: RootState) => state.pool.collectFeeTokenBAmount
-  );
+// // UsecollectFeeTokenBAmount Hook
+// export const useCollectFeeTokenBAmount = () => {
+//   const dispatch = useAppDispatch();
+//   const collectFeeTokenBAmount = useAppSelector(
+//     (state: RootState) => state.pool.collectFeeTokenBAmount
+//   );
 
-  const setCollectFeeTokenBAmountCallback = useCallback(
-    (item: number) => {
-      dispatch(setCollectFeeTokenBAmount(item));
-    },
-    [dispatch]
-  );
+//   const setCollectFeeTokenBAmountCallback = useCallback(
+//     (item: number) => {
+//       dispatch(setCollectFeeTokenBAmount(item));
+//     },
+//     [dispatch]
+//   );
 
-  return {
-    collectFeeTokenBAmount,
-    setCollectFeeTokenBAmount: setCollectFeeTokenBAmountCallback,
-  };
-};
+//   return {
+//     collectFeeTokenBAmount,
+//     setCollectFeeTokenBAmount: setCollectFeeTokenBAmountCallback,
+//   };
+// };
 
 // UsecollectFeePoolUuid Hook
 export const useCollectFeePoolUuid = () => {
@@ -420,5 +421,25 @@ export const useCollectFeePoolUuid = () => {
   return {
     collectFeePoolUuid,
     setCollectFeePoolUuid: setCollectFeePoolUuidCallback,
+  };
+};
+
+// UsecollectFeeAmount Hook
+export const useCollectFeeAmount = () => {
+  const dispatch = useAppDispatch();
+  const collectFeeAmount = useAppSelector(
+    (state: RootState) => state.pool.collectFeeAmount
+  );
+
+  const setCollectFeeAmountCallback = useCallback(
+    (item: number) => {
+      dispatch(setCollectFeeAmount(item));
+    },
+    [dispatch]
+  );
+
+  return {
+    collectFeeAmount,
+    setCollectFeeAmount: setCollectFeeAmountCallback,
   };
 };

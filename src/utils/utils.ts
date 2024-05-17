@@ -1,3 +1,5 @@
+import { TokenType } from "@/types/type";
+
 export function randomIntFromInterval(min: number, max: number) {
   // min and max included
   return Math.floor(Math.random() * max) + min;
@@ -44,4 +46,18 @@ export const getFormattedDateTime = (isoDateString: string): string => {
   let minutesPadded = minutes.toString().padStart(2, "0");
 
   return `${month} ${day}, ${hours}:${minutesPadded}`;
+};
+
+export const convertWithDecimal = (amount: number, token: TokenType) => {
+  if (token.runeId !== "") {
+    return (amount /= 10 ** token.divisibility);
+  }
+  return 0;
+};
+
+export const convertToSats = (amount: number, token: TokenType) => {
+  if (token.runeId !== "") {
+    return (amount *= 10 ** token.divisibility);
+  }
+  return 0;
 };

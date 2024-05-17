@@ -10,11 +10,12 @@ import {
   useAddLiquidityTokenAAmount,
   useAddLiquidityTokenB,
   useAddLiquidityTokenBAmount,
+  useCollectFeeAmount,
   useCollectFeePoolUuid,
-  useCollectFeeTokenA,
-  useCollectFeeTokenAAmount,
-  useCollectFeeTokenB,
-  useCollectFeeTokenBAmount,
+  // useCollectFeeTokenA,
+  // useCollectFeeTokenAAmount,
+  // useCollectFeeTokenB,
+  // useCollectFeeTokenBAmount,
   useRemoveLiquidityLpTokenAmount,
   useRemoveLiquidityPoolUuid,
   useRemoveLiquiditySharePercent,
@@ -24,6 +25,7 @@ import {
   useRemoveLiquidityTokenBAmount,
 } from "@/state/application/hooks/usePoolHooks";
 import { TokenType } from "@/types/type";
+import { convertWithDecimal } from "@/utils/utils";
 
 type LiquidityPairPanelProps = {
   tokenA: TokenType;
@@ -63,11 +65,12 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   const { setRemoveLiquidityLpTokenAmount } = useRemoveLiquidityLpTokenAmount();
   const { setRemoveLiquidityPoolUuid } = useRemoveLiquidityPoolUuid();
 
-  const { setCollectFeeTokenA } = useCollectFeeTokenA();
-  const { setCollectFeeTokenB } = useCollectFeeTokenB();
-  // const { setCollectFeeTokenAAmount } = useCollectFeeTokenAAmount();
+  // const { setCollectFeeTokenA } = useCollectFeeTokenA();
+  // const { setCollectFeeTokenB } = useCollectFeeTokenB();
+  // // const { setCollectFeeTokenAAmount } = useCollectFeeTokenAAmount();
   // const { setCollectFeeTokenBAmount } = useCollectFeeTokenBAmount();
   const { setCollectFeePoolUuid } = useCollectFeePoolUuid();
+  const { collectFeeAmount, setCollectFeeAmount } = useCollectFeeAmount();
 
   const [open, setOpen] = useState(false);
   const [amount1, setAmount1] = useState(0);
@@ -93,8 +96,8 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
     setRemoveLiquidityPoolUuid(uuid);
   };
   const handleCollectFeesLiquidity = () => {
-    setCollectFeeTokenA(tokenA);
-    setCollectFeeTokenB(tokenB);
+    // setCollectFeeTokenA(tokenA);
+    // setCollectFeeTokenB(tokenB);
     setCollectFeePoolUuid(uuid);
     setCollectFeesModalOpen(true);
   };
@@ -110,8 +113,16 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
         setTotalAmount(userLpTokenAmount);
         setSharedpercent(share);
       })();
+      (async () => {
+        const resCollectedFee = await poolApiService.getCollectFeeAmount(
+          ordinalAddress,
+          uuid
+        );
+        setCollectFeeAmount(resCollectedFee);
+      })();
     }
-  }, [uuid]);
+  }, [uuid, ordinalAddress]);
+
   return (
     <div className="mb-4 rounded-lg bg-light-panel p-4 text-[14px] lg:p-8 lg:text-[24px] dark:bg-dark-panel">
       <div
@@ -141,28 +152,32 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
           <div className="flex flex-col gap-2 lg:gap-4">
             <div className="flex justify-between">
               <div>Your total pool tokens</div>
-              <div>{totalAmount / 10 ** lpdecimal}</div>
+              <div>{totalAmount / 10 ** 8}</div>
             </div>
             <div className="flex justify-between">
               <div>Pooled {tokenA.spaced}</div>
               <div>
-                {amount1} {tokenA.spaced}
+                {convertWithDecimal(amount1, tokenA)} {tokenA.spaced}
               </div>
             </div>
             <div className="flex justify-between">
               <div>Pooled {tokenB.spaced}</div>
               <div>
-                {amount2} {tokenB.spaced}
+                {convertWithDecimal(amount2, tokenB)} {tokenB.spaced}
               </div>
             </div>
             <div className="flex justify-between">
               <div>Your pool share</div>
               <div>{sharedpercent}%</div>
             </div>
+            <div className="flex justify-between">
+              <div>Collected Fees</div>
+              <div>{collectFeeAmount / 10 ** 8}BTC</div>
+            </div>
           </div>
-          <div className="mt-4 text-center text-dark-primary lg:mt-8">
+          {/* <div className="mt-4 text-center text-dark-primary lg:mt-8">
             View Accrued Fees and Analytics
-          </div>
+          </div> */}
           <div className="mt-8 flex items-center justify-between gap-5 lg:mt-12">
             <Button
               className="w-60 flex-1 bg-white text-[16px] normal-case text-primary lg:text-[24px] dark:bg-dark-item"

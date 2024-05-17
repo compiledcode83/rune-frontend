@@ -10,14 +10,16 @@ import { BalanceType, TokenType } from "@/types/type";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
 import {
+  useCollectFeeAmount,
   useCollectFeePoolUuid,
-  useCollectFeeTokenA,
-  useCollectFeeTokenAAmount,
-  useCollectFeeTokenB,
-  useCollectFeeTokenBAmount,
+  // useCollectFeeTokenA,
+  // useCollectFeeTokenAAmount,
+  // useCollectFeeTokenB,
+  // useCollectFeeTokenBAmount,
 } from "@/state/application/hooks/usePoolHooks";
+import { customToast } from "@/components/toast";
 
-const AddLiquidityPanel = () => {
+const CollectFeesPanel = () => {
   const {
     setCollectFeesModalOpen,
     setTxSubmittedModalOpen,
@@ -33,14 +35,15 @@ const AddLiquidityPanel = () => {
     walletType,
   } = useUserContext();
 
-  const { collectFeeTokenA } = useCollectFeeTokenA();
-  const { collectFeeTokenB } = useCollectFeeTokenB();
-  const { collectFeeTokenAAmount } = useCollectFeeTokenAAmount();
-  const { collectFeeTokenBAmount } = useCollectFeeTokenBAmount();
+  // const { collectFeeTokenA } = useCollectFeeTokenA();
+  // const { collectFeeTokenB } = useCollectFeeTokenB();
+  // const { collectFeeTokenAAmount } = useCollectFeeTokenAAmount();
+  // const { collectFeeTokenBAmount } = useCollectFeeTokenBAmount();
+  const { collectFeeAmount, setCollectFeeAmount } = useCollectFeeAmount();
   const { collectFeePoolUuid } = useCollectFeePoolUuid();
   const [feeAmount, setFeeAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [seconds, setSeconds] = useState(20);
   useEffect(() => {
     (async () => {
       const res = await poolApiService.getCollectFeeAmount(
@@ -50,6 +53,28 @@ const AddLiquidityPanel = () => {
       setFeeAmount(res);
     })();
   }, [ordinalAddress, collectFeePoolUuid]);
+
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+
+      // Clear the interval when component unmounts
+      return () => clearInterval(timer);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      customToast({
+        toastType: "error",
+        title: "transaction confirm timed out",
+      });
+      setIsLoading(false);
+      setSeconds(20); // Reset timer to 20 seconds
+    }
+  }, [seconds]);
 
   const handleCollect = async () => {
     setIsLoading(true);
@@ -67,6 +92,7 @@ const AddLiquidityPanel = () => {
       const signedPsbt = await window.unisat.signPsbt(psbt);
       const txRes = await poolApiService.pushRewardTx(signedPsbt, txId);
       setTransactionId(txRes.txId);
+      // setTransactionDesc(`Collecting Fees: ${feeAmount / 10 ** 8} BTC`);
       setTransactionDesc(`Collecting Fees: ${feeAmount} BTC`);
       setTxSubmittedModalOpen(true);
     } catch (error) {
@@ -146,8 +172,9 @@ const AddLiquidityPanel = () => {
               placeholder={undefined}
               className="flex w-full justify-center bg-gradient text-[14px] font-bold normal-case  lg:text-[18px]"
               onClick={handleCollect}
+              loading={isLoading}
             >
-              Collect
+              Collect {isLoading ? `${seconds}s` : null}
             </Button>
           ) : (
             <Button
@@ -164,4 +191,4 @@ const AddLiquidityPanel = () => {
   );
 };
 
-export default AddLiquidityPanel;
+export default CollectFeesPanel;

@@ -26,8 +26,8 @@ import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
 import { customToast } from "@/components/toast";
 import TxSubmittedModal from "@/components/Modals/TxSubmittedModal";
+import { convertWithDecimal } from "@/utils/utils";
 
-const lpdecimal = 8;
 const AddLiquidityConfirmPanel = () => {
   const {
     setAddLiquidityConfirmModalOpen,
@@ -55,6 +55,30 @@ const AddLiquidityConfirmPanel = () => {
   const { addLiquidityLpTokenAmount } = useAddLiquidityLpTokenAmount();
 
   const [isConfirming, setIsConfirming] = useState(false);
+
+  const [seconds, setSeconds] = useState(20);
+
+  useEffect(() => {
+    if (isConfirming) {
+      const timer = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+
+      // Clear the interval when component unmounts
+      return () => clearInterval(timer);
+    }
+  }, [isConfirming]);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      customToast({
+        toastType: "error",
+        title: "transaction confirm timed out",
+      });
+      setIsConfirming(false);
+      setSeconds(20); // Reset timer to 20 seconds
+    }
+  }, [seconds]);
 
   const handleConfirmSupply = async () => {
     try {
@@ -112,7 +136,7 @@ const AddLiquidityConfirmPanel = () => {
         </div>
         <div className="mt-4 flex flex-col gap-2 lg:mt-8">
           <div className="text-[16px] font-semibold lg:text-[24px]">
-            {addLiquidityLpTokenAmount / 10 ** lpdecimal}
+            {addLiquidityLpTokenAmount / 10 ** 8}
           </div>
           <div className="text-[12px] lg:text-[16px]">
             {addLiquidityTokenA.spaced}/{addLiquidityTokenB.spaced} Pool Tokens
@@ -132,7 +156,11 @@ const AddLiquidityConfirmPanel = () => {
                   height={24}
                 />
                 <div>
-                  {addLiquidityTokenAAmount} {addLiquidityTokenA.symbol}
+                  {convertWithDecimal(
+                    addLiquidityTokenAAmount,
+                    addLiquidityTokenA
+                  )}{" "}
+                  {addLiquidityTokenA.symbol}
                 </div>
               </div>
             </div>
@@ -156,16 +184,22 @@ const AddLiquidityConfirmPanel = () => {
             <div className="flex flex-col gap-2">
               <div>
                 1 {addLiquidityTokenA.spaced} ={" "}
-                {(addLiquidityTokenBAmount / addLiquidityTokenAAmount).toFixed(
-                  5
-                )}{" "}
+                {(
+                  (addLiquidityTokenBAmount / addLiquidityTokenAAmount) *
+                  10 **
+                    (addLiquidityTokenB.divisibility -
+                      addLiquidityTokenA.divisibility)
+                ).toFixed(5)}{" "}
                 {addLiquidityTokenB.spaced}
               </div>
               <div>
                 1 {addLiquidityTokenB.spaced} ={" "}
-                {(addLiquidityTokenAAmount / addLiquidityTokenBAmount).toFixed(
-                  5
-                )}{" "}
+                {(
+                  (addLiquidityTokenAAmount / addLiquidityTokenBAmount) *
+                  10 **
+                    (addLiquidityTokenA.divisibility -
+                      addLiquidityTokenB.divisibility)
+                ).toFixed(5)}{" "}
                 {addLiquidityTokenA.spaced}
               </div>
             </div>
@@ -187,7 +221,7 @@ const AddLiquidityConfirmPanel = () => {
               placeholder={undefined}
               onClick={() => handleConfirmSupply()}
             >
-              Confirm Supply
+              Confirm Supply {seconds}s
             </Button>
           )}
         </div>

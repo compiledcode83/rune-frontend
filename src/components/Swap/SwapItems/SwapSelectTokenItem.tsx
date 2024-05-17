@@ -7,6 +7,7 @@ import {
   useSendToken,
 } from "@/state/application/hooks/useSwapHooks";
 import { useStatusContext } from "@/context/StatusContext";
+// import { convertWithDecimal } from "@/utils/utils";
 
 type SwapSelectTokenItemProps = {
   token: TokenType;
@@ -71,6 +72,7 @@ const SwapSelectTokenItem: React.FC<SwapSelectTokenItemProps> = ({
           {name}
         </div>
       </div>
+      {/* <div className="ml-auto">{convertWithDecimal(balance, token)}</div> */}
       <div className="ml-auto">{balance}</div>
     </div>
   );

@@ -58,6 +58,7 @@ const getSwapAmount = async (
       sendTokenUuid,
       receiveTokenUuid,
     });
+    // const {} = response.data;
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

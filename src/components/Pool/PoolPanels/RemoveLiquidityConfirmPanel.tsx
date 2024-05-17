@@ -30,7 +30,7 @@ import {
   useRemoveLiquidityTokenBAmount,
   useRemoveLiquidityPoolUuid,
 } from "@/state/application/hooks/usePoolHooks";
-
+import { customToast } from "@/components/toast";
 const lpdecimal = 8;
 
 const RemoveLiquidityConfirmPanel = () => {
@@ -57,6 +57,7 @@ const RemoveLiquidityConfirmPanel = () => {
   const { removeLiquiditySharePercent } = useRemoveLiquiditySharePercent();
   const { removeLiquidityLpTokenAmount } = useRemoveLiquidityLpTokenAmount();
   const { removeLiquidityPoolUuid } = useRemoveLiquidityPoolUuid();
+  const [seconds, setSeconds] = useState(20);
 
   const handleConfirmRemove = async () => {
     setIsLoading(true);
@@ -85,6 +86,28 @@ const RemoveLiquidityConfirmPanel = () => {
     setRemoveLiquidityModalOpen(false);
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+
+      // Clear the interval when component unmounts
+      return () => clearInterval(timer);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      customToast({
+        toastType: "error",
+        title: "transaction confirm timed out",
+      });
+      setIsLoading(false);
+      setSeconds(20); // Reset timer to 20 seconds
+    }
+  }, [seconds]);
 
   return (
     <div className="mx-auto w-[300px] text-black lg:w-[526px] dark:text-white">
@@ -149,7 +172,7 @@ const RemoveLiquidityConfirmPanel = () => {
                 {removeLiquidityTokenA.spaced}/{removeLiquidityTokenB.spaced}
               </div>
               <div className="flex justify-end gap-1">
-                <div>{removeLiquidityLpTokenAmount / 10 ** lpdecimal}</div>
+                <div>{removeLiquidityLpTokenAmount}</div>
                 <Image
                   src={removeLiquidityTokenA.imgUrl}
                   width={24}
@@ -170,14 +193,22 @@ const RemoveLiquidityConfirmPanel = () => {
                 <div>
                   1 {removeLiquidityTokenA.spaced} ={" "}
                   {(
-                    removeLiquidityTokenBAmount / removeLiquidityTokenAAmount
+                    (removeLiquidityTokenBAmount /
+                      removeLiquidityTokenAAmount) *
+                    10 **
+                      (removeLiquidityTokenB.divisibility -
+                        removeLiquidityTokenA.divisibility)
                   ).toFixed(5)}{" "}
                   {removeLiquidityTokenB.spaced}
                 </div>
                 <div>
                   1 {removeLiquidityTokenB.spaced} ={" "}
                   {(
-                    removeLiquidityTokenAAmount / removeLiquidityTokenBAmount
+                    (removeLiquidityTokenAAmount /
+                      removeLiquidityTokenBAmount) *
+                    10 **
+                      (removeLiquidityTokenA.divisibility -
+                        removeLiquidityTokenB.divisibility)
                   ).toFixed(5)}{" "}
                   {removeLiquidityTokenA.spaced}
                 </div>
@@ -191,11 +222,12 @@ const RemoveLiquidityConfirmPanel = () => {
         </div>
         <div className="mt-8">
           <Button
-            className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
+            className="flex w-full justify-center bg-gradient text-[16px] normal-case lg:text-[24px]"
             placeholder={undefined}
             onClick={() => handleConfirmRemove()}
+            loading={isLoading}
           >
-            Confirm Remove
+            Confirm Remove {isLoading ? `${seconds}s` : null}
           </Button>
         </div>
       </div>

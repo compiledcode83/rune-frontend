@@ -17,10 +17,11 @@ export type PoolState = {
   removeLiquidityTokenBAmount: number;
   removeLiquiditySharePercent: number;
   removeLiquidityLpTokenAmount: number;
-  collectFeeTokenA: TokenType;
-  collectFeeTokenB: TokenType;
-  collectFeeTokenAAmount: number;
-  collectFeeTokenBAmount: number;
+  // collectFeeTokenA: TokenType;
+  // collectFeeTokenB: TokenType;
+  // collectFeeTokenAAmount: number;
+  // collectFeeTokenBAmount: number;
+  collectFeeAmount: number;
   collectFeePoolUuid: string;
 };
 
@@ -56,11 +57,12 @@ const initialState: PoolState = {
   removeLiquidityLpTokenAmount: 0,
   liquidities: [],
   addLiquidityCurrentPool: initialPool,
-  collectFeeTokenA: initialToken,
-  collectFeeTokenB: initialToken,
-  collectFeeTokenAAmount: 0,
-  collectFeeTokenBAmount: 0,
+  // collectFeeTokenA: initialToken,
+  // collectFeeTokenB: initialToken,
+  // collectFeeTokenAAmount: 0,
+  // collectFeeTokenBAmount: 0,
   collectFeePoolUuid: "",
+  collectFeeAmount: 0,
 };
 
 export const poolSlice = createSlice({
@@ -121,18 +123,21 @@ export const poolSlice = createSlice({
       state.removeLiquidityLpTokenAmount = action.payload;
     },
 
-    setCollectFeeTokenA: (state, action: PayloadAction<TokenType>) => {
-      state.collectFeeTokenA = action.payload;
-    },
-    setCollectFeeTokenB: (state, action: PayloadAction<TokenType>) => {
-      state.collectFeeTokenB = action.payload;
-    },
+    // setCollectFeeTokenA: (state, action: PayloadAction<TokenType>) => {
+    //   state.collectFeeTokenA = action.payload;
+    // },
+    // setCollectFeeTokenB: (state, action: PayloadAction<TokenType>) => {
+    //   state.collectFeeTokenB = action.payload;
+    // },
 
-    setCollectFeeTokenAAmount: (state, action: PayloadAction<number>) => {
-      state.collectFeeTokenAAmount = action.payload;
-    },
-    setCollectFeeTokenBAmount: (state, action: PayloadAction<number>) => {
-      state.collectFeeTokenBAmount = action.payload;
+    // setCollectFeeTokenAAmount: (state, action: PayloadAction<number>) => {
+    //   state.collectFeeTokenAAmount = action.payload;
+    // },
+    // setCollectFeeTokenBAmount: (state, action: PayloadAction<number>) => {
+    //   state.collectFeeTokenBAmount = action.payload;
+    // },
+    setCollectFeeAmount: (state, action: PayloadAction<number>) => {
+      state.collectFeeAmount = action.payload;
     },
 
     setCollectFeePoolUuid: (state, action: PayloadAction<string>) => {
@@ -157,10 +162,11 @@ export const {
   setRemoveLiquidityPoolUuid,
   setRemoveLiquiditySharePercent,
   setRemoveLiquidityLpTokenAmount,
-  setCollectFeeTokenA,
-  setCollectFeeTokenB,
-  setCollectFeeTokenAAmount,
-  setCollectFeeTokenBAmount,
+  // setCollectFeeTokenA,
+  // setCollectFeeTokenB,
+  // setCollectFeeTokenAAmount,
+  // setCollectFeeTokenBAmount,
+  setCollectFeeAmount,
   setCollectFeePoolUuid,
 } = poolSlice.actions;
 

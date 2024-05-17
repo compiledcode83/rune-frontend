@@ -23,7 +23,9 @@ import {
 import { useUserContext } from "@/context/UserContext";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import TxSubmittedModal from "../../Modals/TxSubmittedModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { customToast } from "@/components/toast";
+import { convertWithDecimal } from "@/utils/utils";
 
 const SwapConfirmPanel = () => {
   const {
@@ -48,6 +50,7 @@ const SwapConfirmPanel = () => {
   const { slippage } = useSlippage();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [seconds, setSeconds] = useState(20);
 
   const handleConfirmSwap = async () => {
     setIsLoading(true);
@@ -80,6 +83,28 @@ const SwapConfirmPanel = () => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+
+      // Clear the interval when component unmounts
+      return () => clearInterval(timer);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      customToast({
+        toastType: "error",
+        title: "transaction confirm timed out",
+      });
+      setIsLoading(false);
+      setSeconds(20); // Reset timer to 20 seconds
+    }
+  }, [seconds]);
+
   return (
     <div className="flex flex-col gap-2 px-4 lg:gap-4">
       <div className="flex items-center justify-between">
@@ -99,7 +124,8 @@ const SwapConfirmPanel = () => {
         <div>
           <div className="text-[12px] lg:text-[16px]">Swap from</div>
           <div className="text-[16px] font-semibold lg:text-[24px]">
-            {sendTokenAmount}
+            {convertWithDecimal(sendTokenAmount, sendToken)}
+            {/* {sendTokenAmount} */}
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -116,7 +142,8 @@ const SwapConfirmPanel = () => {
         <div>
           <div className="text-[12px] lg:text-[16px]">Swap to</div>
           <div className="text-[16px] font-semibold lg:text-[24px]">
-            {receiveTokenAmount}
+            {convertWithDecimal(receiveTokenAmount, receiveToken)}
+            {/* {receiveTokenAmount} */}
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -157,7 +184,7 @@ const SwapConfirmPanel = () => {
             </CustomTooltip>
           </div>
           <div className="flex items-center gap-1">
-            <div>{`${receiveTokenAmount - (receiveTokenAmount / 100) * slippage} ${receiveToken.symbol}`}</div>
+            <div>{`${convertWithDecimal(receiveTokenAmount - (receiveTokenAmount / 100) * slippage, receiveToken)} ${receiveToken.symbol}`}</div>
           </div>
         </div>
         <div className="flex items-center justify-between">
@@ -196,7 +223,7 @@ const SwapConfirmPanel = () => {
         onClick={() => handleConfirmSwap()}
         loading={isLoading}
       >
-        Confirm
+        Confirm {isLoading ? `${seconds}s` : null}
       </Button>
     </div>
   );

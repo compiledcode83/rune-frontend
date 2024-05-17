@@ -23,6 +23,7 @@ import {
 } from "@/state/application/hooks/usePoolHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
+import { convertToSats, convertWithDecimal } from "@/utils/utils";
 
 const AddLiquidityPanel = () => {
   const {
@@ -281,9 +282,17 @@ const AddLiquidityPanel = () => {
                 <div>
                   <input
                     className="w-[150px] bg-transparent outline-none focus:overflow-hidden"
-                    value={addLiquidityTokenAAmount}
+                    value={convertWithDecimal(
+                      addLiquidityTokenAAmount,
+                      addLiquidityTokenA
+                    )}
                     onChange={(e) =>
-                      setAddLiquidityTokenAAmount(Number(e.target.value))
+                      setAddLiquidityTokenAAmount(
+                        convertToSats(
+                          Number(e.target.value),
+                          addLiquidityTokenA
+                        )
+                      )
                     }
                     disabled={addLiquidityTokenA.runeId === ""}
                     type="number"
@@ -293,7 +302,10 @@ const AddLiquidityPanel = () => {
                   Balance:
                   {addLiquidityTokenA.runeId === "" || ordinalAddress === ""
                     ? " -"
-                    : addLiquidityTokenABalance}
+                    : convertWithDecimal(
+                        addLiquidityTokenABalance,
+                        addLiquidityTokenA
+                      )}
                 </div>
               </div>
               {addLiquidityTokenA.runeId === "" ? (
@@ -338,7 +350,10 @@ const AddLiquidityPanel = () => {
                 <div>
                   <input
                     className="w-[150px] bg-transparent outline-none focus:overflow-hidden"
-                    value={addLiquidityTokenBAmount}
+                    value={convertWithDecimal(
+                      addLiquidityTokenBAmount,
+                      addLiquidityTokenB
+                    )}
                     disabled
                   />
                 </div>
@@ -346,7 +361,10 @@ const AddLiquidityPanel = () => {
                   Balance:
                   {addLiquidityTokenB.runeId === "" || ordinalAddress === ""
                     ? " -"
-                    : addLiquidityTokenBBalance}
+                    : convertWithDecimal(
+                        addLiquidityTokenBBalance,
+                        addLiquidityTokenB
+                      )}
                 </div>
               </div>
               {addLiquidityTokenB.runeId === "" ? (
