@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import Image from "next/image";
 import Btc from "@/assets/imgs/btc-ico.svg";
@@ -44,6 +44,10 @@ const CollectFeesPanel = () => {
   const [feeAmount, setFeeAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [seconds, setSeconds] = useState(20);
+  const isLoadingRef = useRef(isLoading);
+  useEffect(() => {
+    isLoadingRef.current = isLoading; // Update ref whenever isLoading changes
+  }, [isLoading]);
   useEffect(() => {
     (async () => {
       const res = await poolApiService.getCollectFeeAmount(
@@ -69,7 +73,7 @@ const CollectFeesPanel = () => {
     if (seconds === 0) {
       customToast({
         toastType: "error",
-        title: "transaction confirm timed out",
+        title: "confirm psbt timed out",
       });
       setIsLoading(false);
       setSeconds(20); // Reset timer to 20 seconds
@@ -90,6 +94,13 @@ const CollectFeesPanel = () => {
       const { psbt, txId } = res;
 
       const signedPsbt = await window.unisat.signPsbt(psbt);
+      if (!isLoadingRef.current) {
+        customToast({
+          toastType: "error",
+          title: "confirm psbt timed out",
+        });
+        return;
+      }
       const txRes = await poolApiService.pushRewardTx(signedPsbt, txId);
       setTransactionId(txRes.txId);
       // setTransactionDesc(`Collecting Fees: ${feeAmount / 10 ** 8} BTC`);

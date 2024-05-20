@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Popover,
   PopoverHandler,
@@ -54,12 +54,15 @@ const AddLiquidityConfirmPanel = () => {
   const { addLiquidityPoolUuid } = useAddLiquidityPoolUuid();
   const { addLiquidityLpTokenAmount } = useAddLiquidityLpTokenAmount();
 
-  const [isConfirming, setIsConfirming] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [seconds, setSeconds] = useState(20);
-
+  const isLoadingRef = useRef(isLoading);
   useEffect(() => {
-    if (isConfirming) {
+    isLoadingRef.current = isLoading; // Update ref whenever isLoading changes
+  }, [isLoading]);
+  useEffect(() => {
+    if (isLoading) {
       const timer = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
@@ -67,22 +70,22 @@ const AddLiquidityConfirmPanel = () => {
       // Clear the interval when component unmounts
       return () => clearInterval(timer);
     }
-  }, [isConfirming]);
+  }, [isLoading]);
 
   useEffect(() => {
     if (seconds === 0) {
       customToast({
         toastType: "error",
-        title: "transaction confirm timed out",
+        title: "confirm psbt timed out",
       });
-      setIsConfirming(false);
+      setIsLoading(false);
       setSeconds(20); // Reset timer to 20 seconds
     }
   }, [seconds]);
 
   const handleConfirmSupply = async () => {
     try {
-      setIsConfirming(true);
+      setIsLoading(true);
       const res = await poolApiService.generateAddLiquidityPsbt(
         ordinalAddress,
         ordinalPublicKey,
@@ -96,6 +99,13 @@ const AddLiquidityConfirmPanel = () => {
       const { psbt, txId } = res;
 
       const signedPsbt = await window.unisat.signPsbt(psbt);
+      if (!isLoadingRef.current) {
+        customToast({
+          toastType: "error",
+          title: "confirm psbt timed out",
+        });
+        return;
+      }
       const txRes = await poolApiService.pushTx(signedPsbt, txId);
       setTransactionId(txRes.txId);
       setTransactionDesc(
@@ -111,7 +121,7 @@ const AddLiquidityConfirmPanel = () => {
     } catch (error) {
       console.error(error);
     }
-    setIsConfirming(false);
+    setIsLoading(false);
     setAddLiquidityConfirmModalOpen(false);
     setAddLiquidityModalOpen(false);
   };
@@ -206,7 +216,7 @@ const AddLiquidityConfirmPanel = () => {
           </div>
         </div>
         <div className="mt-8">
-          {!isConfirming ? (
+          {!isLoading ? (
             <Button
               className="w-full bg-gradient text-[16px] normal-case lg:text-[24px]"
               placeholder={undefined}

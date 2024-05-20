@@ -48,7 +48,7 @@ const ToastNotification: FC<Props> = (props) => {
   else if (props.toastType === "warn") bg = "bg-[#FF9179]";
 
   return (
-    <div className="dark: dark:shadow- [ relative flex w-[350px] items-center justify-between rounded-lg border-[1px] border-none bg-light-toast bg-opacity-80 p-4 pl-8 pt-6 text-lg text-dark-bg shadow-[0px_2px_0px_0px_#ddd] dark:bg-dark-toast dark:bg-opacity-80 dark:text-light-bg dark:shadow-[0px_1px_0px_0px_#222]">
+    <div className="dark: dark:shadow- [ relative flex w-[350px] items-center justify-between rounded-lg border-[1px] border-none bg-light-toast bg-opacity-80 px-8 py-6 text-lg text-dark-bg shadow-[0px_2px_0px_0px_#ddd] dark:bg-dark-toast dark:bg-opacity-80 dark:text-light-bg dark:shadow-[0px_1px_0px_0px_#222]">
       <div className="flex items-center gap-4">
         {props.toastType === "success" ? (
           <Image src={Success} alt="success" />

@@ -157,13 +157,13 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
             <div className="flex justify-between">
               <div>Pooled {tokenA.spaced}</div>
               <div>
-                {convertWithDecimal(amount1, tokenA)} {tokenA.spaced}
+                {convertWithDecimal(amount1, tokenA)} {tokenA.symbol}
               </div>
             </div>
             <div className="flex justify-between">
               <div>Pooled {tokenB.spaced}</div>
               <div>
-                {convertWithDecimal(amount2, tokenB)} {tokenB.spaced}
+                {convertWithDecimal(amount2, tokenB)} {tokenB.symbol}
               </div>
             </div>
             <div className="flex justify-between">

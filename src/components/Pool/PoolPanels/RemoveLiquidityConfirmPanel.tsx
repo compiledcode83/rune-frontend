@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Popover,
   PopoverHandler,
@@ -58,7 +58,10 @@ const RemoveLiquidityConfirmPanel = () => {
   const { removeLiquidityLpTokenAmount } = useRemoveLiquidityLpTokenAmount();
   const { removeLiquidityPoolUuid } = useRemoveLiquidityPoolUuid();
   const [seconds, setSeconds] = useState(20);
-
+  const isLoadingRef = useRef(isLoading);
+  useEffect(() => {
+    isLoadingRef.current = isLoading; // Update ref whenever isLoading changes
+  }, [isLoading]);
   const handleConfirmRemove = async () => {
     setIsLoading(true);
     try {
@@ -73,6 +76,13 @@ const RemoveLiquidityConfirmPanel = () => {
       const { psbt, txId } = res;
 
       const signedPsbt = await window.unisat.signPsbt(psbt);
+      if (!isLoadingRef.current) {
+        customToast({
+          toastType: "error",
+          title: "confirm psbt timed out",
+        });
+        return;
+      }
       const txRes = await poolApiService.pushTx(signedPsbt, txId);
       setTransactionId(txRes.txId);
       setTransactionDesc(
@@ -102,7 +112,7 @@ const RemoveLiquidityConfirmPanel = () => {
     if (seconds === 0) {
       customToast({
         toastType: "error",
-        title: "transaction confirm timed out",
+        title: "confirm psbt timed out",
       });
       setIsLoading(false);
       setSeconds(20); // Reset timer to 20 seconds

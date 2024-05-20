@@ -23,7 +23,7 @@ import {
 import { useUserContext } from "@/context/UserContext";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import TxSubmittedModal from "../../Modals/TxSubmittedModal";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { customToast } from "@/components/toast";
 import { convertWithDecimal } from "@/utils/utils";
 
@@ -52,6 +52,11 @@ const SwapConfirmPanel = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [seconds, setSeconds] = useState(20);
 
+  const isLoadingRef = useRef(isLoading);
+  useEffect(() => {
+    isLoadingRef.current = isLoading; // Update ref whenever isLoading changes
+  }, [isLoading]);
+
   const handleConfirmSwap = async () => {
     setIsLoading(true);
     try {
@@ -69,6 +74,14 @@ const SwapConfirmPanel = () => {
       const { psbt, txId } = res;
 
       const signedPsbt = await window.unisat.signPsbt(psbt);
+      if (!isLoadingRef.current) {
+        customToast({
+          toastType: "error",
+          title: "confirm psbt timed out",
+        });
+        return;
+      }
+
       const txRes = await poolApiService.pushTx(signedPsbt, txId);
       setTransactionId(txRes.txId);
       setTransactionDesc(
@@ -98,13 +111,15 @@ const SwapConfirmPanel = () => {
     if (seconds === 0) {
       customToast({
         toastType: "error",
-        title: "transaction confirm timed out",
+        title: "confirm psbt timed out",
       });
       setIsLoading(false);
+
       setSeconds(20); // Reset timer to 20 seconds
     }
   }, [seconds]);
 
+  console.log("console normally", { isLoading });
   return (
     <div className="flex flex-col gap-2 px-4 lg:gap-4">
       <div className="flex items-center justify-between">

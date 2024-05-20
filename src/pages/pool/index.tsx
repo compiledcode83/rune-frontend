@@ -82,7 +82,12 @@ export default function Pool() {
               </div>
               <div className="mt-2 lg:mt-4">
                 <span className="border-b border-blue text-[16px] text-blue lg:text-[18px]">
-                  Read more about providing liquidity
+                  <a
+                    href="https://swapsats.gitbook.io/runeswap"
+                    target="_blank"
+                  >
+                    Read more about providing liquidity
+                  </a>
                 </span>
               </div>
             </div>
@@ -99,12 +104,12 @@ export default function Pool() {
                   </Button>
                 </div>
               </div>
-              <div className="mt-2 flex items-center gap-1 lg:mt-6">
+              {/* <div className="mt-2 flex items-center gap-1 lg:mt-6">
                 <div className="cursor-pointer font-bold text-dark-primary">
                   Account analytics and accrued fees
                 </div>
                 <Image src={ArrowTopRightYellowImg} alt="arrow-yellow" />
-              </div>
+              </div> */}
               <div className="mt-2 flex items-center justify-between gap-2 lg:hidden">
                 <Button
                   placeholder={undefined}
