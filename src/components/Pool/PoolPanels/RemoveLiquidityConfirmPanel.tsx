@@ -31,6 +31,7 @@ import {
   useRemoveLiquidityPoolUuid,
 } from "@/state/application/hooks/usePoolHooks";
 import { customToast } from "@/components/toast";
+import { signPsbt } from "@/utils/utils";
 const lpdecimal = 8;
 
 const RemoveLiquidityConfirmPanel = () => {
@@ -73,9 +74,16 @@ const RemoveLiquidityConfirmPanel = () => {
         walletType,
         removeLiquidityPoolUuid
       );
-      const { psbt, txId } = res;
+      const { psbt, txId, paymentSignIndexes, taprootSignIndexes } = res;
 
-      const signedPsbt = await window.unisat.signPsbt(psbt);
+      const signedPsbt = await await signPsbt(
+        psbt,
+        walletType,
+        paymentSignIndexes,
+        taprootSignIndexes,
+        ordinalAddress,
+        paymentAddress
+      );
       if (!isLoadingRef.current) {
         customToast({
           toastType: "error",

@@ -25,7 +25,7 @@ import poolApiService from "@/api.services/pool/pool.api.service";
 import TxSubmittedModal from "../../Modals/TxSubmittedModal";
 import { useEffect, useRef, useState } from "react";
 import { customToast } from "@/components/toast";
-import { convertWithDecimal } from "@/utils/utils";
+import { convertWithDecimal, signPsbt } from "@/utils/utils";
 
 const SwapConfirmPanel = () => {
   const {
@@ -71,9 +71,16 @@ const SwapConfirmPanel = () => {
         sendTokenAmount,
         receiveTokenAmount
       );
-      const { psbt, txId } = res;
+      const { psbt, txId, paymentSignIndexes, taprootSignIndexes } = res;
 
-      const signedPsbt = await window.unisat.signPsbt(psbt);
+      const signedPsbt = await signPsbt(
+        psbt,
+        walletType,
+        paymentSignIndexes,
+        taprootSignIndexes,
+        ordinalAddress,
+        paymentAddress
+      );
       if (!isLoadingRef.current) {
         customToast({
           toastType: "error",
@@ -119,7 +126,6 @@ const SwapConfirmPanel = () => {
     }
   }, [seconds]);
 
-  console.log("console normally", { isLoading });
   return (
     <div className="flex flex-col gap-2 px-4 lg:gap-4">
       <div className="flex items-center justify-between">

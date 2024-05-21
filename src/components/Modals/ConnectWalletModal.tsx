@@ -4,7 +4,7 @@ import Image from "next/image";
 import HiroWallet from "@/assets/imgs/hiro.svg";
 import XverseWallet from "@/assets/imgs/xverse.svg";
 import UnisatWallet from "@/assets/imgs/unisat.svg";
-import MagicEdenWallet from "@/assets/imgs/magic-eden.svg";
+import OkxWallet from "@/assets/imgs/okx.png";
 import TickCircle from "@/assets/imgs/tick-circle.svg";
 
 import { type WalletTypes } from "@/types/type";
@@ -98,6 +98,15 @@ const ConnectWalletModal = () => {
         setIsLoading(false);
         return false;
       }
+    } else if (walletType === "Hiro") {
+      if ((window as any).LeatherProvider) {
+        customToast({
+          toastType: "warn",
+          title: "Install Leather Wallet",
+        });
+        setIsLoading(false);
+        return false;
+      }
     } else if (walletType === "Okx") {
       if (typeof window.okxwallet === "undefined") {
         customToast({
@@ -165,6 +174,7 @@ const ConnectWalletModal = () => {
   const onWalletBtnClicked = useCallback(
     async (walletName: WalletTypes) => {
       setIsLoading(true);
+      console.log({ walletType });
       let possibility = await runCapabilityCheck(walletName);
       if (possibility === false) return;
       if (walletName === "Hiro") {
@@ -189,7 +199,7 @@ const ConnectWalletModal = () => {
           setOrdinalPublicKey(publicKey);
           customToast({
             toastType: "success",
-            title: "Hiro Wallet Connected",
+            title: "Leather Wallet Connected",
           });
           setIsConnected(true);
           handleClose();
@@ -221,8 +231,11 @@ const ConnectWalletModal = () => {
                 .publicKey as string;
               setWalletType("Xverse");
               setPaymentAddress(paymentAddress);
+              console.log({paymentAddress})
               setPaymentPublicKey(paymentPubkey);
               setOrdinalAddress(address);
+              console.log({address})
+
               setOrdinalPublicKey(pubkey);
               customToast({
                 toastType: "success",
@@ -347,8 +360,8 @@ const ConnectWalletModal = () => {
           <div
             className={`flex items-center p-2 ${
               walletType !== "" && walletType !== "Xverse" && "opacity-60"
-            } my-2 cursor-not-allowed rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
-            // onClick={() => handleConnect("Xverse")}
+            } my-2 cursor-pointer rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
+            onClick={() => handleConnect("Xverse")}
           >
             <Image
               alt="Xverse"
@@ -369,14 +382,15 @@ const ConnectWalletModal = () => {
           <div
             className={`flex items-center p-2 ${
               walletType !== "" && walletType !== "Hiro" && "opacity-60"
-            } my-2 cursor-not-allowed rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
-            //onClick={() => handleConnect("Hiro")}
+            } my-2 cursor-pointer rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
+            onClick={() => handleConnect("Hiro")}
           >
             <Image
               alt="Hiro"
               src={HiroWallet}
               width={28}
               className="rounded-lg"
+              onClick={() => handleConnect("Hiro")}
             />
             <div className="ml-2">Leather</div>
             {walletType === "Hiro" && (
@@ -390,18 +404,18 @@ const ConnectWalletModal = () => {
           </div>
           <div
             className={`flex items-center p-2 ${
-              walletType !== "" && walletType !== "Magic" && "opacity-60"
-            } my-2 cursor-not-allowed rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
-            // onClick={() => handleConnect("Magic")}
+              walletType !== "" && walletType !== "Okx" && "opacity-60"
+            } my-2 cursor-pointer rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
+            onClick={() => handleConnect("Okx")}
           >
             <Image
-              alt="Magic"
-              src={MagicEdenWallet}
+              alt="Okx"
+              src={OkxWallet}
               width={28}
               className="rounded-lg"
             />
-            <div className="ml-2">Magic Eden</div>
-            {walletType === "Magic" && (
+            <div className="ml-2">OKX Wallet</div>
+            {walletType === "Okx" && (
               <Image
                 src={TickCircle}
                 width={20}

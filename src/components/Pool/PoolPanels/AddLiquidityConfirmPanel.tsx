@@ -26,7 +26,7 @@ import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
 import { customToast } from "@/components/toast";
 import TxSubmittedModal from "@/components/Modals/TxSubmittedModal";
-import { convertWithDecimal } from "@/utils/utils";
+import { convertWithDecimal, signPsbt } from "@/utils/utils";
 
 const AddLiquidityConfirmPanel = () => {
   const {
@@ -96,9 +96,17 @@ const AddLiquidityConfirmPanel = () => {
         addLiquidityTokenAAmount,
         addLiquidityTokenBAmount
       );
-      const { psbt, txId } = res;
+      const { psbt, txId, paymentSignIndexes, taprootSignIndexes } = res;
 
-      const signedPsbt = await window.unisat.signPsbt(psbt);
+      const signedPsbt = await signPsbt(
+        psbt,
+        walletType,
+        paymentSignIndexes,
+        taprootSignIndexes,
+        ordinalAddress,
+        paymentAddress
+      );
+
       if (!isLoadingRef.current) {
         customToast({
           toastType: "error",
