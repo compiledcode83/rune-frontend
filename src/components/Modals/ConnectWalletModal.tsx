@@ -99,7 +99,7 @@ const ConnectWalletModal = () => {
         return false;
       }
     } else if (walletType === "Hiro") {
-      if ((window as any).LeatherProvider) {
+      if (!(window as any).LeatherProvider) {
         customToast({
           toastType: "warn",
           title: "Install Leather Wallet",
@@ -174,7 +174,7 @@ const ConnectWalletModal = () => {
   const onWalletBtnClicked = useCallback(
     async (walletName: WalletTypes) => {
       setIsLoading(true);
-      console.log({ walletType });
+      console.log({ walletName });
       let possibility = await runCapabilityCheck(walletName);
       if (possibility === false) return;
       if (walletName === "Hiro") {
@@ -194,8 +194,10 @@ const ConnectWalletModal = () => {
 
           setWalletType("Hiro");
           setPaymentAddress(paymentAddress);
+          console.log({ paymentAddress });
           setPaymentPublicKey(paymentPublickey);
           setOrdinalAddress(address);
+          console.log({ address });
           setOrdinalPublicKey(publicKey);
           customToast({
             toastType: "success",
@@ -231,10 +233,10 @@ const ConnectWalletModal = () => {
                 .publicKey as string;
               setWalletType("Xverse");
               setPaymentAddress(paymentAddress);
-              console.log({paymentAddress})
+              console.log({ paymentAddress });
               setPaymentPublicKey(paymentPubkey);
               setOrdinalAddress(address);
-              console.log({address})
+              console.log({ address });
 
               setOrdinalPublicKey(pubkey);
               customToast({
@@ -390,7 +392,7 @@ const ConnectWalletModal = () => {
               src={HiroWallet}
               width={28}
               className="rounded-lg"
-              onClick={() => handleConnect("Hiro")}
+              // onClick={() => handleConnect("Hiro")}
             />
             <div className="ml-2">Leather</div>
             {walletType === "Hiro" && (
