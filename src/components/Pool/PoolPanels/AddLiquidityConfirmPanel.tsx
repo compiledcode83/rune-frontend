@@ -27,6 +27,7 @@ import { useUserContext } from "@/context/UserContext";
 import { customToast } from "@/components/toast";
 import TxSubmittedModal from "@/components/Modals/TxSubmittedModal";
 import { convertWithDecimal, signPsbt } from "@/utils/utils";
+import { DOWN_TIME_FOR_CONFIRM_TX } from "@/configs/constants";
 
 const AddLiquidityConfirmPanel = () => {
   const {
@@ -56,7 +57,7 @@ const AddLiquidityConfirmPanel = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [seconds, setSeconds] = useState(20);
+  const [seconds, setSeconds] = useState(DOWN_TIME_FOR_CONFIRM_TX);
   const isLoadingRef = useRef(isLoading);
   useEffect(() => {
     isLoadingRef.current = isLoading; // Update ref whenever isLoading changes
@@ -79,7 +80,7 @@ const AddLiquidityConfirmPanel = () => {
         title: "confirm psbt timed out",
       });
       setIsLoading(false);
-      setSeconds(20); // Reset timer to 20 seconds
+      setSeconds(DOWN_TIME_FOR_CONFIRM_TX);
     }
   }, [seconds]);
 
@@ -114,7 +115,13 @@ const AddLiquidityConfirmPanel = () => {
         });
         return;
       }
-      const txRes = await poolApiService.pushTx(signedPsbt, txId);
+      const txRes = await poolApiService.pushTx(
+        signedPsbt,
+        txId,
+        walletType,
+        paymentSignIndexes,
+        taprootSignIndexes
+      );
       setTransactionId(txRes.txId);
       setTransactionDesc(
         `Adding liquidity ${addLiquidityTokenAAmount} ${addLiquidityTokenA.spaced} and ${addLiquidityTokenBAmount} ${addLiquidityTokenB.spaced}`

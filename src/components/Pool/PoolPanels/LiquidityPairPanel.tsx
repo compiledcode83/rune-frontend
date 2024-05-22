@@ -44,6 +44,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   uuid,
   // amount1,
   // amount2,
+  
   // totalamount,
   // sharedpercent,
 }) => {
@@ -77,6 +78,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   const [amount2, setAmount2] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [sharedpercent, setSharedpercent] = useState(0);
+  const [liquidityCollectFeeAmount, setLiquidityCollectFeeAmount] = useState(0);
 
   const handleAddLiquidity = () => {
     setAddLiquidityModalOpen(true);
@@ -100,6 +102,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
     // setCollectFeeTokenB(tokenB);
     setCollectFeePoolUuid(uuid);
     setCollectFeesModalOpen(true);
+    setCollectFeeAmount(liquidityCollectFeeAmount);
   };
   useEffect(() => {
     if (ordinalAddress !== "" && uuid !== "") {
@@ -118,7 +121,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
           ordinalAddress,
           uuid
         );
-        setCollectFeeAmount(resCollectedFee);
+        setLiquidityCollectFeeAmount(resCollectedFee);
       })();
     }
   }, [uuid, ordinalAddress]);
@@ -172,7 +175,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
             </div>
             <div className="flex justify-between">
               <div>Collected Fees</div>
-              <div>{collectFeeAmount / 10 ** 8}BTC</div>
+              <div>{liquidityCollectFeeAmount / 10 ** 8}BTC</div>
             </div>
           </div>
           {/* <div className="mt-4 text-center text-dark-primary lg:mt-8">

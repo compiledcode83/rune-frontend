@@ -32,6 +32,7 @@ import {
 } from "@/state/application/hooks/usePoolHooks";
 import { customToast } from "@/components/toast";
 import { signPsbt } from "@/utils/utils";
+import { DOWN_TIME_FOR_CONFIRM_TX } from "@/configs/constants";
 const lpdecimal = 8;
 
 const RemoveLiquidityConfirmPanel = () => {
@@ -58,7 +59,7 @@ const RemoveLiquidityConfirmPanel = () => {
   const { removeLiquiditySharePercent } = useRemoveLiquiditySharePercent();
   const { removeLiquidityLpTokenAmount } = useRemoveLiquidityLpTokenAmount();
   const { removeLiquidityPoolUuid } = useRemoveLiquidityPoolUuid();
-  const [seconds, setSeconds] = useState(20);
+  const [seconds, setSeconds] = useState(DOWN_TIME_FOR_CONFIRM_TX);
   const isLoadingRef = useRef(isLoading);
   useEffect(() => {
     isLoadingRef.current = isLoading; // Update ref whenever isLoading changes
@@ -91,7 +92,13 @@ const RemoveLiquidityConfirmPanel = () => {
         });
         return;
       }
-      const txRes = await poolApiService.pushTx(signedPsbt, txId);
+      const txRes = await poolApiService.pushTx(
+        signedPsbt,
+        txId,
+        walletType,
+        paymentSignIndexes,
+        taprootSignIndexes
+      );
       setTransactionId(txRes.txId);
       setTransactionDesc(
         `Removing pool ${removeLiquidityTokenA.spaced} / ${removeLiquidityTokenB.spaced}`
@@ -123,7 +130,7 @@ const RemoveLiquidityConfirmPanel = () => {
         title: "confirm psbt timed out",
       });
       setIsLoading(false);
-      setSeconds(20); // Reset timer to 20 seconds
+      setSeconds(DOWN_TIME_FOR_CONFIRM_TX); // Reset timer to 20 seconds
     }
   }, [seconds]);
 

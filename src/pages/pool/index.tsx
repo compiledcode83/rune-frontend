@@ -18,6 +18,7 @@ export default function Pool() {
   const { liquidities, setLiquidities } = useLiquidites();
 
   useEffect(() => {
+    setLiquidities([]);
     if (ordinalAddress !== "") {
       (async () => {
         try {
@@ -110,13 +111,13 @@ export default function Pool() {
                 </div>
                 <Image src={ArrowTopRightYellowImg} alt="arrow-yellow" />
               </div> */}
-              <div className="mt-2 flex items-center justify-between gap-2 lg:hidden">
-                <Button
+              <div className="mt-2 flex items-center justify-end gap-2 lg:hidden">
+                {/* <Button
                   placeholder={undefined}
                   className="bg-light-panel text-[16px] font-semibold normal-case text-primary lg:text-[24px] dark:bg-dark-panel dark:text-dark-primary"
                 >
                   Create a Pair
-                </Button>
+                </Button> */}
                 <Button
                   placeholder={undefined}
                   className="bg-gradient text-[16px] font-semibold normal-case text-white lg:text-[24px]"

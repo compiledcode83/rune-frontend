@@ -19,6 +19,7 @@ import {
 } from "@/state/application/hooks/usePoolHooks";
 import { customToast } from "@/components/toast";
 import { signPsbt } from "@/utils/utils";
+import { DOWN_TIME_FOR_CONFIRM_TX } from "@/configs/constants";
 
 const CollectFeesPanel = () => {
   const {
@@ -44,7 +45,7 @@ const CollectFeesPanel = () => {
   const { collectFeePoolUuid } = useCollectFeePoolUuid();
   const [feeAmount, setFeeAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [seconds, setSeconds] = useState(20);
+  const [seconds, setSeconds] = useState(DOWN_TIME_FOR_CONFIRM_TX);
   const isLoadingRef = useRef(isLoading);
   useEffect(() => {
     isLoadingRef.current = isLoading; // Update ref whenever isLoading changes
@@ -77,7 +78,7 @@ const CollectFeesPanel = () => {
         title: "confirm psbt timed out",
       });
       setIsLoading(false);
-      setSeconds(20); // Reset timer to 20 seconds
+      setSeconds(DOWN_TIME_FOR_CONFIRM_TX);
     }
   }, [seconds]);
 
@@ -103,10 +104,16 @@ const CollectFeesPanel = () => {
         ordinalAddress,
         paymentAddress
       );
-      const txRes = await poolApiService.pushRewardTx(signedPsbt, txId);
+      const txRes = await poolApiService.pushRewardTx(
+        signedPsbt,
+        txId,
+        walletType,
+        paymentSignIndexes,
+        taprootSignIndexes
+      );
       setTransactionId(txRes.txId);
       // setTransactionDesc(`Collecting Fees: ${feeAmount / 10 ** 8} BTC`);
-      setTransactionDesc(`Collecting Fees: ${feeAmount} BTC`);
+      setTransactionDesc(`Collecting Fees: ${feeAmount / 10 ** 8} BTC`);
       setTxSubmittedModalOpen(true);
     } catch (error) {
       console.error(error);
@@ -176,7 +183,9 @@ const CollectFeesPanel = () => {
           <div className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Image src={Btc} alt="BTC" width={25} height={25} />
-              <div className="text-[12px] lg:text-[16px]">{feeAmount}</div>
+              <div className="text-[12px] lg:text-[16px]">
+                {feeAmount / 10 ** 8}
+              </div>
             </div>
             <div>BTC</div>
           </div>

@@ -256,11 +256,20 @@ const generateSwapPsbt = async (
   }
 };
 
-const pushTx = async (psbt: string, uuid: string) => {
+const pushTx = async (
+  psbt: string,
+  uuid: string,
+  walletType: string,
+  paymentSignIndexes: number[],
+  taprootSignIndexes: number[]
+) => {
   try {
     const response = await axiosInstance.post(`/pool-transaction/push-tx`, {
       psbt,
       uuid,
+      walletType,
+      paymentSignIndexes,
+      taprootSignIndexes,
     });
     return response.data;
   } catch (error) {
@@ -412,11 +421,20 @@ const generateCollectFeePsbt = async (
   }
 };
 
-const pushRewardTx = async (psbt: string, uuid: string) => {
+const pushRewardTx = async (
+  psbt: string,
+  uuid: string,
+  walletType: string,
+  paymentSignIndexes: number[],
+  taprootSignIndexes: number[]
+) => {
   try {
     const response = await axiosInstance.post(`/reward/push-tx`, {
       psbt,
       uuid,
+      walletType,
+      paymentSignIndexes,
+      taprootSignIndexes,
     });
     return response.data;
   } catch (error) {

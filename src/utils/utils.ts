@@ -108,7 +108,8 @@ export const signPsbt = async (
           throw Error("User cancelled");
         },
       };
-      signedPsbt = await signTransaction(signPsbtOptions);
+      await signTransaction(signPsbtOptions);
+      console.log({ signedPsbt });
     } else if (walletType === "Okx") {
       console.log("OKX.....");
       signedPsbt =
