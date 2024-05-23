@@ -11,6 +11,7 @@ import { useLiquidites } from "@/state/application/hooks/usePoolHooks";
 import { useEffect } from "react";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
+import { customToast } from "@/components/toast";
 
 export default function Pool() {
   const { setAddLiquidityModalOpen } = useStatusContext();
@@ -96,7 +97,19 @@ export default function Pool() {
             <div className="mt-4 lg:mt-10">
               <div className="flex items-center justify-between">
                 <div className="text-[20px] lg:text-[36px]">Your Liquidity</div>
-                <div className="hidden items-center gap-2 lg:flex">
+                <div className="hidden items-center gap-4 lg:flex">
+                  <Button
+                    placeholder={undefined}
+                    className="bg-light-panel text-[16px] font-semibold normal-case text-primary lg:text-[24px] dark:bg-dark-panel dark:text-dark-primary"
+                    onClick={() =>
+                      customToast({
+                        toastType: "info",
+                        title: "Contact the team on discord",
+                      })
+                    }
+                  >
+                    Create a Pair
+                  </Button>
                   <Button
                     placeholder={undefined}
                     className="bg-gradient text-[20px] font-semibold normal-case text-white lg:text-[24px]"
@@ -112,13 +125,19 @@ export default function Pool() {
                 </div>
                 <Image src={ArrowTopRightYellowImg} alt="arrow-yellow" />
               </div> */}
-              <div className="mt-2 flex items-center justify-end gap-2 lg:hidden">
-                {/* <Button
+              <div className="mt-2 flex items-center justify-between gap-2 lg:hidden">
+                <Button
                   placeholder={undefined}
                   className="bg-light-panel text-[16px] font-semibold normal-case text-primary lg:text-[24px] dark:bg-dark-panel dark:text-dark-primary"
+                  onClick={() =>
+                    customToast({
+                      toastType: "info",
+                      title: "Contact the team on discord",
+                    })
+                  }
                 >
                   Create a Pair
-                </Button> */}
+                </Button>
                 <Button
                   placeholder={undefined}
                   className="bg-gradient text-[16px] font-semibold normal-case text-white lg:text-[24px]"
