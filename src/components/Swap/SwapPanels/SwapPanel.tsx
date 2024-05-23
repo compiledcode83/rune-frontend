@@ -320,9 +320,7 @@ const SwapPanel = () => {
                 <div>
                   <input
                     className="w-[150px] bg-transparent text-right outline-none focus:overflow-hidden"
-                    value={stringToDisplay(
-                      convertWithDecimal(sendTokenAmount, sendToken)
-                    )}
+                    value={convertWithDecimal(sendTokenAmount, sendToken)}
                     // value={sendTokenAmount}
                     onChange={(e) =>
                       handleTokenAmount(

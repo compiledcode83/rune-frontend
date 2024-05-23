@@ -286,11 +286,9 @@ const AddLiquidityPanel = () => {
                 <div>
                   <input
                     className="w-[150px] bg-transparent outline-none focus:overflow-hidden"
-                    value={stringToDisplay(
-                      convertWithDecimal(
-                        addLiquidityTokenAAmount,
-                        addLiquidityTokenA
-                      )
+                    value={convertWithDecimal(
+                      addLiquidityTokenAAmount,
+                      addLiquidityTokenA
                     )}
                     onChange={(e) =>
                       setAddLiquidityTokenAAmount(
@@ -356,9 +354,11 @@ const AddLiquidityPanel = () => {
                 <div>
                   <input
                     className="w-[150px] bg-transparent outline-none focus:overflow-hidden"
-                    value={convertWithDecimal(
-                      addLiquidityTokenBAmount,
-                      addLiquidityTokenB
+                    value={stringToDisplay(
+                      convertWithDecimal(
+                        addLiquidityTokenBAmount,
+                        addLiquidityTokenB
+                      )
                     )}
                     disabled
                   />
