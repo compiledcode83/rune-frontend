@@ -306,9 +306,11 @@ const AddLiquidityPanel = () => {
                   Balance:
                   {addLiquidityTokenA.runeId === "" || ordinalAddress === ""
                     ? " -"
-                    : convertWithDecimal(
-                        addLiquidityTokenABalance,
-                        addLiquidityTokenA
+                    : stringToDisplay(
+                        convertWithDecimal(
+                          addLiquidityTokenABalance,
+                          addLiquidityTokenA
+                        )
                       )}
                 </div>
               </div>
@@ -367,9 +369,11 @@ const AddLiquidityPanel = () => {
                   Balance:
                   {addLiquidityTokenB.runeId === "" || ordinalAddress === ""
                     ? " -"
-                    : convertWithDecimal(
-                        addLiquidityTokenBBalance,
-                        addLiquidityTokenB
+                    : stringToDisplay(
+                        convertWithDecimal(
+                          addLiquidityTokenBBalance,
+                          addLiquidityTokenB
+                        )
                       )}
                 </div>
               </div>
