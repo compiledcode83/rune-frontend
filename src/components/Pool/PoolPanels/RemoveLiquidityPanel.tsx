@@ -26,6 +26,7 @@ import {
   useRemoveLiquidityTokenB,
   useRemoveLiquidityTokenBAmount,
 } from "@/state/application/hooks/usePoolHooks";
+import { convertWithDecimal, stringToDisplay } from "@/utils/utils";
 
 const RemoveLiquidityPanel = () => {
   const { setRemoveLiquidityModalOpen, setRemoveLiquidityConfirmModalOpen } =
@@ -82,7 +83,14 @@ const RemoveLiquidityPanel = () => {
           </div> */}
           <div className="flex flex-col gap-2 text-[12px] lg:text-[16px]">
             <div className="flex items-center justify-between">
-              <div>{removeLiquidityTokenAAmount}</div>
+              <div>
+                {stringToDisplay(
+                  convertWithDecimal(
+                    removeLiquidityTokenAAmount,
+                    removeLiquidityTokenA
+                  )
+                )}
+              </div>
               <div className="flex items-center gap-1">
                 <Image
                   src={removeLiquidityTokenA.imgUrl}
@@ -94,7 +102,14 @@ const RemoveLiquidityPanel = () => {
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <div>{removeLiquidityTokenBAmount}</div>
+              <div>
+                {stringToDisplay(
+                  convertWithDecimal(
+                    removeLiquidityTokenBAmount,
+                    removeLiquidityTokenB
+                  )
+                )}
+              </div>
               <div className="flex items-center gap-1">
                 <Image
                   src={removeLiquidityTokenB.imgUrl}
@@ -112,26 +127,22 @@ const RemoveLiquidityPanel = () => {
           <div className="flex flex-col items-end gap-2">
             <div>
               1 {removeLiquidityTokenA.spaced} ={" "}
-              {(
+              {stringToDisplay(
                 (removeLiquidityTokenBAmount / removeLiquidityTokenAAmount) *
-                10 **
-                  (removeLiquidityTokenB.divisibility -
-                    removeLiquidityTokenA.divisibility)
-              ).toFixed(5)}{" "}
-              1 {removeLiquidityTokenA.spaced} ={" "}
-              {(
-                removeLiquidityTokenBAmount / removeLiquidityTokenAAmount
-              ).toFixed(5)}{" "}
+                  10 **
+                    (removeLiquidityTokenB.divisibility -
+                      removeLiquidityTokenA.divisibility)
+              )}{" "}
               {removeLiquidityTokenB.spaced}
             </div>
             <div>
               1 {removeLiquidityTokenB.spaced} ={" "}
-              {(
+              {stringToDisplay(
                 (removeLiquidityTokenAAmount / removeLiquidityTokenBAmount) *
-                10 **
-                  (removeLiquidityTokenA.divisibility -
-                    removeLiquidityTokenB.divisibility)
-              ).toFixed(5)}{" "}
+                  10 **
+                    (removeLiquidityTokenA.divisibility -
+                      removeLiquidityTokenB.divisibility)
+              )}{" "}
               {removeLiquidityTokenA.spaced}
             </div>
           </div>
@@ -157,9 +168,9 @@ const RemoveLiquidityPanel = () => {
         </div>
       </div>
       <div className="mt-8 text-center text-[12px] text-white lg:text-[16px]">
-        By adding liquidity earn 0.3% of all trades on this pair proportional to
-        your share of the pool. Fees are added to the pool, accrue in real time
-        and can be claimed by withdrawing your liquidity
+        By adding liquidity earn 0.0001 BTC of all trades on this pair
+        proportional to your share of the pool. Fees are added to the pool,
+        accrue in real time and can be claimed by withdrawing your liquidity
       </div>
     </div>
   );

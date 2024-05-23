@@ -7,7 +7,7 @@ import {
   useAddLiquidityTokenA,
   useAddLiquidityTokenB,
 } from "@/state/application/hooks/usePoolHooks";
-import { convertWithDecimal } from "@/utils/utils";
+import { convertWithDecimal, stringToDisplay } from "@/utils/utils";
 
 type PoolSelectTokenItemProps = {
   token: TokenType;
@@ -76,7 +76,9 @@ const PoolSelectTokenItem: React.FC<PoolSelectTokenItemProps> = ({
           {name}
         </div>
       </div>
-      <div className="ml-auto">{convertWithDecimal(balance, token)}</div>
+      <div className="ml-auto">
+        {stringToDisplay(convertWithDecimal(balance, token))}
+      </div>
     </div>
   );
 };

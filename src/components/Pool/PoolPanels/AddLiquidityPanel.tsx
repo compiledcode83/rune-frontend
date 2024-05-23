@@ -23,7 +23,11 @@ import {
 } from "@/state/application/hooks/usePoolHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
-import { convertToSats, convertWithDecimal } from "@/utils/utils";
+import {
+  convertToSats,
+  convertWithDecimal,
+  stringToDisplay,
+} from "@/utils/utils";
 
 const AddLiquidityPanel = () => {
   const {
@@ -282,9 +286,11 @@ const AddLiquidityPanel = () => {
                 <div>
                   <input
                     className="w-[150px] bg-transparent outline-none focus:overflow-hidden"
-                    value={convertWithDecimal(
-                      addLiquidityTokenAAmount,
-                      addLiquidityTokenA
+                    value={stringToDisplay(
+                      convertWithDecimal(
+                        addLiquidityTokenAAmount,
+                        addLiquidityTokenA
+                      )
                     )}
                     onChange={(e) =>
                       setAddLiquidityTokenAAmount(
@@ -406,9 +412,9 @@ const AddLiquidityPanel = () => {
         <div className="mt-8">{AddLiquidityButton()}</div>
       </div>
       <div className="mt-8 text-center text-[12px] text-white lg:text-[16px]">
-        By adding liquidity earn 0.3% of all trades on this pair proportional to
-        your share of the pool. Fees are added to the pool, accrue in real time
-        and can be claimed by withdrawing your liquidity
+        By adding liquidity earn 0.0001 BTC of all trades on this pair
+        proportional to your share of the pool. Fees are added to the pool,
+        accrue in real time and can be claimed by withdrawing your liquidity
       </div>
     </div>
   );

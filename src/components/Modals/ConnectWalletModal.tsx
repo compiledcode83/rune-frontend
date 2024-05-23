@@ -382,17 +382,16 @@ const ConnectWalletModal = () => {
             )}
           </div>
           <div
-            className={`flex items-center p-2 ${
+            className={`flex cursor-not-allowed items-center p-2 ${
               walletType !== "" && walletType !== "Hiro" && "opacity-60"
-            } my-2 cursor-pointer rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
-            onClick={() => handleConnect("Hiro")}
+            } my-2 rounded-md border border-transparent bg-light-panel px-6 py-4 transition-all hover:border-primary dark:bg-dark-item`}
+            // onClick={() => handleConnect("Hiro")}
           >
             <Image
               alt="Hiro"
               src={HiroWallet}
               width={28}
               className="rounded-lg"
-              // onClick={() => handleConnect("Hiro")}
             />
             <div className="ml-2">Leather</div>
             {walletType === "Hiro" && (

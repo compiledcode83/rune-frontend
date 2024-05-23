@@ -25,7 +25,7 @@ import poolApiService from "@/api.services/pool/pool.api.service";
 import TxSubmittedModal from "../../Modals/TxSubmittedModal";
 import { useEffect, useRef, useState } from "react";
 import { customToast } from "@/components/toast";
-import { convertWithDecimal, signPsbt } from "@/utils/utils";
+import { convertWithDecimal, signPsbt, stringToDisplay } from "@/utils/utils";
 import { DOWN_TIME_FOR_CONFIRM_TX } from "@/configs/constants";
 
 const SwapConfirmPanel = () => {
@@ -99,7 +99,7 @@ const SwapConfirmPanel = () => {
       );
       setTransactionId(txRes.txId);
       setTransactionDesc(
-        `Swapping ${sendTokenAmount} ${sendToken.spaced} for ${receiveTokenAmount} ${receiveToken.spaced}`
+        `Swapping ${convertWithDecimal(sendTokenAmount, sendToken)} ${sendToken.spaced} for ${convertWithDecimal(receiveTokenAmount, receiveToken)} ${receiveToken.spaced}`
       );
       setTxSubmittedModalOpen(true);
     } catch (error) {
@@ -152,7 +152,7 @@ const SwapConfirmPanel = () => {
         <div>
           <div className="text-[12px] lg:text-[16px]">Swap from</div>
           <div className="text-[16px] font-semibold lg:text-[24px]">
-            {convertWithDecimal(sendTokenAmount, sendToken)}
+            {stringToDisplay(convertWithDecimal(sendTokenAmount, sendToken))}
             {/* {sendTokenAmount} */}
           </div>
         </div>
@@ -170,7 +170,9 @@ const SwapConfirmPanel = () => {
         <div>
           <div className="text-[12px] lg:text-[16px]">Swap to</div>
           <div className="text-[16px] font-semibold lg:text-[24px]">
-            {convertWithDecimal(receiveTokenAmount, receiveToken)}
+            {stringToDisplay(
+              convertWithDecimal(receiveTokenAmount, receiveToken)
+            )}
             {/* {receiveTokenAmount} */}
           </div>
         </div>
@@ -212,7 +214,7 @@ const SwapConfirmPanel = () => {
             </CustomTooltip>
           </div>
           <div className="flex items-center gap-1">
-            <div>{`${convertWithDecimal(receiveTokenAmount - (receiveTokenAmount / 100) * slippage, receiveToken)} ${receiveToken.symbol}`}</div>
+            <div>{`${stringToDisplay(convertWithDecimal(receiveTokenAmount - (receiveTokenAmount / 100) * slippage, receiveToken))} ${receiveToken.symbol}`}</div>
           </div>
         </div>
         <div className="flex items-center justify-between">

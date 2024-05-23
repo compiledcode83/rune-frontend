@@ -25,7 +25,7 @@ import {
   useRemoveLiquidityTokenBAmount,
 } from "@/state/application/hooks/usePoolHooks";
 import { TokenType } from "@/types/type";
-import { convertWithDecimal } from "@/utils/utils";
+import { convertWithDecimal, stringToDisplay } from "@/utils/utils";
 
 type LiquidityPairPanelProps = {
   tokenA: TokenType;
@@ -44,7 +44,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   uuid,
   // amount1,
   // amount2,
-  
+
   // totalamount,
   // sharedpercent,
 }) => {
@@ -155,18 +155,20 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
           <div className="flex flex-col gap-2 lg:gap-4">
             <div className="flex justify-between">
               <div>Your total pool tokens</div>
-              <div>{totalAmount / 10 ** 8}</div>
+              <div>{stringToDisplay(totalAmount / 10 ** 8)}</div>
             </div>
             <div className="flex justify-between">
               <div>Pooled {tokenA.spaced}</div>
               <div>
-                {convertWithDecimal(amount1, tokenA)} {tokenA.symbol}
+                {stringToDisplay(convertWithDecimal(amount1, tokenA))}{" "}
+                {tokenA.symbol}
               </div>
             </div>
             <div className="flex justify-between">
               <div>Pooled {tokenB.spaced}</div>
               <div>
-                {convertWithDecimal(amount2, tokenB)} {tokenB.symbol}
+                {stringToDisplay(convertWithDecimal(amount2, tokenB))}{" "}
+                {tokenB.symbol}
               </div>
             </div>
             <div className="flex justify-between">
@@ -175,7 +177,9 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
             </div>
             <div className="flex justify-between">
               <div>Collected Fees</div>
-              <div>{liquidityCollectFeeAmount / 10 ** 8}BTC</div>
+              <div>
+                {stringToDisplay(liquidityCollectFeeAmount / 10 ** 8)}BTC
+              </div>
             </div>
           </div>
           {/* <div className="mt-4 text-center text-dark-primary lg:mt-8">

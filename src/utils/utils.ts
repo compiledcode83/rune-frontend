@@ -64,6 +64,16 @@ export const convertToSats = (amount: number, token: TokenType) => {
   return 0;
 };
 
+export const stringToDisplay = (amount: number) => {
+  if (amount === 0) {
+    return "0";
+  } else if (amount < 0.00001) {
+    return "<0.00001";
+  } else {
+    return amount.toFixed(5);
+  }
+};
+
 export const signPsbt = async (
   psbt: string,
   walletType: string,

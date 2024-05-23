@@ -31,7 +31,7 @@ import {
   useRemoveLiquidityPoolUuid,
 } from "@/state/application/hooks/usePoolHooks";
 import { customToast } from "@/components/toast";
-import { signPsbt } from "@/utils/utils";
+import { signPsbt, stringToDisplay } from "@/utils/utils";
 import { DOWN_TIME_FOR_CONFIRM_TX } from "@/configs/constants";
 const lpdecimal = 8;
 
@@ -168,7 +168,8 @@ const RemoveLiquidityConfirmPanel = () => {
                   height={24}
                 />
                 <div>
-                  {removeLiquidityTokenAAmount} {removeLiquidityTokenA.symbol}
+                  {stringToDisplay(removeLiquidityTokenAAmount)}{" "}
+                  {removeLiquidityTokenA.symbol}
                 </div>
               </div>
             </div>
@@ -182,7 +183,8 @@ const RemoveLiquidityConfirmPanel = () => {
                   height={24}
                 />
                 <div>
-                  {removeLiquidityTokenBAmount} {removeLiquidityTokenB.symbol}
+                  {stringToDisplay(removeLiquidityTokenBAmount)}{" "}
+                  {removeLiquidityTokenB.symbol}
                 </div>
               </div>
             </div>
@@ -197,7 +199,7 @@ const RemoveLiquidityConfirmPanel = () => {
                 {removeLiquidityTokenA.spaced}/{removeLiquidityTokenB.spaced}
               </div>
               <div className="flex justify-end gap-1">
-                <div>{removeLiquidityLpTokenAmount}</div>
+                <div>{stringToDisplay(removeLiquidityLpTokenAmount)}</div>
                 <Image
                   src={removeLiquidityTokenA.imgUrl}
                   width={24}
@@ -217,13 +219,13 @@ const RemoveLiquidityConfirmPanel = () => {
               <div className="flex flex-col items-end gap-2">
                 <div>
                   1 {removeLiquidityTokenA.spaced} ={" "}
-                  {(
+                  {stringToDisplay(
                     (removeLiquidityTokenBAmount /
                       removeLiquidityTokenAAmount) *
-                    10 **
-                      (removeLiquidityTokenB.divisibility -
-                        removeLiquidityTokenA.divisibility)
-                  ).toFixed(5)}{" "}
+                      10 **
+                        (removeLiquidityTokenB.divisibility -
+                          removeLiquidityTokenA.divisibility)
+                  )}{" "}
                   {removeLiquidityTokenB.spaced}
                 </div>
                 <div>

@@ -18,7 +18,7 @@ import {
   // useCollectFeeTokenBAmount,
 } from "@/state/application/hooks/usePoolHooks";
 import { customToast } from "@/components/toast";
-import { signPsbt } from "@/utils/utils";
+import { signPsbt, stringToDisplay } from "@/utils/utils";
 import { DOWN_TIME_FOR_CONFIRM_TX } from "@/configs/constants";
 
 const CollectFeesPanel = () => {
@@ -112,8 +112,9 @@ const CollectFeesPanel = () => {
         taprootSignIndexes
       );
       setTransactionId(txRes.txId);
-      // setTransactionDesc(`Collecting Fees: ${feeAmount / 10 ** 8} BTC`);
-      setTransactionDesc(`Collecting Fees: ${feeAmount / 10 ** 8} BTC`);
+      setTransactionDesc(
+        `Collecting Fees: ${stringToDisplay(feeAmount / 10 ** 8)} BTC`
+      );
       setTxSubmittedModalOpen(true);
     } catch (error) {
       console.error(error);
@@ -184,7 +185,7 @@ const CollectFeesPanel = () => {
             <div className="flex items-center gap-2">
               <Image src={Btc} alt="BTC" width={25} height={25} />
               <div className="text-[12px] lg:text-[16px]">
-                {feeAmount / 10 ** 8}
+                {stringToDisplay(feeAmount / 10 ** 8)}
               </div>
             </div>
             <div>BTC</div>

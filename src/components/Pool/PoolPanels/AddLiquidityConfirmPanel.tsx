@@ -26,7 +26,7 @@ import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
 import { customToast } from "@/components/toast";
 import TxSubmittedModal from "@/components/Modals/TxSubmittedModal";
-import { convertWithDecimal, signPsbt } from "@/utils/utils";
+import { convertWithDecimal, signPsbt, stringToDisplay } from "@/utils/utils";
 import { DOWN_TIME_FOR_CONFIRM_TX } from "@/configs/constants";
 
 const AddLiquidityConfirmPanel = () => {
@@ -124,7 +124,7 @@ const AddLiquidityConfirmPanel = () => {
       );
       setTransactionId(txRes.txId);
       setTransactionDesc(
-        `Adding liquidity ${addLiquidityTokenAAmount} ${addLiquidityTokenA.spaced} and ${addLiquidityTokenBAmount} ${addLiquidityTokenB.spaced}`
+        `Adding liquidity ${stringToDisplay(convertWithDecimal(addLiquidityTokenAAmount, addLiquidityTokenA))} ${addLiquidityTokenA.spaced} and ${stringToDisplay(convertWithDecimal(addLiquidityTokenBAmount, addLiquidityTokenB))} ${addLiquidityTokenB.spaced}`
       );
       setTxSubmittedModalOpen(true);
 
@@ -161,7 +161,7 @@ const AddLiquidityConfirmPanel = () => {
         </div>
         <div className="mt-4 flex flex-col gap-2 lg:mt-8">
           <div className="text-[16px] font-semibold lg:text-[24px]">
-            {addLiquidityLpTokenAmount / 10 ** 8}
+            {stringToDisplay(addLiquidityLpTokenAmount / 10 ** 8)}
           </div>
           <div className="text-[12px] lg:text-[16px]">
             {addLiquidityTokenA.spaced}/{addLiquidityTokenB.spaced} Pool Tokens
@@ -181,9 +181,11 @@ const AddLiquidityConfirmPanel = () => {
                   height={24}
                 />
                 <div>
-                  {convertWithDecimal(
-                    addLiquidityTokenAAmount,
-                    addLiquidityTokenA
+                  {stringToDisplay(
+                    convertWithDecimal(
+                      addLiquidityTokenAAmount,
+                      addLiquidityTokenA
+                    )
                   )}{" "}
                   {addLiquidityTokenA.symbol}
                 </div>
@@ -209,22 +211,22 @@ const AddLiquidityConfirmPanel = () => {
             <div className="flex flex-col gap-2">
               <div>
                 1 {addLiquidityTokenA.spaced} ={" "}
-                {(
+                {stringToDisplay(
                   (addLiquidityTokenBAmount / addLiquidityTokenAAmount) *
-                  10 **
-                    (addLiquidityTokenB.divisibility -
-                      addLiquidityTokenA.divisibility)
-                ).toFixed(5)}{" "}
+                    10 **
+                      (addLiquidityTokenB.divisibility -
+                        addLiquidityTokenA.divisibility)
+                )}{" "}
                 {addLiquidityTokenB.spaced}
               </div>
               <div>
                 1 {addLiquidityTokenB.spaced} ={" "}
-                {(
+                {stringToDisplay(
                   (addLiquidityTokenAAmount / addLiquidityTokenBAmount) *
-                  10 **
-                    (addLiquidityTokenA.divisibility -
-                      addLiquidityTokenB.divisibility)
-                ).toFixed(5)}{" "}
+                    10 **
+                      (addLiquidityTokenA.divisibility -
+                        addLiquidityTokenB.divisibility)
+                )}{" "}
                 {addLiquidityTokenA.spaced}
               </div>
             </div>
@@ -252,7 +254,7 @@ const AddLiquidityConfirmPanel = () => {
         </div>
       </div>
       <div className="mt-8 text-center text-[12px] text-white lg:text-[16px]">
-        By adding liquidity earn 0.3% of all trades on this pair proportional to
+        By adding liquidity earn 0.0001 BTC of all trades on this pair proportional to
         your share of the pool. Fees are added to the pool, accrue in real time
         and can be claimed by withdrawing your liquidity
       </div>
