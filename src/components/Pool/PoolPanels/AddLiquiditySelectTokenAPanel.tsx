@@ -24,7 +24,7 @@ import PoolSelectTokenItem from "../PoolItems/PoolSelectTokenItem";
 
 const SwapSelectAddLiquidityTokenAPanel = () => {
   const { setAddLiquiditySelectTokenAModalOpen } = useStatusContext();
-  const { ordinalAddress } = useUserContext();
+  const { ordinalAddress, paymentAddress } = useUserContext();
   const { poolTokens, setPoolTokens } = usePoolTokens();
   const { setTokenBalances } = useTokenBalances();
   const [searchText, setSearchText] = useState("");
@@ -43,7 +43,7 @@ const SwapSelectAddLiquidityTokenAPanel = () => {
       if (ordinalAddress !== "") {
         try {
           const resTokenBalances: BalanceType[] =
-            await poolApiService.getBalance(ordinalAddress);
+            await poolApiService.getBalance(ordinalAddress, paymentAddress);
           setTokenBalances(resTokenBalances);
         } catch (error) {
           console.error((error as Error).message);

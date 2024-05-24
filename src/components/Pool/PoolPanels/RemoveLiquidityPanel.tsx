@@ -130,8 +130,8 @@ const RemoveLiquidityPanel = () => {
               {stringToDisplay(
                 (removeLiquidityTokenBAmount / removeLiquidityTokenAAmount) *
                   10 **
-                    (removeLiquidityTokenB.divisibility -
-                      removeLiquidityTokenA.divisibility)
+                    (removeLiquidityTokenA.divisibility -
+                      removeLiquidityTokenB.divisibility)
               )}{" "}
               {removeLiquidityTokenB.spaced}
             </div>
@@ -140,8 +140,8 @@ const RemoveLiquidityPanel = () => {
               {stringToDisplay(
                 (removeLiquidityTokenAAmount / removeLiquidityTokenBAmount) *
                   10 **
-                    (removeLiquidityTokenA.divisibility -
-                      removeLiquidityTokenB.divisibility)
+                    (removeLiquidityTokenB.divisibility -
+                      removeLiquidityTokenA.divisibility)
               )}{" "}
               {removeLiquidityTokenA.spaced}
             </div>

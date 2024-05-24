@@ -160,11 +160,14 @@ const AddLiquidityConfirmPanel = () => {
           </div>
         </div>
         <div className="mt-4 flex flex-col gap-2 lg:mt-8">
-          <div className="text-[16px] font-semibold lg:text-[24px]">
-            {stringToDisplay(addLiquidityLpTokenAmount / 10 ** 8)}
-          </div>
-          <div className="text-[12px] lg:text-[16px]">
-            {addLiquidityTokenA.spaced}/{addLiquidityTokenB.spaced} Pool Tokens
+          <div className="flex items-center justify-between">
+            <div className="text-[16px] font-semibold lg:text-[24px]">
+              {stringToDisplay(addLiquidityLpTokenAmount / 10 ** 8)}
+            </div>
+            <div className="text-[12px] lg:text-[16px]">
+              {addLiquidityTokenA.spaced}/{addLiquidityTokenB.spaced} Pool
+              Tokens
+            </div>
           </div>
           {/* <div className="text-[12px] text-light-gray-font lg:text-[16px] dark:text-dark-gray-font">
             Output is estimated. If the price changes by more than 0.5% your
@@ -214,8 +217,8 @@ const AddLiquidityConfirmPanel = () => {
                 {stringToDisplay(
                   (addLiquidityTokenBAmount / addLiquidityTokenAAmount) *
                     10 **
-                      (addLiquidityTokenB.divisibility -
-                        addLiquidityTokenA.divisibility)
+                      (addLiquidityTokenA.divisibility -
+                        addLiquidityTokenB.divisibility)
                 )}{" "}
                 {addLiquidityTokenB.spaced}
               </div>
@@ -224,8 +227,8 @@ const AddLiquidityConfirmPanel = () => {
                 {stringToDisplay(
                   (addLiquidityTokenAAmount / addLiquidityTokenBAmount) *
                     10 **
-                      (addLiquidityTokenA.divisibility -
-                        addLiquidityTokenB.divisibility)
+                      (addLiquidityTokenB.divisibility -
+                        addLiquidityTokenA.divisibility)
                 )}{" "}
                 {addLiquidityTokenA.spaced}
               </div>
@@ -254,9 +257,9 @@ const AddLiquidityConfirmPanel = () => {
         </div>
       </div>
       <div className="mt-8 text-center text-[12px] text-white lg:text-[16px]">
-        By adding liquidity earn 0.0001 BTC of all trades on this pair proportional to
-        your share of the pool. Fees are added to the pool, accrue in real time
-        and can be claimed by withdrawing your liquidity
+        By adding liquidity earn 0.0001 BTC of all trades on this pair
+        proportional to your share of the pool. Fees are added to the pool,
+        accrue in real time and can be claimed by withdrawing your liquidity
       </div>
     </div>
   );

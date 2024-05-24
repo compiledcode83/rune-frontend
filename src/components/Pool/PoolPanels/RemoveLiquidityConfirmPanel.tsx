@@ -153,10 +153,6 @@ const RemoveLiquidityConfirmPanel = () => {
           </div>
         </div>
         <div className="mt-4 flex flex-col gap-2 lg:mt-8">
-          <div className="text-[12px] lg:text-[16px]">
-            {removeLiquidityTokenA.spaced}/{removeLiquidityTokenB.spaced} Pool
-            Tokens
-          </div>
           <div className="flex flex-col gap-2 text-[12px] lg:text-[16px]">
             <div className="flex items-center justify-between">
               <div>{removeLiquidityTokenA.spaced} Deposited</div>
@@ -194,12 +190,12 @@ const RemoveLiquidityConfirmPanel = () => {
             transaction revert
           </div> */}
           <div className="flex flex-col gap-2 rounded-lg bg-light-item p-4 text-[12px] lg:text-[16px] dark:bg-dark-item">
-            <div className="flex flex-col">
-              <div>
-                {removeLiquidityTokenA.spaced}/{removeLiquidityTokenB.spaced}
-              </div>
-              <div className="flex justify-end gap-1">
-                <div>{stringToDisplay(removeLiquidityLpTokenAmount)}</div>
+            <div className="flex justify-between">
+              <div>LP token</div>
+              <div className="flex justify-center gap-2">
+                <div>
+                  {stringToDisplay(removeLiquidityLpTokenAmount / 10 ** 8)}
+                </div>
                 <Image
                   src={removeLiquidityTokenA.imgUrl}
                   width={24}

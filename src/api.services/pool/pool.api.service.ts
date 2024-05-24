@@ -76,10 +76,10 @@ const getSwapAmount = async (
   }
 };
 
-const getBalance = async (address: string) => {
+const getBalance = async (address: string, paymentAddress: string) => {
   try {
     const response = await axiosInstance.get(`/pool-transaction/balance`, {
-      params: { ":address": address },
+      params: { address, "payment-address": paymentAddress },
     });
     return response.data;
   } catch (error) {
