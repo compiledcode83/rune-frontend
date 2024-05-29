@@ -23,11 +23,11 @@ const SelectModalSearchBox: React.FC<PropsType> = ({
     >
       {isFocused || searchText !== "" ? (
         <div className="text-[14px] text-[#959D9F]">
-          Search name or pasto addrss
+          Search name or paste addrss
         </div>
       ) : null}
       <input
-        placeholder={isFocused ? "" : "Search name or pasto addrss"}
+        placeholder={isFocused ? "" : "Search name or paste addrss"}
         onFocus={handleFocus}
         onBlur={handleBlur}
         className="w-full bg-transparent text-[20px] outline-none"

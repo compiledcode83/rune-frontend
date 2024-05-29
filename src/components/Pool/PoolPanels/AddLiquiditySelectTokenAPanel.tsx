@@ -81,7 +81,11 @@ const SwapSelectAddLiquidityTokenAPanel = () => {
 
   useEffect(() => {
     const resultList = poolTokens.filter((token) => {
-      return containsSubstring(token.name, filterText);
+      return (
+        containsSubstring(token.name, filterText) ||
+        containsSubstring(token.spaced, filterText) ||
+        containsSubstring(token.runeId, filterText)
+      );
     });
     setPoolTokenSearchResults(resultList);
   }, [filterText, poolTokens]);

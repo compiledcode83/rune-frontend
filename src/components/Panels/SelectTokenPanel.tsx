@@ -76,7 +76,7 @@ const SelectTokenPanel = () => {
       <div>
         <Input
           crossOrigin={undefined}
-          label="Search name or pasto address"
+          label="Search name or paste address"
           icon={<MagnifyingGlassIcon width={20} />}
           color="amber"
           className="text-[12px] text-black lg:!text-[24px] dark:text-white"
