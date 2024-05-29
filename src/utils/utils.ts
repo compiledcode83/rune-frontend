@@ -59,7 +59,7 @@ export const convertWithDecimal = (amount: number, token: TokenType) => {
 
 export const convertToSats = (amount: number, token: TokenType) => {
   if (token.runeId !== "") {
-    return (amount *= 10 ** token.divisibility);
+    return Math.trunc((amount *= 10 ** token.divisibility));
   }
   return 0;
 };
