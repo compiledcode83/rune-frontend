@@ -31,7 +31,7 @@ import {
   useRemoveLiquidityPoolUuid,
 } from "@/state/application/hooks/usePoolHooks";
 import { customToast } from "@/components/toast";
-import { signPsbt, stringToDisplay } from "@/utils/utils";
+import { convertWithDecimal, signPsbt, stringToDisplay } from "@/utils/utils";
 import { DOWN_TIME_FOR_CONFIRM_TX } from "@/configs/constants";
 const lpdecimal = 8;
 
@@ -164,7 +164,12 @@ const RemoveLiquidityConfirmPanel = () => {
                   height={24}
                 />
                 <div>
-                  {stringToDisplay(removeLiquidityTokenAAmount)}{" "}
+                  {stringToDisplay(
+                    convertWithDecimal(
+                      removeLiquidityTokenAAmount,
+                      removeLiquidityTokenA
+                    )
+                  )}{" "}
                   {removeLiquidityTokenA.symbol}
                 </div>
               </div>
@@ -179,7 +184,12 @@ const RemoveLiquidityConfirmPanel = () => {
                   height={24}
                 />
                 <div>
-                  {stringToDisplay(removeLiquidityTokenBAmount)}{" "}
+                  {stringToDisplay(
+                    convertWithDecimal(
+                      removeLiquidityTokenBAmount,
+                      removeLiquidityTokenB
+                    )
+                  )}{" "}
                   {removeLiquidityTokenB.symbol}
                 </div>
               </div>
@@ -216,23 +226,23 @@ const RemoveLiquidityConfirmPanel = () => {
                 <div>
                   1 {removeLiquidityTokenA.spaced} ={" "}
                   {stringToDisplay(
+                    (removeLiquidityTokenAAmount /
+                      removeLiquidityTokenBAmount) *
+                      10 **
+                        (removeLiquidityTokenA.divisibility -
+                          removeLiquidityTokenB.divisibility)
+                  )}{" "}
+                  {removeLiquidityTokenB.spaced}
+                </div>
+                <div>
+                  1 {removeLiquidityTokenB.spaced} ={" "}
+                  {stringToDisplay(
                     (removeLiquidityTokenBAmount /
                       removeLiquidityTokenAAmount) *
                       10 **
                         (removeLiquidityTokenB.divisibility -
                           removeLiquidityTokenA.divisibility)
                   )}{" "}
-                  {removeLiquidityTokenB.spaced}
-                </div>
-                <div>
-                  1 {removeLiquidityTokenB.spaced} ={" "}
-                  {(
-                    (removeLiquidityTokenAAmount /
-                      removeLiquidityTokenBAmount) *
-                    10 **
-                      (removeLiquidityTokenA.divisibility -
-                        removeLiquidityTokenB.divisibility)
-                  ).toFixed(5)}{" "}
                   {removeLiquidityTokenA.spaced}
                 </div>
               </div>
