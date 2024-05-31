@@ -182,8 +182,8 @@ const SwapPanel = () => {
     setSendTokenAmount(receiveTokenAmount);
     setReceiveToken(tempSendToken);
   };
-  const onMax = () => {
-    setSendTokenAmount(sendTokenBalance);
+  const onHalf = () => {
+    setSendTokenAmount(sendTokenBalance / 2);
   };
 
   const SwapButton = () => {
@@ -340,9 +340,9 @@ const SwapPanel = () => {
                   {sendTokenBalance > 0 ? (
                     <div
                       className="cursor-pointer text-primary"
-                      onClick={onMax}
+                      onClick={onHalf}
                     >
-                      MAX
+                      HALF
                     </div>
                   ) : null}
                 </div>
