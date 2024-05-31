@@ -266,6 +266,21 @@ const ConnectWalletModal = () => {
           const unisat = (window as any).unisat;
           const addresses = await unisat.requestAccounts();
           const pubkey = await unisat.getPublicKey();
+          const network = await unisat.getNetwork();
+          console.log(network, process.env.NEXT_PUBLIC_NETWORK, "wallet");
+          if (
+            network === "livenet" &&
+            process.env.NEXT_PUBLIC_NETWORK === "testnet"
+          ) {
+            console.log("testnet change");
+            await unisat.switchNetwork("testnet");
+          }
+          if (
+            network === "testnet" &&
+            process.env.NEXT_PUBLIC_NETWORK === "mainnet"
+          ) {
+            await unisat.switchNetwork("livenet");
+          }
           setWalletType("Unisat");
           setPaymentAddress(addresses[0]);
           setPaymentPublicKey(pubkey);
@@ -284,6 +299,8 @@ const ConnectWalletModal = () => {
           });
         }
       } else if (walletName === "Okx") {
+        // const network = await window.okxwallet.bitcoin.getNetwork();
+
         const result =
           process.env.NEXT_PUBLIC_NETWORK === "testnet"
             ? await window.okxwallet.bitcoinTestnet.connect()
