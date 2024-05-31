@@ -183,7 +183,7 @@ const SwapPanel = () => {
     setReceiveToken(tempSendToken);
   };
   const onHalf = () => {
-    setSendTokenAmount(sendTokenBalance / 2);
+    setSendTokenAmount(Math.ceil(sendTokenBalance / 2));
   };
 
   const SwapButton = () => {
