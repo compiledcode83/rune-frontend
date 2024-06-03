@@ -16,7 +16,7 @@ const getTokenInfo = async (runeId: string) => {
       // AxiosError type allows access to error response data
       if (error.response) {
         console.log(error.response.data.message); // Access error response data
-        customToast({ toastType: "error", title: error.response.data.message });
+        // customToast({ toastType: "error", title: error.response.data.message });
       } else {
         console.log("Error occurred, but no response was received");
       }

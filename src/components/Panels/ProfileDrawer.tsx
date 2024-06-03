@@ -105,14 +105,14 @@ const ProfileDrawer = () => {
               {addressShortening(ordinalAddress)}
             </div>
             <div className="flex gap-4">
-              <Image
+              {/* <Image
                 src={Setting}
                 alt="setting"
                 className="cursor-pointer"
                 // onClick={handleTheme}
                 height={18}
                 width={18}
-              />
+              /> */}
               <Image
                 src={Logout}
                 alt="setting"
