@@ -72,6 +72,7 @@ const ProfileDrawer = () => {
   );
   const handleLogout = () => {
     setProfileDrawerOpen(false);
+    document.body.style.overflow = "scroll";
     handleDisconnect();
   };
   const walletBadge = () => {
@@ -84,15 +85,22 @@ const ProfileDrawer = () => {
     else if (walletType === "Hiro")
       return <Image src={Hiro} alt="hiro" width={20} height={20} />;
   };
+
+  const handleClose = () => {
+    document.body.style.overflow = "scroll";
+    setProfileDrawerOpen(false);
+  };
   return (
     <Drawer
       open={profileDrawerOpen}
-      onClose={() => setProfileDrawerOpen(false)}
+      onClose={handleClose}
       placeholder={undefined}
       placement="right"
       size={423}
+      className="overflow-y-scroll"
+      dismiss={{ enabled: true, ancestorScroll: false }}
     >
-      <div className="flex h-full flex-col gap-[32px] bg-white px-[24px] pt-[30px] dark:bg-dark-panel">
+      <div className="flex h-full flex-col gap-[32px] bg-white px-[24px] py-[30px] dark:bg-dark-panel">
         <div className="flex items-center justify-between">
           <div className="relative">
             {WalletAvatar(ordinalAddress)}
@@ -130,10 +138,12 @@ const ProfileDrawer = () => {
         </div>
         <div>
           <div className="mb-[27px]">Tokens</div>
-          <div className="flex flex-col gap-[35px]">
-            {tokenBalances.map((balance) => (
-              <ProfileTokenItemPanel balance={balance} key={balance.runeId} />
-            ))}
+          <div className="mb-[20px] flex flex-col gap-[35px]">
+            {tokenBalances.map((balance) =>
+              balance.spacedRune !== "BITCOIN" ? (
+                <ProfileTokenItemPanel balance={balance} key={balance.runeId} />
+              ) : null
+            )}
           </div>
         </div>
       </div>

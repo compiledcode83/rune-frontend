@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { useStatusContext } from "@/context/StatusContext";
 import { useUserContext } from "@/context/UserContext";
 import { addressShortening } from "@/utils/adress";
-import ProfileDrawer from "../Panels/ProfileDrawer";
+import ProfileDrawer from "../Profile/ProfileDrawer";
 
 const MenuItems = [
   { name: "Swap", link: "/" },
@@ -27,6 +27,11 @@ const Header = () => {
   const { setConnectWalletModalOpen, setProfileDrawerOpen } =
     useStatusContext();
   const { isConnected, ordinalAddress, handleDisconnect } = useUserContext();
+
+  const handleProfileOpen = () => {
+    setProfileDrawerOpen(true);
+    document.body.style.overflow = "hidden";
+  };
 
   return (
     <div>
@@ -64,7 +69,7 @@ const Header = () => {
             onClick={() => {
               !isConnected
                 ? setConnectWalletModalOpen(true)
-                : setProfileDrawerOpen(true);
+                : handleProfileOpen();
             }}
           >
             {!isConnected ? (

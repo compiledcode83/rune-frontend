@@ -57,7 +57,7 @@ const ConfirmSwapPanel = () => {
           <div className="lg:text-[16px text-[12px]">EOS</div>
         </div>
       </div>
-      <div className="text-[12px] text-light-gray-font lg:text-[14px] lg:text-[16px] dark:text-dark-gray-font">
+      <div className="text-[12px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
         Output is estimated. If the price changes by more than 0.5% your
         transaction will revert
       </div>
