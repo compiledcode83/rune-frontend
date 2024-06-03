@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import LightThemeImg from "@/assets/imgs/lighttheme.svg";
 import DarkThemeImg from "@/assets/imgs/darktheme.svg";
@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { useStatusContext } from "@/context/StatusContext";
 import { useUserContext } from "@/context/UserContext";
 import { addressShortening } from "@/utils/adress";
+import ProfileDrawer from "../Panels/ProfileDrawer";
 
 const MenuItems = [
   { name: "Swap", link: "/" },
@@ -23,8 +24,10 @@ const MenuItems = [
 const Header = () => {
   const router = useRouter();
   const { darkMode, handleTheme } = useThemeContext();
-  const { setConnectWalletModalOpen } = useStatusContext();
-  const { isConnected, paymentAddress, handleDisconnect } = useUserContext();
+  const { setConnectWalletModalOpen, setProfileDrawerOpen } =
+    useStatusContext();
+  const { isConnected, ordinalAddress, handleDisconnect } = useUserContext();
+
   return (
     <div>
       <div className="flex items-center justify-between border-b border-[#818C90] px-[16px] py-4 lg:px-[150px]">
@@ -61,7 +64,7 @@ const Header = () => {
             onClick={() => {
               !isConnected
                 ? setConnectWalletModalOpen(true)
-                : handleDisconnect();
+                : setProfileDrawerOpen(true);
             }}
           >
             {!isConnected ? (
@@ -71,13 +74,13 @@ const Header = () => {
               </>
             ) : (
               <div className="flex items-center gap-3">
-                {addressShortening(paymentAddress)}
-                <Image
+                {addressShortening(ordinalAddress)}
+                {/* <Image
                   src={LogOff}
                   alt="log off"
                   className="cursor-pointer"
                   height={18}
-                />
+                /> */}
               </div>
             )}
           </Button>
@@ -104,6 +107,7 @@ const Header = () => {
           );
         })}
       </div>
+      <ProfileDrawer />
     </div>
   );
 };

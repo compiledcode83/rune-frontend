@@ -14,7 +14,7 @@
         "@material-tailwind/react": "^2.1.9",
         "@reduxjs/toolkit": "^2.1.0",
         "axios": "^1.6.7",
-        "boring-avatars": "^1.10.1",
+        "boring-avatars": "^1.10.2",
         "dotenv": "^16.4.1",
         "i18next": "^23.10.0",
         "i18next-browser-languagedetector": "^7.2.0",

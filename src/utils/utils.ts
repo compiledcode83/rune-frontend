@@ -1,5 +1,5 @@
 import { customToast } from "@/components/toast";
-import { TokenType } from "@/types/type";
+import { BalanceType, TokenType } from "@/types/type";
 import { SignTransactionOptions, signTransaction } from "sats-connect";
 
 export function randomIntFromInterval(min: number, max: number) {
@@ -51,6 +51,16 @@ export const getFormattedDateTime = (isoDateString: string): string => {
 };
 
 export const convertWithDecimal = (amount: number, token: TokenType) => {
+  if (token.runeId !== "") {
+    return (amount /= 10 ** token.divisibility);
+  }
+  return 0;
+};
+
+export const convertWithDecimalUsingBalance = (
+  amount: number,
+  token: BalanceType
+) => {
   if (token.runeId !== "") {
     return (amount /= 10 ** token.divisibility);
   }

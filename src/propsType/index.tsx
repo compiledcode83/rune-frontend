@@ -38,6 +38,8 @@ export type StatusContextProps = {
   setSwapSelectReceiveTokenModalOpen: (open: boolean) => void;
   swapConfirmModalOpen: boolean;
   setSwapConfirmModalOpen: (open: boolean) => void;
+  profileDrawerOpen: boolean;
+  setProfileDrawerOpen: (open: boolean) => void;
   transactionId: string;
   setTransactionId: (txId: string) => void;
   transactionDesc: string;

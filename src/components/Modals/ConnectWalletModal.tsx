@@ -264,9 +264,8 @@ const ConnectWalletModal = () => {
       } else if (walletName === "Unisat") {
         try {
           const unisat = (window as any).unisat;
-          const addresses = await unisat.requestAccounts();
-          const pubkey = await unisat.getPublicKey();
-          const network = await unisat.getNetwork();
+
+          let network = await unisat.getNetwork();
           console.log(network, process.env.NEXT_PUBLIC_NETWORK, "wallet");
           if (
             network === "livenet" &&
@@ -281,6 +280,9 @@ const ConnectWalletModal = () => {
           ) {
             await unisat.switchNetwork("livenet");
           }
+          const addresses = await unisat.requestAccounts();
+          const pubkey = await unisat.getPublicKey();
+          network = await unisat.getNetwork();
           setWalletType("Unisat");
           setPaymentAddress(addresses[0]);
           setPaymentPublicKey(pubkey);

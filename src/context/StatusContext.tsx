@@ -32,6 +32,8 @@ export const StatusContext = createContext<StatusContextProps>({
   setSwapSelectReceiveTokenModalOpen: () => {},
   swapConfirmModalOpen: false,
   setSwapConfirmModalOpen: () => {},
+  profileDrawerOpen: false,
+  setProfileDrawerOpen: () => {},
   transactionId: "",
   setTransactionId: () => {},
   transactionDesc: "",
@@ -70,6 +72,7 @@ export const StatusProvider = ({ ...props }) => {
   const [swapSelectReceiveTokenModalOpen, setSwapSelectReceiveTokenModalOpen] =
     useState(false);
   const [swapConfirmModalOpen, setSwapConfirmModalOpen] = useState(false);
+  const [profileDrawerOpen, setProfileDrawerOpen] = useState(false);
   const [transactionId, setTransactionId] = useState("");
   const [transactionDesc, setTransactionDesc] = useState("");
   return (
@@ -106,6 +109,8 @@ export const StatusProvider = ({ ...props }) => {
         setSwapSelectReceiveTokenModalOpen,
         swapConfirmModalOpen,
         setSwapConfirmModalOpen,
+        profileDrawerOpen,
+        setProfileDrawerOpen,
         transactionId,
         setTransactionId,
         transactionDesc,
