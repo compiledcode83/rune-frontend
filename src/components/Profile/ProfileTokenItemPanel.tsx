@@ -47,7 +47,8 @@ const ProfileTokenItemPanel: React.FC<Props> = ({ balance }) => {
         <div>
           {stringToDisplay(
             convertWithDecimalUsingBalance(balance.amount, balance)
-          )}
+          )}{" "}
+          {balance.symbol}
         </div>
       </div>
     </div>
