@@ -97,10 +97,10 @@ const ProfileDrawer = () => {
       placeholder={undefined}
       placement="right"
       size={423}
-      className="overflow-y-scroll"
+      className="overflow-y-scroll bg-white dark:bg-dark-panel"
       dismiss={{ enabled: true, ancestorScroll: false }}
     >
-      <div className="flex h-full flex-col gap-[32px] bg-white px-[24px] py-[30px] dark:bg-dark-panel">
+      <div className="flex h-full flex-col gap-[32px]  px-[24px] py-[30px] ">
         <div className="flex items-center justify-between">
           <div className="relative">
             {WalletAvatar(ordinalAddress)}
