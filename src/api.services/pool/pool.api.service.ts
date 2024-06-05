@@ -452,6 +452,37 @@ const pushRewardTx = async (
   }
 };
 
+const getTransactionHistory = async (
+  order: string,
+  page: number,
+  take: number,
+  address: string
+) => {
+  try {
+    const response = await axiosInstance.get(`pool-transaction/history`, {
+      params: {
+        order,
+        page,
+        take,
+        address,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // AxiosError type allows access to error response data
+      if (error.response) {
+        console.log(error.response.data.message); // Access error response data
+        customToast({ toastType: "error", title: error.response.data.message });
+      } else {
+        console.log("Error occurred, but no response was received");
+      }
+    } else {
+      console.log("Non-Axios error occurred:", error);
+    }
+  }
+};
+
 export default {
   getSwapableTokens,
   getPoolTokens,
@@ -468,4 +499,5 @@ export default {
   getCollectFeeAmount,
   generateCollectFeePsbt,
   pushRewardTx,
+  getTransactionHistory,
 };

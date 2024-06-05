@@ -29,6 +29,7 @@
         "react-fast-marquee": "^1.6.3",
         "react-i18next": "^14.0.5",
         "react-iframe": "^1.8.5",
+        "react-infinite-scroll-component": "^6.1.0",
         "react-redux": "^9.1.0",
         "sats-connect": "2.3.x",
         "sharp": "^0.33.3",

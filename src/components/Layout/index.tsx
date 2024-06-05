@@ -19,7 +19,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     >
       <Header />
       <div className="relative z-10 h-full">
-        <main className="">{children}</main>
+        <main className="h-full">{children}</main>
       </div>
       <Modals />
       <SwapModals />

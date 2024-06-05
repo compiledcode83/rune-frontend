@@ -17,10 +17,6 @@ import {
   setRemoveLiquidityLpTokenAmount,
   setLiquidities,
   PoolState,
-  // setCollectFeeTokenA,
-  // setCollectFeeTokenB,
-  // setCollectFeeTokenAAmount,
-  // setCollectFeeTokenBAmount,
   setCollectFeePoolUuid,
   setCollectFeeAmount,
 } from "../slices/poolSlice";

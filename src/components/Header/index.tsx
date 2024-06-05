@@ -19,6 +19,7 @@ import ProfileDrawer from "../Profile/ProfileDrawer";
 const MenuItems = [
   { name: "Swap", link: "/" },
   { name: "Pool", link: "/pool" },
+  { name: "Transaction", link: "/transaction" },
   // { name: "Claim", link: "/claim" },
 ];
 const Header = () => {
@@ -35,7 +36,7 @@ const Header = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between border-b border-[#818C90] px-[16px] py-4 lg:px-[150px]">
+      <div className="sticky flex items-center justify-between border-b border-[#818C90] px-[16px] py-4 lg:px-[150px]">
         <div className="flex items-center gap-2 lg:gap-16">
           <Image
             src={darkMode ? DarkLogo : LightLogo}

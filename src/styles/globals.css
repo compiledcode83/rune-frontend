@@ -7,20 +7,32 @@
 body * {
   font-family: "Exo 2", sans-serif;
 }
+:root {
+  --scrollbar-width: 5px;
+  --scrollbar-bg: #394356;
+  --scrollbar-thumb: linear-gradient(#fd773d, #eaac33);
+  --scrollbar-thumb-hover: linear-gradient(#fd773d, #eaac33);
+}
 * {
   &::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
     border-radius: 6px;
   }
 
   &::-webkit-scrollbar-track {
     border-radius: 6px;
-    background-color: transparent;
+    background: var(--scrollbar-bg);
   }
 
   &::-webkit-scrollbar-thumb {
     border-radius: 6px;
     box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.2);
+    background: var(--scrollbar-thumb);
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
   }
 }
 
@@ -43,4 +55,8 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
 }

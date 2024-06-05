@@ -46,6 +46,22 @@ export type BalanceType = {
   symbol: string;
 };
 
+export type TransactionType = {
+  address: string;
+  date: string;
+  status: string;
+  txId: string;
+  type: string;
+  pay: PaymentType[];
+  receive: PaymentType[];
+};
+
+type PaymentType = {
+  amount: number;
+  divisibility: number;
+  token: string;
+};
+
 declare global {
   interface Window {
     unisat: {

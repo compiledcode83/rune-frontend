@@ -1,9 +1,12 @@
 import { NextSeo } from "next-seo";
 import { Button } from "@material-tailwind/react";
+import Image from "next/image";
+
 import WingImg from "@/assets/imgs/wing.svg";
 import BtcImg from "@/assets/imgs/btc.svg";
-import Image from "next/image";
-import SwapPanel from "@/components/Swap/SwapPanels/SwapPanel";
+
+import TransactionPanel from "@/components/Transaction";
+import React from "react";
 
 export default function Home() {
   return (
@@ -33,12 +36,12 @@ export default function Home() {
             <Image
               src={BtcImg}
               alt="wing"
-              className="absolute left-0 top-4 opacity-50"
+              className="absolute left-0 top-[80px] opacity-50"
             />
             <Image
               src={WingImg}
               alt="wing"
-              className="absolute -top-11 right-0 lg:bottom-0"
+              className="absolute right-0 top-[18px] lg:bottom-0"
             />
             <div
               className="fixed bottom-0 right-[0px] h-[380px] w-[350px] overflow-hidden rounded-tl-full bg-[#EA862B] "
@@ -46,22 +49,10 @@ export default function Home() {
                 filter: "blur(260.5px)",
               }}
             />
-            <div className="relative z-50 mx-8 mt-4 text-start lg:mt-16 lg:text-center">
-              <div className="text-[20px] font-bold lg:text-[48px]">
-                Start Swapping Runes with Ordvision{" "}
-              </div>
-              <div className="gradient-color-title text-[20px] font-bold lg:text-[48px]">
-                Secure, Fast, and User - Friendly
-              </div>
-              <div className="text-[#8B9497]">
-                Join us today to unlock a new level of ease in managing your
-                digital assets.{" "}
-              </div>
-            </div>
-            <div className="relative z-50">
-              <SwapPanel />
-            </div>
           </div>
+        </div>
+        <div className="relative z-50 px-[20px] pb-[15px] pt-[20px] lg:px-[80px] lg:pb-[40px] lg:pt-[80px]">
+          <TransactionPanel />
         </div>
       </div>
     </>
