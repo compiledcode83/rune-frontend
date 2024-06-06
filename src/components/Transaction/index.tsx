@@ -268,7 +268,7 @@ const TransactionPanel = () => {
                       <Td>{Status(transaction.status)}</Td>
                       <td className="relative rounded-r-[6px] px-4">
                         <a
-                          href={`https:/mempool.space/${NETWORK_TYPE === "testnet" ? "testnet/" : ""}tx/${transaction.txId}`}
+                          href={`https://mempool.space/${NETWORK_TYPE === "testnet" ? "testnet/" : ""}tx/${transaction.txId}`}
                           target="_blank"
                         >
                           <Image
