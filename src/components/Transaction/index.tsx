@@ -1,6 +1,8 @@
 import { addressShortening } from "@/utils/adress";
 import React, { useEffect, useState } from "react";
+
 import Image from "next/image";
+import moment from "moment";
 import BtcLink from "@/assets/imgs/btc-link.svg";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { TransactionType } from "@/types/type";
@@ -259,7 +261,9 @@ const TransactionPanel = () => {
                             10 ** transaction.receive[0].divisibility}
                         </div>
                       </Td>
-                      <Td>{transaction.date}</Td>
+                      <Td>
+                        {moment(transaction.date).format("YYYY-MM-DD/HH:mm:ss")}
+                      </Td>
                       <Td>
                         <div className="mx-auto w-[300px] break-words">
                           {transaction.txId}
