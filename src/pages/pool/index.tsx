@@ -36,12 +36,13 @@ export default function Pool() {
   return (
     <>
       <NextSeo
-        title="Swapsats"
-        description="Fee Free Inscription Swaps for Ordinals"
+        title="Runeswap | Swapsats.io"
+        description="An innovative onchain marketplace. Swap between any rune on the $BTC chain"
         openGraph={{
-          title: "Swapsats",
-          description: "Fee Free Inscription Swaps for Ordinals",
-          siteName: "Swapsats",
+          title: "Runeswap | Swapsats.io",
+          description:
+            "An innovative onchain marketplace. Swap between any rune on the $BTC chain",
+          siteName: "Swapsats.io",
           type: "website",
           images: [
             {
