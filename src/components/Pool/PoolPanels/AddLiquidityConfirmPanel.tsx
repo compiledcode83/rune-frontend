@@ -21,6 +21,7 @@ import {
   useAddLiquidityTokenAAmount,
   useAddLiquidityTokenB,
   useAddLiquidityTokenBAmount,
+  useAddLiquidityCurrentPool,
 } from "@/state/application/hooks/usePoolHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
@@ -54,6 +55,7 @@ const AddLiquidityConfirmPanel = () => {
   const { addLiquidityTokenB } = useAddLiquidityTokenB();
   const { addLiquidityPoolUuid } = useAddLiquidityPoolUuid();
   const { addLiquidityLpTokenAmount } = useAddLiquidityLpTokenAmount();
+  const { addLiquidityCurrentPool } = useAddLiquidityCurrentPool();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -87,16 +89,30 @@ const AddLiquidityConfirmPanel = () => {
   const handleConfirmSupply = async () => {
     try {
       setIsLoading(true);
-      const res = await poolApiService.generateAddLiquidityPsbt(
-        ordinalAddress,
-        ordinalPublicKey,
-        paymentAddress,
-        paymentPublicKey,
-        walletType,
-        addLiquidityPoolUuid,
-        addLiquidityTokenAAmount,
-        addLiquidityTokenBAmount
-      );
+      let res;
+      if (addLiquidityCurrentPool.tokenA.runeId === addLiquidityTokenA.runeId) {
+        res = await poolApiService.generateAddLiquidityPsbt(
+          ordinalAddress,
+          ordinalPublicKey,
+          paymentAddress,
+          paymentPublicKey,
+          walletType,
+          addLiquidityPoolUuid,
+          addLiquidityTokenAAmount,
+          addLiquidityTokenBAmount
+        );
+      } else {
+        res = await poolApiService.generateAddLiquidityPsbt(
+          ordinalAddress,
+          ordinalPublicKey,
+          paymentAddress,
+          paymentPublicKey,
+          walletType,
+          addLiquidityPoolUuid,
+          addLiquidityTokenBAmount,
+          addLiquidityTokenAAmount
+        );
+      }
       const { psbt, txId, paymentSignIndexes, taprootSignIndexes } = res;
 
       const signedPsbt = await signPsbt(
