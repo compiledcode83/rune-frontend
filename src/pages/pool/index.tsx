@@ -79,7 +79,7 @@ export default function Pool() {
                 Liquidity provider rewards
               </div>
               <div className="mt-4 text-[16px] lg:mt-8 lg:w-1/2 lg:text-[18px]">
-                Liquidity providers earn a 0.0001 BTC fee on all trades
+                Liquidity providers earn a 0.00015 BTC fee on all trades
                 proportional to their share of the pool. Fees are added to the
                 pool, accrue in real time and can be claimed by withdrawing your
                 liquidity.

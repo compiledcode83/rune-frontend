@@ -236,14 +236,14 @@ const SwapConfirmPanel = () => {
             <div>Liquidity Provider Fee</div>
 
             <CustomTooltip
-              content="A portion of each trade (0.30%) goes to liquidity providers as
+              content="A portion of each trade goes to liquidity providers as
               a protocol incentive"
             >
               <QuestionMarkCircleIcon width={20} className="cursor-pointer" />
             </CustomTooltip>
           </div>
           <div className="flex items-center gap-1">
-            <div>0.0001 BTC</div>
+            <div>0.00015 BTC</div>
           </div>
         </div>
       </div>
