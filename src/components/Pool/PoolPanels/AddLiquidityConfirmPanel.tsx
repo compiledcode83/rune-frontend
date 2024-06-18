@@ -204,7 +204,13 @@ const AddLiquidityConfirmPanel = () => {
                   height={24}
                 />
                 <div>
-                  {addLiquidityTokenBAmount} {addLiquidityTokenB.symbol}
+                  {stringToDisplay(
+                    convertWithDecimal(
+                      addLiquidityTokenBAmount,
+                      addLiquidityTokenB
+                    )
+                  )}{" "}
+                  {addLiquidityTokenB.symbol}
                 </div>
               </div>
             </div>
