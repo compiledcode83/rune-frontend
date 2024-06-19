@@ -243,7 +243,7 @@ const SwapConfirmPanel = () => {
             </CustomTooltip>
           </div>
           <div className="flex items-center gap-1">
-            <div>0.00015 BTC</div>
+            <div>40% of fees</div>
           </div>
         </div>
       </div>

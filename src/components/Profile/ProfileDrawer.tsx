@@ -63,11 +63,11 @@ const ProfileDrawer = () => {
             ordinalAddress,
             paymentAddress
           );
+          console.log({ balances });
+          setTokenBalances(balances);
         } catch (error) {
           console.log(error);
         }
-        console.log({ balances });
-        setTokenBalances(balances);
       }
     })();
   }, [ordinalAddress, paymentAddress]);

@@ -279,7 +279,7 @@ const AddLiquidityConfirmPanel = () => {
         </div>
       </div>
       <div className="mt-8 text-center text-[12px] text-white lg:text-[16px]">
-        By adding liquidity earn 0.00015 BTC of all trades on this pair
+        By adding liquidity earn 40% of fees on all trades on this pair
         proportional to your share of the pool. Fees are added to the pool,
         accrue in real time and can be claimed by withdrawing your liquidity
       </div>
