@@ -23,7 +23,7 @@ const getSwapableTokens = async (tokenUuid: string) => {
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -43,7 +43,7 @@ const getPoolTokens = async () => {
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -80,7 +80,7 @@ const getSwapAmount = async (
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -102,7 +102,7 @@ const getBalance = async (address: string, paymentAddress: string) => {
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -124,7 +124,7 @@ const getLiquidities = async (address: string) => {
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -150,7 +150,7 @@ const getLiquidityTokenAmount = async (address: string, poolUuid: string) => {
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -192,7 +192,7 @@ const getAddLiquidityTokenAmount = async (
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -217,7 +217,7 @@ const getPoolInfo = async (tokenAUuid: string, tokenBUuid: string) => {
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -260,7 +260,7 @@ const generateSwapPsbt = async (
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -332,7 +332,7 @@ const generateAddLiquidityPsbt = async (
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -369,7 +369,7 @@ const generateRemoveLiquidityPsbt = async (
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -391,7 +391,7 @@ const getCollectFeeAmount = async (address: string, uuid: string) => {
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
@@ -425,7 +425,7 @@ const generateCollectFeePsbt = async (
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
