@@ -44,6 +44,7 @@ const SwapPanel = () => {
   const {
     setSwapSelectSendTokenModalOpen,
     setSwapSelectReceiveTokenModalOpen,
+    confirmSwapModalOpen,
     setSwapConfirmModalOpen,
     setConnectWalletModalOpen,
   } = useStatusContext();
@@ -199,18 +200,20 @@ const SwapPanel = () => {
         receiveTokenRef.current.uuid,
         recentlyUpdatedRef.current
       );
-      if (
-        recentlyUpdatedRef.current === "send" &&
-        receiveTokenRef.current.uuid !== "" &&
-        sendTokenRef.current.uuid !== ""
-      ) {
-        getReceiveAmount(sendTokenAmountRef.current);
-      } else if (
-        recentlyUpdatedRef.current === "receive" &&
-        sendTokenRef.current.uuid !== "" &&
-        receiveTokenRef.current.uuid !== ""
-      ) {
-        getSendAmount(receiveTokenAmountRef.current);
+      if (confirmSwapModalOpen) {
+        if (
+          recentlyUpdatedRef.current === "send" &&
+          receiveTokenRef.current.uuid !== "" &&
+          sendTokenRef.current.uuid !== ""
+        ) {
+          getReceiveAmount(sendTokenAmountRef.current);
+        } else if (
+          recentlyUpdatedRef.current === "receive" &&
+          sendTokenRef.current.uuid !== "" &&
+          receiveTokenRef.current.uuid !== ""
+        ) {
+          getSendAmount(receiveTokenAmountRef.current);
+        }
       }
     }, 15000);
     return () => {
