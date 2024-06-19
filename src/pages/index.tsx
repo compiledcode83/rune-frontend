@@ -67,14 +67,14 @@ export default function Home() {
             <div className="fixed bottom-10 left-1/2 -translate-x-1/2 sm:hidden">
               <div className="flex items-center justify-center gap-4 ">
                 <a
-                  className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
+                  className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC33] dark:bg-[#EAAC331A]"
                   href="https://discord.com/invite/YW9R4K2Vg4"
                   target="_blank"
                 >
                   <Image src={Discord} alt="Discord" />
                 </a>
                 <a
-                  className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
+                  className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC33] dark:bg-[#EAAC331A]"
                   href="https://x.com/Swapsats_io"
                   target="_blank"
                 >
