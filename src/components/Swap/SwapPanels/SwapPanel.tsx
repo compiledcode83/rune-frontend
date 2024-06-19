@@ -71,6 +71,8 @@ const SwapPanel = () => {
   const { isReceiveTokenAmountLoading, setIsReceiveTokenAmountLoading } =
     useIsReceiveTokenAmountLoading();
 
+  const [getAmountError, setGetAmountError] = useState(false);
+
   const sendTokenAmountRef = useRef<any>(null);
   const receiveTokenAmountRef = useRef<any>(null);
   const sendTokenRef = useRef<any>(null);
@@ -95,13 +97,14 @@ const SwapPanel = () => {
         sendAmount,
         receiveTokenRef.current.uuid
       );
+      setReceiveTokenAmount(Number(res?.receivingTokenAmount));
+      setMinTokenAmount(Number(res?.minTradingAmount));
+      setMaxTokenAmount(Number(res?.maxTradingAmount));
+      setGetAmountError(false);
     } catch (error) {
       console.log(error);
+      setGetAmountError(true);
     }
-    // console.log({ res });
-    setReceiveTokenAmount(Number(res?.receivingTokenAmount));
-    setMinTokenAmount(Number(res?.minTradingAmount));
-    setMaxTokenAmount(Number(res?.maxTradingAmount));
     setIsReceiveTokenAmountLoading(false);
   };
 
@@ -114,13 +117,14 @@ const SwapPanel = () => {
         -receiveAmount,
         sendTokenRef.current.uuid
       );
+      setGetAmountError(false);
+      setSendTokenAmount(Number(-res?.receivingTokenAmount));
+      setMinTokenAmount(Number(res?.minTradingAmount));
+      setMaxTokenAmount(Number(res?.maxTradingAmount));
     } catch (error) {
       console.log(error);
+      setGetAmountError(true);
     }
-    // console.log({ res });
-    setSendTokenAmount(Number(-res?.receivingTokenAmount));
-    setMinTokenAmount(Number(res?.minTradingAmount));
-    setMaxTokenAmount(Number(res?.maxTradingAmount));
     setIsSendTokenAmountLoading(false);
   };
 
@@ -317,7 +321,10 @@ const SwapPanel = () => {
           sendTokenAmount > maxTokenAmount)) ||
       (recentlyUpdated === "receive" &&
         (receiveTokenAmount < minTokenAmount ||
-          receiveTokenAmount > maxTokenAmount))
+          receiveTokenAmount > maxTokenAmount)) ||
+      isReceiveTokenAmountLoading ||
+      isSendTokenAmountLoading ||
+      getAmountError
     ) {
       return (
         <Button
