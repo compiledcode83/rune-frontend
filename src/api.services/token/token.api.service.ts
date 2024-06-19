@@ -23,7 +23,7 @@ const getTokenInfo = async (runeId: string) => {
     } else {
       console.log("Non-Axios error occurred:", error);
     }
-    throw error;
+    // throw error;
   }
 };
 
