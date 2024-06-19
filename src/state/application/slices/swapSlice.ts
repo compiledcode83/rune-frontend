@@ -3,14 +3,16 @@ import { TokenType, BalanceType } from "@/types/type";
 
 export type SwapState = {
   sendToken: TokenType;
+  isSendTokenAmountLoading: boolean;
   receiveToken: TokenType;
+  isReceiveTokenAmountLoading: boolean;
   poolTokens: TokenType[];
   swapableTokens: TokenType[];
   tokenBalances: BalanceType[];
   sendTokenAmount: number;
   receiveTokenAmount: number;
-  minSendTokenAmount: number;
-  maxSendTokenAmount: number;
+  minTokenAmount: number;
+  maxTokenAmount: number;
   slippage: number;
 };
 
@@ -27,13 +29,15 @@ const initialToken: TokenType = {
 const initialState: SwapState = {
   sendToken: initialToken,
   receiveToken: initialToken,
+  isReceiveTokenAmountLoading: false,
+  isSendTokenAmountLoading: false,
   poolTokens: [],
   swapableTokens: [],
   tokenBalances: [],
   sendTokenAmount: 0,
   receiveTokenAmount: 0,
-  minSendTokenAmount: 0,
-  maxSendTokenAmount: 0,
+  minTokenAmount: 0,
+  maxTokenAmount: 0,
   slippage: 1,
 };
 
@@ -46,6 +50,12 @@ export const swapSlice = createSlice({
     },
     setReceiveToken: (state, action: PayloadAction<TokenType>) => {
       state.receiveToken = action.payload;
+    },
+    setIsSendTokenAmountLoading: (state, action: PayloadAction<boolean>) => {
+      state.isSendTokenAmountLoading = action.payload;
+    },
+    setIsReceiveTokenAmountLoading: (state, action: PayloadAction<boolean>) => {
+      state.isReceiveTokenAmountLoading = action.payload;
     },
     setPoolTokens: (state, action: PayloadAction<TokenType[]>) => {
       state.poolTokens = action.payload;
@@ -62,11 +72,11 @@ export const swapSlice = createSlice({
     setTokenBalances: (state, action: PayloadAction<BalanceType[]>) => {
       state.tokenBalances = action.payload;
     },
-    setMinSendTokenAmount: (state, action: PayloadAction<number>) => {
-      state.minSendTokenAmount = action.payload;
+    setMinTokenAmount: (state, action: PayloadAction<number>) => {
+      state.minTokenAmount = action.payload;
     },
-    setMaxSendTokenAmount: (state, action: PayloadAction<number>) => {
-      state.maxSendTokenAmount = action.payload;
+    setMaxTokenAmount: (state, action: PayloadAction<number>) => {
+      state.maxTokenAmount = action.payload;
     },
     setSlippage: (state, action: PayloadAction<number>) => {
       state.slippage = action.payload;
@@ -77,13 +87,15 @@ export const swapSlice = createSlice({
 export const {
   setSendToken,
   setReceiveToken,
+  setIsSendTokenAmountLoading,
+  setIsReceiveTokenAmountLoading,
   setPoolTokens,
   setSwapableTokens,
   setSendTokenAmount,
   setReceiveTokenAmount,
   setTokenBalances,
-  setMinSendTokenAmount,
-  setMaxSendTokenAmount,
+  setMinTokenAmount,
+  setMaxTokenAmount,
   setSlippage,
 } = swapSlice.actions;
 

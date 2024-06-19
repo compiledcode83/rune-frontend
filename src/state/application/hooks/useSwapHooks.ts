@@ -3,13 +3,15 @@ import { useAppDispatch, useAppSelector } from "../../hook";
 import {
   setSendToken,
   setReceiveToken,
+  setIsSendTokenAmountLoading,
+  setIsReceiveTokenAmountLoading,
   setPoolTokens,
   setSwapableTokens,
   setSendTokenAmount,
   setReceiveTokenAmount,
   setTokenBalances,
-  setMinSendTokenAmount,
-  setMaxSendTokenAmount,
+  setMinTokenAmount,
+  setMaxTokenAmount,
   setSlippage,
   SwapState,
 } from "../slices/swapSlice";
@@ -45,6 +47,46 @@ export const useReceiveToken = () => {
   );
 
   return { receiveToken, setReceiveToken: setReceiveTokenCallback };
+};
+
+// UseIsSendTokenAmountLoading Hook
+export const useIsSendTokenAmountLoading = () => {
+  const dispatch = useAppDispatch();
+  const isSendTokenAmountLoading = useAppSelector(
+    (state: RootState) => state.swap.isSendTokenAmountLoading
+  );
+
+  const setIsSendTokenAmountLoadingCallback = useCallback(
+    (item: SwapState["isSendTokenAmountLoading"]) => {
+      dispatch(setIsSendTokenAmountLoading(item));
+    },
+    [dispatch]
+  );
+
+  return {
+    isSendTokenAmountLoading,
+    setIsSendTokenAmountLoading: setIsSendTokenAmountLoadingCallback,
+  };
+};
+
+// UseIsReceiveTokenAmountLoading Hook
+export const useIsReceiveTokenAmountLoading = () => {
+  const dispatch = useAppDispatch();
+  const isReceiveTokenAmountLoading = useAppSelector(
+    (state: RootState) => state.swap.isReceiveTokenAmountLoading
+  );
+
+  const setIsReceiveTokenAmountLoadingCallback = useCallback(
+    (item: SwapState["isReceiveTokenAmountLoading"]) => {
+      dispatch(setIsReceiveTokenAmountLoading(item));
+    },
+    [dispatch]
+  );
+
+  return {
+    isReceiveTokenAmountLoading,
+    setIsReceiveTokenAmountLoading: setIsReceiveTokenAmountLoadingCallback,
+  };
 };
 
 // UsePoolTokens Hook
@@ -138,43 +180,43 @@ export const useTokenBalances = () => {
   };
 };
 
-// UseMinSendTokenAmount Hook
-export const useMinSendTokenAmount = () => {
+// UseMinTokenAmount Hook
+export const useMinTokenAmount = () => {
   const dispatch = useAppDispatch();
-  const minSendTokenAmount = useAppSelector(
-    (state: RootState) => state.swap.minSendTokenAmount
+  const minTokenAmount = useAppSelector(
+    (state: RootState) => state.swap.minTokenAmount
   );
 
-  const setMinSendTokenAmountCallback = useCallback(
+  const setMinTokenAmountCallback = useCallback(
     (item: number) => {
-      dispatch(setMinSendTokenAmount(item));
+      dispatch(setMinTokenAmount(item));
     },
     [dispatch]
   );
 
   return {
-    minSendTokenAmount,
-    setMinSendTokenAmount: setMinSendTokenAmountCallback,
+    minTokenAmount,
+    setMinTokenAmount: setMinTokenAmountCallback,
   };
 };
 
-// UseMaxSendTokenAmount Hook
-export const useMaxSendTokenAmount = () => {
+// UseMaxTokenAmount Hook
+export const useMaxTokenAmount = () => {
   const dispatch = useAppDispatch();
-  const maxSendTokenAmount = useAppSelector(
-    (state: RootState) => state.swap.maxSendTokenAmount
+  const maxTokenAmount = useAppSelector(
+    (state: RootState) => state.swap.maxTokenAmount
   );
 
-  const setMaxSendTokenAmountCallback = useCallback(
+  const setMaxTokenAmountCallback = useCallback(
     (item: number) => {
-      dispatch(setMaxSendTokenAmount(item));
+      dispatch(setMaxTokenAmount(item));
     },
     [dispatch]
   );
 
   return {
-    maxSendTokenAmount,
-    setMaxSendTokenAmount: setMaxSendTokenAmountCallback,
+    maxTokenAmount,
+    setMaxTokenAmount: setMaxTokenAmountCallback,
   };
 };
 

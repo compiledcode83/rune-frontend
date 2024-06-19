@@ -22,15 +22,17 @@ import {
   useReceiveTokenAmount,
   usePoolTokens,
   useTokenBalances,
-  useMinSendTokenAmount,
-  useMaxSendTokenAmount,
+  useMinTokenAmount,
+  useMaxTokenAmount,
+  useIsSendTokenAmountLoading,
+  useIsReceiveTokenAmountLoading,
 } from "@/state/application/hooks/useSwapHooks";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
-import {
-  setMinSendTokenAmount,
-  setTokenBalances,
-} from "@/state/application/slices/swapSlice";
+// import {
+//   setMinTokenAmount,
+//   setTokenBalances,
+// } from "@/state/application/slices/swapSlice";
 import { BalanceType, TokenType } from "@/types/type";
 import {
   convertToSats,
@@ -54,6 +56,7 @@ const SwapPanel = () => {
 
   const [sendTokenBalance, setSendTokenBalance] = useState(0);
   const [receiveTokenBalance, setReceiveTokenBalance] = useState(0);
+  const [recentlyUpdated, setRecentlyUpdated] = useState("send");
 
   const { sendToken, setSendToken } = useSendToken();
   const { poolTokens, setPoolTokens } = usePoolTokens();
@@ -61,49 +64,103 @@ const SwapPanel = () => {
   const { sendTokenAmount, setSendTokenAmount } = useSendTokenAmount();
   const { receiveTokenAmount, setReceiveTokenAmount } = useReceiveTokenAmount();
   const { tokenBalances, setTokenBalances } = useTokenBalances();
-  const { minSendTokenAmount, setMinSendTokenAmount } = useMinSendTokenAmount();
-  const { maxSendTokenAmount, setMaxSendTokenAmount } = useMaxSendTokenAmount();
+  const { minTokenAmount, setMinTokenAmount } = useMinTokenAmount();
+  const { maxTokenAmount, setMaxTokenAmount } = useMaxTokenAmount();
+  const { isSendTokenAmountLoading, setIsSendTokenAmountLoading } =
+    useIsSendTokenAmountLoading();
+  const { isReceiveTokenAmountLoading, setIsReceiveTokenAmountLoading } =
+    useIsReceiveTokenAmountLoading();
 
   const sendTokenAmountRef = useRef<any>(null);
+  const receiveTokenAmountRef = useRef<any>(null);
   const sendTokenRef = useRef<any>(null);
   const receiveTokenRef = useRef<any>(null);
+  const recentlyUpdatedRef = useRef<any>(null);
 
-  const handleTokenAmount = (sendAmount: number) => {
+  const handlSendTokenAmount = (sendAmount: number) => {
+    setRecentlyUpdated("send");
     setSendTokenAmount(sendAmount);
+  };
+  const handleReceiveTokenAmount = (receiveAmount: number) => {
+    setRecentlyUpdated("receive");
+    setReceiveTokenAmount(receiveAmount);
   };
 
   const getReceiveAmount = async (sendAmount: number) => {
+    setIsReceiveTokenAmountLoading(true);
     const res: any = await poolApiService.getSwapAmount(
       sendTokenRef.current.uuid,
       sendAmount,
       receiveTokenRef.current.uuid
     );
-    console.log({ res });
+    // console.log({ res });
     setReceiveTokenAmount(Number(res?.receivingTokenAmount));
-    setMinSendTokenAmount(Number(res?.minTradingAmount));
-    setMaxSendTokenAmount(Number(res?.maxTradingAmount));
+    setMinTokenAmount(Number(res?.minTradingAmount));
+    setMaxTokenAmount(Number(res?.maxTradingAmount));
+    setIsReceiveTokenAmountLoading(false);
+  };
+
+  const getSendAmount = async (receiveAmount: number) => {
+    setIsSendTokenAmountLoading(true);
+    const res: any = await poolApiService.getSwapAmount(
+      receiveTokenRef.current.uuid,
+      -receiveAmount,
+      sendTokenRef.current.uuid
+    );
+    // console.log({ res });
+    setSendTokenAmount(Number(-res?.receivingTokenAmount));
+    setMinTokenAmount(Number(res?.minTradingAmount));
+    setMaxTokenAmount(Number(res?.maxTradingAmount));
+    setIsSendTokenAmountLoading(false);
   };
 
   useEffect(() => {
     sendTokenAmountRef.current = sendTokenAmount;
+    receiveTokenAmountRef.current = receiveTokenAmount;
     receiveTokenRef.current = receiveToken;
     sendTokenRef.current = sendToken;
-  }, [sendToken, receiveToken, sendTokenAmount]);
+    recentlyUpdatedRef.current = recentlyUpdated;
+  }, [
+    sendToken,
+    receiveToken,
+    sendTokenAmount,
+    receiveTokenAmount,
+    recentlyUpdated,
+  ]);
 
   useEffect(() => {
-    const timerId = setTimeout(() => {
-      if (receiveToken.uuid !== "" && sendToken.uuid !== "") {
-        getReceiveAmount(sendTokenAmount);
-      }
-      if (receiveToken.uuid === "" && sendToken.uuid !== "") {
-        setReceiveTokenAmount(0);
-        setReceiveTokenBalance(0);
-      }
-    }, 1000);
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [sendTokenAmount, receiveToken]);
+    if (recentlyUpdated === "send") {
+      const timerId = setTimeout(() => {
+        if (receiveToken.uuid !== "" && sendToken.uuid !== "") {
+          getReceiveAmount(sendTokenAmount);
+        }
+        if (receiveToken.uuid === "" && sendToken.uuid !== "") {
+          setReceiveTokenAmount(0);
+          setReceiveTokenBalance(0);
+        }
+      }, 1000);
+      return () => {
+        clearTimeout(timerId);
+      };
+    }
+  }, [sendTokenAmount, receiveToken, recentlyUpdated]);
+
+  useEffect(() => {
+    if (recentlyUpdated === "receive") {
+      const timerId = setTimeout(() => {
+        if (sendToken.uuid !== "" && receiveToken.uuid !== "") {
+          getSendAmount(receiveTokenAmount);
+        }
+        if (sendToken.uuid === "" && receiveToken.uuid !== "") {
+          setSendTokenAmount(0);
+          setSendTokenBalance(0);
+        }
+      }, 1000);
+      return () => {
+        clearTimeout(timerId);
+      };
+    }
+  }, [receiveTokenAmount, sendToken, recentlyUpdated]);
 
   useEffect(() => {
     (async () => {
@@ -120,21 +177,30 @@ const SwapPanel = () => {
       }
     })();
 
-    const getReceiveTokenAmountTimer = setInterval(() => {
+    const getTokenAmountTimer = setInterval(() => {
       console.log(
         sendTokenAmountRef.current,
+        receiveTokenAmountRef.current,
         sendTokenRef.current.uuid,
-        receiveTokenRef.current.uuid
+        receiveTokenRef.current.uuid,
+        recentlyUpdatedRef.current
       );
       if (
+        recentlyUpdatedRef.current === "send" &&
         receiveTokenRef.current.uuid !== "" &&
         sendTokenRef.current.uuid !== ""
       ) {
         getReceiveAmount(sendTokenAmountRef.current);
+      } else if (
+        recentlyUpdatedRef.current === "receive" &&
+        sendTokenRef.current.uuid !== "" &&
+        receiveTokenRef.current.uuid !== ""
+      ) {
+        getSendAmount(receiveTokenAmountRef.current);
       }
     }, 15000);
     return () => {
-      clearInterval(getReceiveTokenAmountTimer);
+      clearInterval(getTokenAmountTimer);
     };
   }, []);
 
@@ -176,6 +242,11 @@ const SwapPanel = () => {
     }
   }, [receiveToken, ordinalAddress, poolTokens, tokenBalances]);
 
+  useEffect(() => {
+    setRecentlyUpdated("send");
+    // setMinTokenAmount(0);
+    // setMaxTokenAmount(0);
+  }, [sendToken]);
   const reverse = () => {
     const tempSendToken = sendToken;
     setSendToken(receiveToken);
@@ -231,8 +302,12 @@ const SwapPanel = () => {
         </Button>
       );
     } else if (
-      sendTokenAmount < minSendTokenAmount ||
-      sendTokenAmount > maxSendTokenAmount
+      (recentlyUpdated === "send" &&
+        (sendTokenAmount < minTokenAmount ||
+          sendTokenAmount > maxTokenAmount)) ||
+      (recentlyUpdated === "receive" &&
+        (receiveTokenAmount < minTokenAmount ||
+          receiveTokenAmount > maxTokenAmount))
     ) {
       return (
         <Button
@@ -256,6 +331,7 @@ const SwapPanel = () => {
       );
     }
   };
+  // console.log({ recentlyUpdated }, { sendToken }, { receiveToken });
 
   return (
     <div>
@@ -323,11 +399,12 @@ const SwapPanel = () => {
                     value={convertWithDecimal(sendTokenAmount, sendToken)}
                     // value={sendTokenAmount}
                     onChange={(e) =>
-                      handleTokenAmount(
+                      handlSendTokenAmount(
                         convertToSats(Number(e.target.value), sendToken)
                       )
                     }
                     type="number"
+                    disabled={isSendTokenAmountLoading}
                   />
                 </div>
               </div>
@@ -377,9 +454,18 @@ const SwapPanel = () => {
                   </div>
                 )}
                 <div>
-                  {stringToDisplay(
-                    convertWithDecimal(receiveTokenAmount, receiveToken)
-                  )}
+                  <input
+                    className="w-[150px] bg-transparent text-right outline-none focus:overflow-hidden"
+                    value={convertWithDecimal(receiveTokenAmount, receiveToken)}
+                    // value={receiveTokenAmount}
+                    onChange={(e) =>
+                      handleReceiveTokenAmount(
+                        convertToSats(Number(e.target.value), receiveToken)
+                      )
+                    }
+                    type="number"
+                    disabled={isReceiveTokenAmountLoading}
+                  />
                 </div>
               </div>
               <div className="mt-4 flex items-center justify-between text-[10px] text-light-gray-font lg:text-[14px] dark:text-dark-gray-font">
@@ -400,27 +486,55 @@ const SwapPanel = () => {
           </div>
           {sendTokenAmount !== 0 &&
           receiveToken.runeId != "" &&
-          (minSendTokenAmount > sendTokenAmount ||
-            maxSendTokenAmount < sendTokenAmount) ? (
+          ((recentlyUpdated === "send" &&
+            (sendTokenAmount < minTokenAmount ||
+              sendTokenAmount > maxTokenAmount)) ||
+            (recentlyUpdated === "receive" &&
+              (receiveTokenAmount < minTokenAmount ||
+                receiveTokenAmount > maxTokenAmount))) ? (
             <div className="mt-2 rounded-xl border border-red-300 bg-light-item p-1 px-6 text-justify text-[14px] lg:mt-5 dark:bg-dark-item dark:text-dark-gray-font">
               <div className="flex w-full flex-col">
                 <div className="flex justify-between">
-                  <div>Min sending amount for sale</div>
-                  {/* <div>{minSendTokenAmount}</div> */}
-                  <div>
-                    {stringToDisplay(
-                      convertWithDecimal(minSendTokenAmount, sendToken)
-                    )}
-                  </div>
+                  {recentlyUpdated === "send" ? (
+                    <>
+                      <div>Min sending amount</div>
+                      <div>
+                        {stringToDisplay(
+                          convertWithDecimal(minTokenAmount, sendToken) ////to change
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div>Min receiving amount</div>
+                      <div>
+                        {stringToDisplay(
+                          convertWithDecimal(minTokenAmount, receiveToken) ////to change
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="flex justify-between">
-                  <div>Max sending amount for sale</div>
-                  <div>
-                    {stringToDisplay(
-                      convertWithDecimal(maxSendTokenAmount, sendToken)
-                    )}
-                  </div>
-                  {/* <div>{maxSendTokenAmount}</div> */}
+                  {recentlyUpdated === "send" ? (
+                    <>
+                      <div>Max sending amount</div>
+                      <div>
+                        {stringToDisplay(
+                          convertWithDecimal(maxTokenAmount, sendToken) ////to change
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div>Max receiving amount</div>
+                      <div>
+                        {stringToDisplay(
+                          convertWithDecimal(maxTokenAmount, receiveToken) ////to change
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

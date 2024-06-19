@@ -49,7 +49,7 @@ const getPoolTokens = async () => {
 
 const getSwapAmount = async (
   sendTokenUuid: string,
-  sendTokenAmount: Number,
+  sendTokenAmount: number,
   receiveTokenUuid: string
 ) => {
   try {
@@ -58,6 +58,14 @@ const getSwapAmount = async (
       sendTokenUuid,
       receiveTokenUuid,
     });
+    if (sendTokenAmount < 0 && response.data.receivingTokenAmount > 0) {
+      response.data.receivingTokenAmount = -response.data.receivingTokenAmount;
+      customToast({
+        toastType: "error",
+        title: "Error in getting sending amount",
+      });
+      throw new Error("Error in getting sending amount");
+    }
     // const {} = response.data;
     return response.data;
   } catch (error) {
