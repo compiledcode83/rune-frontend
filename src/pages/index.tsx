@@ -1,8 +1,10 @@
 import { NextSeo } from "next-seo";
 import { Button } from "@material-tailwind/react";
+import Image from "next/image";
 import WingImg from "@/assets/imgs/wing.svg";
 import BtcImg from "@/assets/imgs/btc.svg";
-import Image from "next/image";
+import Discord from "@/assets/imgs/discord.png";
+import X from "@/assets/imgs/x.png";
 import SwapPanel from "@/components/Swap/SwapPanels/SwapPanel";
 
 export default function Home() {
@@ -61,6 +63,24 @@ export default function Home() {
             </div>
             <div className="relative z-50">
               <SwapPanel />
+            </div>
+            <div className="fixed bottom-10 left-1/2 -translate-x-1/2 sm:hidden">
+              <div className="flex items-center justify-center gap-4 ">
+                <a
+                  className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
+                  href={process.env.NEXT_PUBLIC_DISCORD_URL}
+                  target="_blank"
+                >
+                  <Image src={Discord} alt="Discord" />
+                </a>
+                <a
+                  className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
+                  href={process.env.NEXT_PUBLIC_X_URL}
+                  target="_blank"
+                >
+                  <Image src={X} alt="X" />
+                </a>
+              </div>
             </div>
           </div>
         </div>

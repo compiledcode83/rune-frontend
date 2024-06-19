@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import WingImg from "@/assets/imgs/wing.svg";
 import BtcImg from "@/assets/imgs/btc.svg";
+import Discord from "@/assets/imgs/discord.png";
+import X from "@/assets/imgs/x.png";
 
 import TransactionPanel from "@/components/Transaction";
 import React from "react";
@@ -31,7 +33,7 @@ export default function Home() {
           ],
         }}
       />
-      <div>
+      <div className="overflow-hidden">
         <div className="relative">
           <div className="relative">
             <Image
@@ -52,8 +54,26 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="relative z-50 px-[20px] pb-[15px] pt-[20px] lg:px-[80px] lg:pb-[40px] lg:pt-[80px]">
+        <div className="relative z-50 sm:pb-[15px] sm:pt-[20px] lg:px-[80px] lg:pb-[40px] lg:pt-[80px]">
           <TransactionPanel />
+        </div>
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 sm:hidden">
+          <div className="flex items-center justify-center gap-4 ">
+            <a
+              className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
+              href={process.env.NEXT_PUBLIC_DISCORD_URL}
+              target="_blank"
+            >
+              <Image src={Discord} alt="Discord" />
+            </a>
+            <a
+              className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
+              href={process.env.NEXT_PUBLIC_X_URL}
+              target="_blank"
+            >
+              <Image src={X} alt="X" />
+            </a>
+          </div>
         </div>
       </div>
     </>

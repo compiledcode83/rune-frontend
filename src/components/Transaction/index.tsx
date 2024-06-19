@@ -212,7 +212,7 @@ const TransactionPanel = () => {
   };
   console.log({ ordinalAddress });
   return (
-    <div className="h-full overflow-hidden bg-[#252B3699] px-[30px] py-[20px] lg:px-[91px] lg:py-[59px]">
+    <div className="h-[calc(100vh-220px)] overflow-hidden bg-[#252B3699] px-[30px] py-[20px] lg:px-[91px] lg:py-[59px]">
       <div className="mb-[12px] text-[24px] font-semibold text-white lg:mb-[36px]">
         Transaction List
       </div>
@@ -225,7 +225,7 @@ const TransactionPanel = () => {
           scrollableTarget="transaction-table"
         >
           <div
-            className="block max-h-[calc(100vh-250px)] overflow-y-auto  lg:!max-h-[calc(100vh-435px)] 2xl:!max-h-[calc(100vh-390px)]"
+            className="block max-h-[calc(100vh-300px)] overflow-y-auto  lg:!max-h-[calc(100vh-435px)] 2xl:!max-h-[calc(100vh-390px)]"
             id="transaction-table"
           >
             <table className="relative w-[calc(100%-16px)] min-w-max table-auto">

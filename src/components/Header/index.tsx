@@ -4,6 +4,8 @@ import LightThemeImg from "@/assets/imgs/lighttheme.svg";
 import DarkThemeImg from "@/assets/imgs/darktheme.svg";
 import BtcButton from "@/assets/imgs/btc-button.svg";
 import LogOff from "@/assets/imgs/log-off.svg";
+import X from "@/assets/imgs/x.png";
+import Discord from "@/assets/imgs/discord.png";
 import { Button, Navbar } from "@material-tailwind/react";
 import { useThemeContext } from "@/context/ThemeContext";
 import DarkLogo from "@/assets/imgs/dark-logo.png";
@@ -36,7 +38,7 @@ const Header = () => {
 
   return (
     <div>
-      <div className="sticky flex items-center justify-between border-b border-[#818C90] px-[16px] py-4 lg:px-[150px]">
+      <div className="sticky flex items-center justify-between border-b border-[#818C90] px-[16px] py-4 lg:px-[80px]">
         <div className="flex items-center gap-2 lg:gap-16">
           <Image
             src={darkMode ? DarkLogo : LightLogo}
@@ -58,6 +60,20 @@ const Header = () => {
           </div>
         </div>
         <div className="flex items-center gap-1 lg:gap-4">
+          <a
+            className="hidden h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]  sm:flex"
+            href={process.env.NEXT_PUBLIC_DISCORD_URL}
+            target="_blank"
+          >
+            <Image src={Discord} alt="Discord" />
+          </a>
+          <a
+            className="hidden h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A] sm:flex"
+            href={process.env.NEXT_PUBLIC_X_URL}
+            target="_blank"
+          >
+            <Image src={X} alt="X" />
+          </a>
           <Image
             src={BtcButton}
             alt="btc button"

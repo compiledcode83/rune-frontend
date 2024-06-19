@@ -3,6 +3,8 @@ import WingImg from "@/assets/imgs/wing.svg";
 import WaveImg from "@/assets/imgs/wave.svg";
 import NullImg from "@/assets/imgs/null.svg";
 import ArrowTopRightYellowImg from "@/assets/imgs/arrow-top-right-yellow.svg";
+import Discord from "@/assets/imgs/discord.png";
+import X from "@/assets/imgs/x.png";
 import Image from "next/image";
 import { Button } from "@material-tailwind/react";
 import LiquidityPairPanel from "@/components/Pool/PoolPanels/LiquidityPairPanel";
@@ -169,6 +171,24 @@ export default function Pool() {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+          <div className="fixed bottom-10 left-1/2 -translate-x-1/2 sm:hidden">
+            <div className="flex items-center justify-center gap-4 ">
+              <a
+                className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
+                href={process.env.NEXT_PUBLIC_DISCORD_URL}
+                target="_blank"
+              >
+                <Image src={Discord} alt="Discord" />
+              </a>
+              <a
+                className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
+                href={process.env.NEXT_PUBLIC_X_URL}
+                target="_blank"
+              >
+                <Image src={X} alt="X" />
+              </a>
             </div>
           </div>
         </div>
