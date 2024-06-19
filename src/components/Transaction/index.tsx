@@ -170,14 +170,18 @@ const TransactionPanel = () => {
   }, [page, ordinalAddress]);
 
   const fetchData = async (page: number) => {
-    const { data, meta } = await poolApiService.getTransactionHistory(
-      "DESC",
-      page,
-      limit,
-      ordinalAddress
-    );
-    setTransactions((prevTransactions) => [...prevTransactions, ...data]);
-    setHasMore(meta.hasNextPage);
+    try {
+      const { data, meta } = await poolApiService.getTransactionHistory(
+        "DESC",
+        page,
+        limit,
+        ordinalAddress
+      );
+      setTransactions((prevTransactions) => [...prevTransactions, ...data]);
+      setHasMore(meta.hasNextPage);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const Td: React.FC<TdProps> = ({ children, className }) => (
     <td className={`relative px-4 ${className}`}>

@@ -88,11 +88,16 @@ const SwapPanel = () => {
 
   const getReceiveAmount = async (sendAmount: number) => {
     setIsReceiveTokenAmountLoading(true);
-    const res: any = await poolApiService.getSwapAmount(
-      sendTokenRef.current.uuid,
-      sendAmount,
-      receiveTokenRef.current.uuid
-    );
+    let res: any;
+    try {
+      res = await poolApiService.getSwapAmount(
+        sendTokenRef.current.uuid,
+        sendAmount,
+        receiveTokenRef.current.uuid
+      );
+    } catch (error) {
+      console.log(error);
+    }
     // console.log({ res });
     setReceiveTokenAmount(Number(res?.receivingTokenAmount));
     setMinTokenAmount(Number(res?.minTradingAmount));
@@ -102,11 +107,16 @@ const SwapPanel = () => {
 
   const getSendAmount = async (receiveAmount: number) => {
     setIsSendTokenAmountLoading(true);
-    const res: any = await poolApiService.getSwapAmount(
-      receiveTokenRef.current.uuid,
-      -receiveAmount,
-      sendTokenRef.current.uuid
-    );
+    let res: any;
+    try {
+      res = await poolApiService.getSwapAmount(
+        receiveTokenRef.current.uuid,
+        -receiveAmount,
+        sendTokenRef.current.uuid
+      );
+    } catch (error) {
+      console.log(error);
+    }
     // console.log({ res });
     setSendTokenAmount(Number(-res?.receivingTokenAmount));
     setMinTokenAmount(Number(res?.minTradingAmount));

@@ -107,8 +107,15 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
   useEffect(() => {
     if (ordinalAddress !== "" && uuid !== "") {
       (async () => {
-        const resLiquidityAmountInfo =
-          await poolApiService.getLiquidityTokenAmount(ordinalAddress, uuid);
+        let resLiquidityAmountInfo;
+        try {
+          resLiquidityAmountInfo = await poolApiService.getLiquidityTokenAmount(
+            ordinalAddress,
+            uuid
+          );
+        } catch (error) {
+          console.log(error);
+        }
         const { tokenAAmount, tokenBAmount, share, userLpTokenAmount } =
           resLiquidityAmountInfo;
         setAmount1(tokenAAmount);

@@ -57,10 +57,15 @@ const ProfileDrawer = () => {
   useEffect(() => {
     (async () => {
       if (ordinalAddress !== "" && paymentAddress !== "") {
-        const balances = await poolApiService.getBalance(
-          ordinalAddress,
-          paymentAddress
-        );
+        let balances;
+        try {
+          balances = await poolApiService.getBalance(
+            ordinalAddress,
+            paymentAddress
+          );
+        } catch (error) {
+          console.log(error);
+        }
         console.log({ balances });
         setTokenBalances(balances);
       }
