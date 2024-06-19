@@ -61,15 +61,15 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-1 lg:gap-4">
           <a
-            className="hidden h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]  sm:flex"
-            href={process.env.NEXT_PUBLIC_DISCORD_URL}
+            className="hidden h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC33] sm:flex dark:bg-[#EAAC331A]"
+            href="https://discord.com/invite/YW9R4K2Vg4"
             target="_blank"
           >
             <Image src={Discord} alt="Discord" />
           </a>
           <a
-            className="hidden h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A] sm:flex"
-            href={process.env.NEXT_PUBLIC_X_URL}
+            className="hidden h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC33] sm:flex dark:bg-[#EAAC331A]"
+            href="https://x.com/Swapsats_io"
             target="_blank"
           >
             <Image src={X} alt="X" />

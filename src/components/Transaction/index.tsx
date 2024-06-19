@@ -212,8 +212,8 @@ const TransactionPanel = () => {
   };
   console.log({ ordinalAddress });
   return (
-    <div className="h-[calc(100vh-220px)] overflow-hidden bg-[#252B3699] px-[30px] py-[20px] lg:px-[91px] lg:py-[59px]">
-      <div className="mb-[12px] text-[24px] font-semibold text-white lg:mb-[36px]">
+    <div className="h-[calc(100vh-220px)] overflow-hidden bg-[#252B3612] px-[30px] py-[20px] lg:px-[91px] lg:py-[59px] dark:bg-[#252B3699]">
+      <div className="mb-[12px] text-[24px] font-semibold text-black lg:mb-[36px] dark:text-white">
         Transaction List
       </div>
       {ordinalAddress !== "" ? (
@@ -229,7 +229,7 @@ const TransactionPanel = () => {
             id="transaction-table"
           >
             <table className="relative w-[calc(100%-16px)] min-w-max table-auto">
-              <thead className="sticky top-0 z-50 bg-[#252B36]">
+              <thead className="sticky top-0 z-50 bg-[#252B3620] dark:bg-[#252B36]">
                 <tr className="h-[60px]">
                   {TABLE_HEAD.map((head) => (
                     <th
@@ -244,7 +244,7 @@ const TransactionPanel = () => {
               <tbody className="overflow-y-auto">
                 {transactions.map((transaction, index) => (
                   <React.Fragment key={transaction.txId}>
-                    <tr className="h-[76px] bg-[#394356] text-center">
+                    <tr className="h-[76px] bg-[#39435640] text-center dark:bg-[#394356]">
                       <Td className="rounded-l-[6px]">
                         <div className="h-full w-full ">
                           <div>{addressShortening(transaction.address)}</div>

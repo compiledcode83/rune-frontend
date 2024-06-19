@@ -68,14 +68,14 @@ export default function Home() {
               <div className="flex items-center justify-center gap-4 ">
                 <a
                   className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
-                  href={process.env.NEXT_PUBLIC_DISCORD_URL}
+                  href="https://discord.com/invite/YW9R4K2Vg4"
                   target="_blank"
                 >
                   <Image src={Discord} alt="Discord" />
                 </a>
                 <a
                   className=" flex h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC331A]"
-                  href={process.env.NEXT_PUBLIC_X_URL}
+                  href="https://x.com/Swapsats_io"
                   target="_blank"
                 >
                   <Image src={X} alt="X" />
