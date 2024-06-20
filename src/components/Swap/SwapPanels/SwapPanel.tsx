@@ -355,7 +355,7 @@ const SwapPanel = () => {
 
   return (
     <div>
-      <div className="relative mx-auto mt-14 w-[350px] overflow-hidden rounded-xl bg-light-panel p-4 lg:w-[526px] dark:bg-dark-panel">
+      <div className="relative mx-auto mt-14 w-full overflow-hidden rounded-xl bg-light-panel p-4 sm:w-[350px] lg:w-[526px] dark:bg-dark-panel">
         <div className="relative z-10">
           <div className="flex items-center justify-between">
             <div className="pl-8 text-[20px] font-bold lg:text-[28px]">
@@ -415,7 +415,7 @@ const SwapPanel = () => {
                 )}
                 <div>
                   <input
-                    className="w-[150px] bg-transparent text-right outline-none focus:overflow-hidden"
+                    className="w-full bg-transparent text-right outline-none focus:overflow-hidden sm:w-[150px]"
                     value={convertWithDecimal(sendTokenAmount, sendToken)}
                     // value={sendTokenAmount}
                     onChange={(e) =>
