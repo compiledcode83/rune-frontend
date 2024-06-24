@@ -7,6 +7,8 @@ import ArrowTopRightBlack from "@/assets/imgs/arrow-top-right-black.svg";
 import { Button } from "@material-tailwind/react";
 import { useThemeContext } from "@/context/ThemeContext";
 
+const NETWORK_TYPE = process.env.NEXT_PUBLIC_NETWORK;
+
 const TxSubmittedPanel = () => {
   const { setTxSubmittedModalOpen, transactionDesc, transactionId } =
     useStatusContext();
@@ -38,7 +40,7 @@ const TxSubmittedPanel = () => {
       </div>
       <div className="mt-4">
         <a
-          href={`https://mempool.space/testnet/tx/${transactionId}`}
+          href={`https://mempool.space/${NETWORK_TYPE === "testnet" ? "testnet/" : ""}tx/${transactionId}`}
           target="_blank"
         >
           <Button
