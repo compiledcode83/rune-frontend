@@ -181,10 +181,14 @@ const SwapPanel = () => {
     (async () => {
       try {
         if (sendToken.uuid === "") {
-          const resPoolTokens = await poolApiService.getPoolTokens();
+          const resPoolTokens: TokenType[] =
+            await poolApiService.getPoolTokens();
           if (resPoolTokens.length < 2)
             throw new Error("there must be more than 1 token");
-          setSendToken(resPoolTokens[0]);
+          const btc = resPoolTokens.find((item) => item.spaced === "BTC");
+          if (btc) {
+            setSendToken(btc);
+          } else setSendToken(resPoolTokens[0]);
           setPoolTokens(resPoolTokens);
         }
       } catch (error) {
