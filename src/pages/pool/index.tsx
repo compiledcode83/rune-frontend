@@ -148,7 +148,7 @@ export default function Pool() {
                   Add Liquidity
                 </Button>
               </div>
-              <div className="mt-4 h-[calc(100vh-550px)] overflow-y-scroll py-4 sm:h-[calc(100vh-460px)] lg:mt-8 lg:h-[calc(100vh-560px)]">
+              <div className="mt-4 lg:mt-8">
                 {liquidities.length > 0 && ordinalAddress !== "" ? (
                   liquidities.map((item, index) => (
                     <LiquidityPairPanel
