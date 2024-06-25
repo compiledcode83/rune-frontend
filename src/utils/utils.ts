@@ -80,7 +80,7 @@ export const stringToDisplay = (amount: number) => {
   } else if (amount < 0.00001) {
     return "< 0.00001";
   } else {
-    return amount.toFixed(5);
+    return parseFloat(amount.toFixed(5));
   }
 };
 
