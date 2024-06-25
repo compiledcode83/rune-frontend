@@ -10,15 +10,45 @@ import { Button } from "@material-tailwind/react";
 import LiquidityPairPanel from "@/components/Pool/PoolPanels/LiquidityPairPanel";
 import { useStatusContext } from "@/context/StatusContext";
 import { useLiquidites } from "@/state/application/hooks/usePoolHooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import poolApiService from "@/api.services/pool/pool.api.service";
 import { useUserContext } from "@/context/UserContext";
 import { customToast } from "@/components/toast";
+import { LiquidityType } from "@/types/type";
+import InfiniteScroll from "react-infinite-scroll-component";
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export default function Pool() {
   const { setAddLiquidityModalOpen } = useStatusContext();
   const { ordinalAddress } = useUserContext();
   const { liquidities, setLiquidities } = useLiquidites();
+  const [viewLiquidities, setViewLiquidities] = useState<LiquidityType[]>([]);
+
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const limit = 5;
+
+  const fetchData = async (page: number) => {
+    try {
+      await sleep(500);
+      const data = liquidities.slice(
+        (page - 1) * limit,
+        Math.min(page * limit, liquidities.length) - 1
+      );
+      setViewLiquidities((prevLiquidities) => [...prevLiquidities, ...data]);
+      setHasMore(page * limit < liquidities.length - 1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (ordinalAddress !== "" && liquidities.length > 0) {
+      fetchData(page);
+    }
+  }, [page, ordinalAddress, liquidities]);
 
   useEffect(() => {
     setLiquidities([]);
@@ -148,16 +178,29 @@ export default function Pool() {
                   Add Liquidity
                 </Button>
               </div>
-              <div className="mt-4 h-[calc(100vh-550px)] overflow-y-scroll py-4 sm:h-[calc(100vh-460px)] lg:mt-8 lg:h-[calc(100vh-560px)]">
+              <div>
                 {liquidities.length > 0 && ordinalAddress !== "" ? (
-                  liquidities.map((item, index) => (
-                    <LiquidityPairPanel
-                      key={item.poolUuid}
-                      tokenA={item.tokenA}
-                      tokenB={item.tokenB}
-                      uuid={item.poolUuid}
-                    />
-                  ))
+                  <InfiniteScroll
+                    dataLength={viewLiquidities.length}
+                    next={() => setPage((prevPage) => prevPage + 1)}
+                    hasMore={hasMore}
+                    loader={null}
+                    scrollableTarget="liquidity-table"
+                  >
+                    <div
+                      className="liquidity-table mt-4 h-[calc(100vh-550px)] overflow-y-auto py-4 sm:h-[calc(100vh-460px)] lg:mt-8 lg:h-[calc(100vh-560px)]"
+                      id="liquidity-table"
+                    >
+                      {viewLiquidities.map((item, index) => (
+                        <LiquidityPairPanel
+                          key={item.poolUuid}
+                          tokenA={item.tokenA}
+                          tokenB={item.tokenB}
+                          uuid={item.poolUuid}
+                        />
+                      ))}
+                    </div>
+                  </InfiniteScroll>
                 ) : (
                   <div className="mb-20 mt-16 flex flex-col items-center gap-[14px]">
                     <Image
