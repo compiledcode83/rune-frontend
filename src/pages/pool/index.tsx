@@ -29,14 +29,14 @@ export default function Pool() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const limit = 5;
+  const limit = 6;
 
   const fetchData = async (page: number) => {
     try {
-      await sleep(500);
+      await sleep(100);
       const data = liquidities.slice(
         (page - 1) * limit,
-        Math.min(page * limit, liquidities.length) - 1
+        Math.min(page * limit, liquidities.length)
       );
       setViewLiquidities((prevLiquidities) => [...prevLiquidities, ...data]);
       setHasMore(page * limit < liquidities.length - 1);
