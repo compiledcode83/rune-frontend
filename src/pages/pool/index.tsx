@@ -87,7 +87,10 @@ export default function Pool() {
           ],
         }}
       />
-      <div>
+      <div
+        className="h-[calc(100vh-220px)] overflow-scroll lg:h-[calc(100vh-200px)] xl:h-[calc(100vh-150px)] 2xl:h-[calc(100vh-100px)] "
+        id="liquidity-page"
+      >
         <div className="relative h-full">
           <Image
             src={WingImg}
@@ -105,7 +108,10 @@ export default function Pool() {
               filter: "blur(260.5px)",
             }}
           />
-          <div className="container relative z-50 mx-auto my-8 px-4 text-start lg:mt-24 lg:px-8">
+          <div
+            className="container relative z-50 mx-auto my-8 px-4 text-start lg:mt-24 lg:px-8"
+            id="liquidity-table"
+          >
             <div className="">
               <div className="text-[20px] lg:text-[24px]">
                 Liquidity provider rewards
@@ -185,12 +191,9 @@ export default function Pool() {
                     next={() => setPage((prevPage) => prevPage + 1)}
                     hasMore={hasMore}
                     loader={null}
-                    scrollableTarget="liquidity-table"
+                    scrollableTarget="liquidity-page"
                   >
-                    <div
-                      className="liquidity-table mt-4 h-[calc(100vh-550px)] overflow-y-auto py-4 sm:h-[calc(100vh-460px)] lg:mt-8 lg:h-[calc(100vh-560px)]"
-                      id="liquidity-table"
-                    >
+                    <div className="mt-4 lg:mt-8 ">
                       {viewLiquidities.map((item, index) => (
                         <LiquidityPairPanel
                           key={item.poolUuid}
