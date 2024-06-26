@@ -88,7 +88,7 @@ export default function Pool() {
         }}
       />
       <div
-        className="h-[calc(100vh-220px)] overflow-scroll lg:h-[calc(100vh-200px)] xl:h-[calc(100vh-150px)] 2xl:h-[calc(100vh-100px)] "
+        className="h-[calc(100vh-220px)] overflow-y-scroll lg:h-[calc(100vh-200px)] xl:h-[calc(100vh-150px)] 2xl:h-[calc(100vh-100px)] "
         id="liquidity-page"
       >
         <div className="relative h-full">
