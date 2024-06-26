@@ -105,7 +105,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
     setCollectFeeAmount(liquidityCollectFeeAmount);
   };
   useEffect(() => {
-    if (ordinalAddress !== "" && uuid !== "") {
+    if (ordinalAddress !== "" && uuid !== "" && open && amount1 === 0) {
       (async () => {
         let resLiquidityAmountInfo;
         try {
@@ -131,7 +131,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
         setLiquidityCollectFeeAmount(resCollectedFee);
       })();
     }
-  }, [uuid, ordinalAddress]);
+  }, [uuid, ordinalAddress, open]);
 
   return (
     <div className="mb-4 rounded-lg bg-light-panel p-4 text-[14px] lg:p-8 lg:text-[24px] dark:bg-dark-panel">
