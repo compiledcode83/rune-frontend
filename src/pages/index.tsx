@@ -51,7 +51,7 @@ export default function Home() {
             />
             <div className="relative z-50 mx-8 mt-4 text-start lg:mt-16 lg:text-center">
               <div className="text-[20px] font-bold lg:text-[48px]">
-                Start Swapping Runes with Ordvision{" "}
+                Start Swapping Runes with Swapsats{" "}
               </div>
               <div className="gradient-color-title text-[20px] font-bold lg:text-[48px]">
                 Secure, Fast, and User - Friendly
