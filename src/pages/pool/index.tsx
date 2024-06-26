@@ -192,6 +192,7 @@ export default function Pool() {
                     hasMore={hasMore}
                     loader={null}
                     scrollableTarget="liquidity-page"
+                    className="!overflow-hidden"
                   >
                     <div className="mt-4 lg:mt-8 ">
                       {viewLiquidities.map((item, index) => (
