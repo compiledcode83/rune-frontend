@@ -33,6 +33,9 @@ export default function Pool() {
 
   const fetchData = async (page: number) => {
     try {
+      if(page === 1)
+        setViewLiquidities([])
+
       await sleep(100);
       const data = liquidities.slice(
         (page - 1) * limit,
@@ -44,6 +47,7 @@ export default function Pool() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     if (ordinalAddress !== "" && liquidities.length > 0) {
       fetchData(page);

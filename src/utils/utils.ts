@@ -141,18 +141,17 @@ export const signPsbt = async (
         hex: psbt,
         signAtIndex: taprootSignIndexes.concat(paymentSignIndexes),
         network: process.env.NEXT_PUBLIC_NETWORK,
+        allowedSighash: [1],
         broadcast: false,
       };
       const response = await (window as any).LeatherProvider.request(
         "signPsbt",
         signPsbtParams
       );
-      console.log({ response });
-      signedPsbt = response;
+      signedPsbt = response.result.hex;
     }
     return signedPsbt;
   } catch (error) {
-    console.error(error);
     customToast({
       toastType: "warn",
       title: "User rejected the wallet transaction",
