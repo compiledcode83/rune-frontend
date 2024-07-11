@@ -233,7 +233,7 @@ const SwapConfirmPanel = () => {
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <div>Liquidity Provider Fee</div>
+            <div>Swap Fee</div>
 
             <CustomTooltip
               content="A portion of each trade goes to liquidity providers as
@@ -243,7 +243,7 @@ const SwapConfirmPanel = () => {
             </CustomTooltip>
           </div>
           <div className="flex items-center gap-1">
-            <div>40% of fees</div>
+            <div>1.5% fee</div>
           </div>
         </div>
       </div>

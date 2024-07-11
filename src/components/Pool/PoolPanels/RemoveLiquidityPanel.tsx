@@ -168,9 +168,10 @@ const RemoveLiquidityPanel = () => {
         </div>
       </div>
       <div className="mt-8 text-center text-[12px] text-white lg:text-[16px]">
-        By adding liquidity earn 40% of fees on all trades on this pair
-        proportional to your share of the pool. Fees are added to the pool,
-        accrue in real time and can be claimed by withdrawing your liquidity
+        There is a 1.5% fee or 0.00002BTC(minimum) for swapping tokens. This fee
+        is split by liquidity providers proportional to their contribution to
+        liquidity reserves. Swapping fees are immediately deposited into
+        liquidity reserves.
       </div>
     </div>
   );

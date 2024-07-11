@@ -161,7 +161,7 @@ const LiquidityPairPanel: React.FC<LiquidityPairPanelProps> = ({
         <div className="mt-4">
           <div className="flex flex-col gap-2 lg:gap-4">
             <div className="flex justify-between">
-              <div>Your total pool tokens</div>
+              <div>Your total LP tokens</div>
               <div>{stringToDisplay(totalAmount / 10 ** 8)}</div>
             </div>
             <div className="flex justify-between">

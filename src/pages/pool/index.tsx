@@ -33,8 +33,7 @@ export default function Pool() {
 
   const fetchData = async (page: number) => {
     try {
-      if(page === 1)
-        setViewLiquidities([])
+      if (page === 1) setViewLiquidities([]);
 
       await sleep(100);
       const data = liquidities.slice(
@@ -121,9 +120,10 @@ export default function Pool() {
                 Liquidity provider rewards
               </div>
               <div className="mt-4 text-[16px] lg:mt-8 lg:w-1/2 lg:text-[18px]">
-                Liquidity providers earn 40% of fees on all trades proportional
-                to their share of the pool. Fees are added to the pool, accrue
-                in real time and can be claimed by withdrawing your liquidity.
+                There is a 1.5% fee or 0.00002BTC(minimum) for swapping tokens.
+                This fee is split by liquidity providers proportional to their
+                contribution to liquidity reserves. Swapping fees are
+                immediately deposited into liquidity reserves.
               </div>
               <div className="mt-2 lg:mt-4">
                 <span className="border-b border-blue text-[16px] text-blue lg:text-[18px]">
