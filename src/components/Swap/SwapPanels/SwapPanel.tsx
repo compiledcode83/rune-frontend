@@ -488,7 +488,7 @@ const SwapPanel = () => {
                       )
                     }
                     type="number"
-                    disabled={isReceiveTokenAmountLoading}
+                    disabled={true}
                   />
                 </div>
               </div>
