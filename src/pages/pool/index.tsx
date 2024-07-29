@@ -127,10 +127,7 @@ export default function Pool() {
               </div>
               <div className="mt-2 lg:mt-4">
                 <span className="border-b border-blue text-[16px] text-blue lg:text-[18px]">
-                  <a
-                    href="https://swapsats.gitbook.io/runeswap"
-                    target="_blank"
-                  >
+                  <a href="https://docs.swapsats.io/runeswap" target="_blank">
                     Read more about providing liquidity
                   </a>
                 </span>

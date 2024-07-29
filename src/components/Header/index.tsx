@@ -5,7 +5,7 @@ import DarkThemeImg from "@/assets/imgs/darktheme.svg";
 import BtcButton from "@/assets/imgs/btc-button.svg";
 import LogOff from "@/assets/imgs/log-off.svg";
 import X from "@/assets/imgs/x.png";
-import GitBook from "@/assets/imgs/gitbook.svg"
+import GitBook from "@/assets/imgs/gitbook.svg";
 import Discord from "@/assets/imgs/discord.png";
 import { Button, Navbar } from "@material-tailwind/react";
 import { useThemeContext } from "@/context/ThemeContext";
@@ -77,7 +77,7 @@ const Header = () => {
           </a>
           <a
             className="hidden h-[40px] w-[40px] items-center justify-center rounded-md border border-[#EAAC33EB] bg-[#EAAC33] sm:flex dark:bg-[#EAAC331A]"
-            href="https://swapsats.gitbook.io/runeswap"
+            href="https://docs.swapsats.io/runeswap"
             target="_blank"
           >
             <Image src={GitBook} alt="Gitbook" />
