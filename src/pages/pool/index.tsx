@@ -120,7 +120,7 @@ export default function Pool() {
                 Liquidity provider rewards
               </div>
               <div className="mt-4 text-[16px] lg:mt-8 lg:w-1/2 lg:text-[18px]">
-                There is a 1.5% fee or 0.00002BTC(minimum) for swapping tokens.
+                There is 1.5% fee or 0.00002BTC(minimum) for swapping tokens.
                 This fee is split by liquidity providers proportional to their
                 contribution to liquidity reserves. Swapping fees are
                 immediately deposited into liquidity reserves.

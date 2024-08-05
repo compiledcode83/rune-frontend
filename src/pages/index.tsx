@@ -56,9 +56,11 @@ export default function Home() {
               <div className="gradient-color-title text-[20px] font-bold lg:text-[48px]">
                 Secure, Fast, and User - Friendly
               </div>
-              <div className="text-[#8B9497]">
+              <div className="text-center text-[#8B9497]">
                 Join us today to unlock a new level of ease in managing your
-                digital assets.{" "}
+                digital assets.
+                <br />
+                Add liquidity and earn 70% of service fees with native bitcoin.
               </div>
             </div>
             <div className="relative z-50">

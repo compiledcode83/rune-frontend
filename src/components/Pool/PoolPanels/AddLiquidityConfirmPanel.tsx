@@ -279,7 +279,7 @@ const AddLiquidityConfirmPanel = () => {
         </div>
       </div>
       <div className="mt-8 text-center text-[12px] text-white lg:text-[16px]">
-        There is a 1.5% fee or 0.00002BTC(minimum) for swapping tokens. This fee
+        There is 1.5% fee or 0.00002BTC(minimum) for swapping tokens. This fee
         is split by liquidity providers proportional to their contribution to
         liquidity reserves. Swapping fees are immediately deposited into
         liquidity reserves.
