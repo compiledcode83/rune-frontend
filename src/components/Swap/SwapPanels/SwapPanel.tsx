@@ -39,6 +39,7 @@ import {
   convertWithDecimal,
   stringToDisplay,
 } from "@/utils/utils";
+import Link from "next/link";
 
 const SwapPanel = () => {
   const {
@@ -359,7 +360,7 @@ const SwapPanel = () => {
 
   return (
     <div>
-      <div className="relative mx-auto mt-14 w-full overflow-hidden rounded-xl bg-light-panel p-4 sm:w-[350px] lg:w-[526px] dark:bg-dark-panel">
+      <div className="relative mx-auto mt-10 w-full overflow-hidden overflow-visible rounded-xl bg-light-panel p-4 sm:w-[350px] lg:w-[526px] dark:bg-dark-panel">
         <div className="relative z-10">
           <div className="flex items-center justify-between">
             <div className="pl-8 text-[20px] font-bold lg:text-[28px]">
@@ -573,6 +574,16 @@ const SwapPanel = () => {
               "linear-gradient(125deg, rgba(61, 80, 253, 0.60) 4.38%, rgba(230, 51, 234, 0.55) 139.76%)",
           }}
         />
+        <p className="absolute -bottom-8 right-6">
+          Audited by{" "}
+          <span>
+            <b>
+              <Link href="https://certik.com" target="_blank">
+                @certik
+              </Link>
+            </b>
+          </span>
+        </p>
       </div>
       {/* <div className="mx-auto my-8 flex w-[350px] flex-col gap-2 text-[12px] lg:w-[500px] lg:gap-4 lg:text-[16px]">
         <div className="flex items-center justify-between">
